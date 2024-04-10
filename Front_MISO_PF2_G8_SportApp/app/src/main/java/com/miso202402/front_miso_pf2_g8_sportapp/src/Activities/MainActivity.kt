@@ -1,4 +1,4 @@
-package com.miso202402.front_miso_pf2_g8_sportapp
+package com.miso202402.front_miso_pf2_g8_sportapp.src.Activities
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
