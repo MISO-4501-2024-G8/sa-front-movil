@@ -9,8 +9,16 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.ActivityMainBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
+import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginResponse
+import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
+import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +42,27 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
         }
+    }
+
+    private fun makeLogin(){
+        val request = LoginRequest("pepe@example.com", "contraseña_pepe")
+        val utilRetrofit = Utils().getRetrofit()
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = utilRetrofit.create(ApiService::class.java).logIn(request).execute()
+            val response = call.body() as LoginResponse?
+            runOnUiThread {
+                if (response?.message == "Usuario logueado correctamante") {
+                    showMessageDialog("Usuario logueado correctamante")
+
+                } else {
+                    showMessageDialog(response?.error.toString())
+                }
+            }
+        }
+    }
+
+    private fun showMessageDialog(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

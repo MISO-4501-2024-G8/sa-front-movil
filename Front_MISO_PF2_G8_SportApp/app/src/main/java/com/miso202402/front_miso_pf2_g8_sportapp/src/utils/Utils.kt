@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class Utils {
 
-    private fun getRetrofit(): Retrofit {
+    fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/")
             .addConverterFactory(GsonConverterFactory.create())
