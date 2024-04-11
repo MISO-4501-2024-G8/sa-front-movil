@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.miso202402.front_miso_pf2_g8_sportapp.src.Activities.MainActivity">
+    tools:context="com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

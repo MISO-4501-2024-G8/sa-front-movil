@@ -1,7 +1,6 @@
-package com.miso202402.front_miso_pf2_g8_sportapp.src.Activities
+package com.miso202402.front_miso_pf2_g8_sportapp.activities
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -38,9 +37,10 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            makeLogin()
+         /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+                .setAnchorView(R.id.fab).show()*/
         }
     }
 
@@ -48,12 +48,11 @@ class MainActivity : AppCompatActivity() {
         val request = LoginRequest("pepe@example.com", "contraseña_pepe")
         val utilRetrofit = Utils().getRetrofit()
         CoroutineScope(Dispatchers.IO).launch {
-            val call = utilRetrofit.create(ApiService::class.java).logIn(request).execute()
-            val response = call.body() as LoginResponse?
+            val callLogin = utilRetrofit.create(ApiService::class.java).logIn(request).execute()
+            val response = callLogin.body() as LoginResponse?
             runOnUiThread {
                 if (response?.message == "Usuario logueado correctamante") {
-                    showMessageDialog("Usuario logueado correctamante")
-
+                    showMessageDialog(response?.message.toString())
                 } else {
                     showMessageDialog(response?.error.toString())
                 }
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showMessageDialog(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
