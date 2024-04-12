@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.miso202402.front_miso_pf2_g8_sportapp.R
@@ -46,6 +47,10 @@ class LoginFragment : Fragment() {
         binding.buttonLoginFragmentLogin.setOnClickListener {
            makeLogin()
        }
+
+        binding.textViewSingUpFragmentLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_SecondFragment_to_RegisterFragment)
+        }
     }
 
     override fun onDestroyView() {
@@ -64,6 +69,9 @@ class LoginFragment : Fragment() {
             lifecycleScope.launch {
                 if (response?.message == "Usuario logueado correctamante") {
                     showMessageDialog(response?.message.toString())
+                    val bundle = bundleOf("token" to  response?.token)
+
+                    findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
                 } else {
                     showMessageDialog(response?.error.toString())
                 }

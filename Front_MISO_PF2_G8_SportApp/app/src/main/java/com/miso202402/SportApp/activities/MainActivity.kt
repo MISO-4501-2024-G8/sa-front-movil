@@ -35,30 +35,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            makeLogin()
-         /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()*/
-        }
     }
 
-    private fun makeLogin(){
-        val request = LoginRequest("pepe@example.com", "contraseña_pepe")
-        val utilRetrofit = Utils().getRetrofit()
-        CoroutineScope(Dispatchers.IO).launch {
-            val callLogin = utilRetrofit.create(ApiService::class.java).logIn(request).execute()
-            val response = callLogin.body() as LoginResponse?
-            runOnUiThread {
-                if (response?.message == "Usuario logueado correctamante") {
-                    showMessageDialog(response?.message.toString())
-                } else {
-                    showMessageDialog(response?.error.toString())
-                }
-            }
-        }
-    }
+
 
     private fun showMessageDialog(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
