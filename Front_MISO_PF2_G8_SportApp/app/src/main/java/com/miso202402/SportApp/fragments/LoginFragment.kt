@@ -68,27 +68,23 @@ class LoginFragment : Fragment() {
                 lifecycleScope.launch {
                     if(errorTimesLoginRejected < 3 ){
                         val callLogin = utils.getRetrofit().create(ApiService::class.java).logIn(loginRequest).execute()
-                        val LoginResponse = callLogin.body() as LoginResponse?
-                        if (LoginResponse?.message == "Usuario logueado correctamante") {
-                            activity?.let { utils.showMessageDialog(it, LoginResponse?.message.toString()) }
+                        val loginResponse = callLogin.body() as LoginResponse?
+                        if (loginResponse?.message == "Usuario logueado correctamante") {
+                            activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString()) }
 
-                            val bundle = bundleOf("token" to  LoginResponse?.token)
+                            val bundle = bundleOf("token" to  loginResponse?.token)
                             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
                         } else {
                             errorTimesLoginRejected++
-                            activity?.let { utils.showMessageDialog(it, LoginResponse?.error.toString()) }
+                            activity?.let { utils.showMessageDialog(it, loginResponse?.error.toString()) }
                         }
                 } else{
                         val errorMesage: String = "Supero la cantidad de intnetos de login"
                         activity?.let { utils.showMessageDialog(it, errorMesage) }
-
                 }
             }
 
         }
-    }
+   }
 
-    private fun showMessageDialog(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
-    }
 }
