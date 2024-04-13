@@ -35,13 +35,13 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        binding.fab.setOnClickListener {
+
+        }
     }
 
 
-
-    private fun showMessageDialog(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

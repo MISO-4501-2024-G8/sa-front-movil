@@ -25,6 +25,7 @@ class LoginFragment : Fragment() {
 
 
     private var _binding: FragmentLoginBinding? = null
+    private var errorTimesLoginRejected: Int = 0
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -61,21 +62,29 @@ class LoginFragment : Fragment() {
    private fun makeLogin(){
        val email = binding.editTexEmailAddressFragmentLogin.text.toString()
        val password = binding.editTexPasswordFragmentLogin.text.toString()
-       val request = LoginRequest(email, password)
-       val utilRetrofit = Utils().getRetrofit()
+       val loginRequest = LoginRequest(email, password)
+       val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
-            val callLogin = utilRetrofit.create(ApiService::class.java).logIn(request).execute()
-            val response = callLogin.body() as LoginResponse?
-            lifecycleScope.launch {
-                if (response?.message == "Usuario logueado correctamante") {
-                    showMessageDialog(response?.message.toString())
-                    val bundle = bundleOf("token" to  response?.token)
+                lifecycleScope.launch {
+                    if(errorTimesLoginRejected < 3 ){
+                        val callLogin = utils.getRetrofit().create(ApiService::class.java).logIn(loginRequest).execute()
+                        val LoginResponse = callLogin.body() as LoginResponse?
+                        if (LoginResponse?.message == "Usuario logueado correctamante") {
+                            activity?.let { utils.showMessageDialog(it, LoginResponse?.message.toString()) }
 
-                    findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
-                } else {
-                    showMessageDialog(response?.error.toString())
+                            val bundle = bundleOf("token" to  LoginResponse?.token)
+                            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
+                        } else {
+                            errorTimesLoginRejected++
+                            activity?.let { utils.showMessageDialog(it, LoginResponse?.error.toString()) }
+                        }
+                } else{
+                        val errorMesage: String = "Supero la cantidad de intnetos de login"
+                        activity?.let { utils.showMessageDialog(it, errorMesage) }
+
                 }
             }
+
         }
     }
 
