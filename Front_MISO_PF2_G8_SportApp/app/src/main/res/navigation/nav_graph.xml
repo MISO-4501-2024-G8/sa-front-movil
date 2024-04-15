@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/SecondFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.miso202402.front_miso_pf2_g8_sportapp.fragments.MainFragment"
+        android:label="@string/main_fragment_label"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_RegisterFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.miso202402.front_miso_pf2_g8_sportapp.fragments.LoginFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+
+        <action
+            android:id="@+id/action_SecondFragment_to_RegisterFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.miso202402.front_miso_pf2_g8_sportapp.fragments.RegisterFragment"
+        android:label="@string/register_fragment_label"
+        tools:layout="@layout/fragment_register">
+
+
+    </fragment>
+
+</navigation>
