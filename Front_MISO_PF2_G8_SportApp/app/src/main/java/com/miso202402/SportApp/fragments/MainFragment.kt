@@ -36,15 +36,14 @@ class MainFragment : Fragment() {
 
         arguments?.getString("token")?.let { Log.i("info", it) }
 
-
-
+        /*
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
         binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_RegisterFragment)
-        }
+        } */
     }
 
     override fun onDestroyView() {

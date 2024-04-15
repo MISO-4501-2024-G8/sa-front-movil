@@ -6,5 +6,6 @@ data class LoginResponse (@SerializedName("message") var message: String,
                           @SerializedName("token") var token: String,
                           @SerializedName("id") var id: String,
                           @SerializedName("expirationToken") var expirationToken: String,
+                          @SerializedName("code") var code: Int,
                           @SerializedName("error") var error: String){
 }

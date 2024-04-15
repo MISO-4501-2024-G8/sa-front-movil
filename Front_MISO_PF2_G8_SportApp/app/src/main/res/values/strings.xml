@@ -2,7 +2,7 @@
     <string name="app_name">Front_MISO_PF2_G8_SportApp</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
+    <string name="main_fragment_label">Home</string>
     <string name="second_fragment_label">Login</string>
 
     <string name="register_fragment_label">Register</string>
