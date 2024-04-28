@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
+import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlansResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddTrainingPlanBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.CreateTrainingPlansResponse
@@ -113,6 +114,7 @@ class AddTrainingPlanFragment : Fragment() {
             val jueves: Int = if (checkBoxJueves.isChecked()) 1 else 0
             val viernes: Int = if (checkBoxViernes.isChecked()) 1 else 0
             val sport: String = if(this.sport.toString() == "") "Ciclismo" else "Atletismo"
+            val utils = Utils()
             val trainingPlanRequest = TrainingPlanRequest(name,
                 description,
                 weeks,
@@ -124,115 +126,94 @@ class AddTrainingPlanFragment : Fragment() {
                 "1",
                 sport
             )
-            val utils = Utils()
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     Log.i("Entre", "entre a la corrutina")
-                    val callCreateTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createTrainingPlan(trainingPlanRequest).execute()
-                    val createTrainingplanResponse = callCreateTrainingplan.body() as CreateTrainingPlansResponse?
-                    Log.i("Sali", "Sali de la primera peticíon rest")
 
-                    Log.i("Entre", "Entre a la segunda peticíon rest")
-                    val objetiveTrainingPlanRequest = ObjetiveTrainingPlanRequest("lunes", 5,
-                        "1",
-                        createTrainingplanResponse?.trainingPlan?.id!!,
-                        null
-                    )
-                    val callCreateObjetiveTrainingplan = utils.getRetrofit(domain_2).create(ApiService::class.java).createObjetiveTrainingPlan(objetiveTrainingPlanRequest).execute()
-                    val callCreateObjetiveTrainingplanResponse = callCreateObjetiveTrainingplan.body()
-                    Log.i("Sali", "Sali de la segunda peticíon rest")
+                    //val callCreateTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createTrainingPlan(trainingPlanRequest).execute()
+                    //val createTrainingplanResponse = callCreateTrainingplan.body() as CreateTrainingPlansResponse?
+                    //var dia: String
+                    //var objective_repeats: Int;
+                    //val type_objective: String = "1"
 
-                    lifecycleScope.launch {
+                      val callCreateTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createObjetiveTrainingPlan(
+                        ObjetiveTrainingPlanRequest("Viernes", 2,"1", "3227a946", null)
+                    ).execute()
+                    val createTrainingplanResponse = callCreateTrainingplan.body() as ObjetiveTrainingPlansResponse?
 
-                        var dia: String
-                        var objective_repeats: Int;
-                        val type_objective: String = "1"
-                        if (createTrainingplanResponse?.message == "Se pudo crear la sesión de entrenamiento exitosamante") {
-                            //Log.i("message", createTrainingplanResponse?.message!!)
-                            //Log.i("id", createTrainingplanResponse.trainingPlan!!.id)
+                    Log.i("message createTrainingplanResponse", createTrainingplanResponse?.message.toString())
 
-                            val id_training_plan: String = createTrainingplanResponse.trainingPlan?.id.toString()
-                            Log.i("id_training_plan", id_training_plan)
+                    if (createTrainingplanResponse?.message == "Se pudo crear la sesión de entrenamiento exitosamante") {
+                        //val id_training_plan: String = createTrainingplanResponse.trainingPlan?.id.toString()
+                        //Log.i("id_training_plan", id_training_plan)
 
-
-
-
-
-                            Log.i("Objetive",
-                                callCreateObjetiveTrainingplanResponse?.objective?.id!!
+                       /* if (lunes == 1) {
+                            dia = "Lunes"
+                            objective_repeats = numberPickerLunes.value.toInt()
+                            Log.i("objective_repeats", objective_repeats.toString())
+                            makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
+                        }
+                        if (martes == 1) {
+                            dia = "Martes".toString()
+                            Log.i("dia", dia)
+                            objective_repeats = numberPickerMartes.value.toInt()
+                            Log.i("objective_repeats", objective_repeats.toString())
+                            makeObjetiveInstructions(
+                                dia,
+                                objective_repeats,
+                                type_objective,
+                                id_training_plan,
+                                utils
                             )
-
-                           /* if (lunes == 1) {
-
-                                dia = "Lunes"
-                                Log.i("dia", dia)
-                                objective_repeats = numberPickerLunes.value.toInt()
-                                Log.i("objective_repeats", objective_repeats.toString())
-                                makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
-                            }
-
-                            if (martes == 1) {
-                                dia = "Martes".toString()
-                                Log.i("dia", dia)
-                                objective_repeats = numberPickerMartes.value.toInt()
-                                Log.i("objective_repeats", objective_repeats.toString())
-                                makeObjetiveInstructions(
-                                    dia,
-                                    objective_repeats,
-                                    type_objective,
-                                    id_training_plan,
-                                    utils
-                                )
-                            }
-
-                            if (miercoles == 1) {
-                                dia = "Miercoles".toString()
-                                Log.i("dia", dia)
-                                objective_repeats = numberPickerMiercoles.value.toInt()
-                                makeObjetiveInstructions(
-                                    dia,
-                                    objective_repeats,
-                                    type_objective,
-                                    id_training_plan,
-                                    utils
-                                )
-                            }
-
-                            if (jueves == 1) {
-                                dia = "Jueves".toString()
-                                Log.i("dia", dia)
-                                objective_repeats = numberPickerJueves.value.toInt()
-                                makeObjetiveInstructions(
-                                    dia,
-                                    objective_repeats,
-                                    type_objective,
-                                    id_training_plan,
-                                    utils
-                                )
-                            }
-
-                            if (viernes == 1) {
-                                dia = "Viernes".toString()
-                                Log.i("dia", dia)
-                                objective_repeats = numberPickerViernes.value.toInt()
-                                makeObjetiveInstructions(
-                                    dia,
-                                    objective_repeats,
-                                    type_objective,
-                                    id_training_plan,
-                                    utils
-                                )
-                            }*/
-
+                        }
+                        if (miercoles == 1) {
+                            dia = "Miercoles".toString()
+                            Log.i("dia", dia)
+                            objective_repeats = numberPickerMiercoles.value.toInt()
+                            makeObjetiveInstructions(
+                                dia,
+                                objective_repeats,
+                                type_objective,
+                                id_training_plan,
+                                utils
+                            )
+                        }
+                        if (jueves == 1) {
+                            dia = "Jueves".toString()
+                            Log.i("dia", dia)
+                            objective_repeats = numberPickerJueves.value.toInt()
+                            makeObjetiveInstructions(
+                                dia,
+                                objective_repeats,
+                                type_objective,
+                                id_training_plan,
+                                utils
+                            )
+                        }
+                        if (viernes == 1) {
+                            dia = "Viernes".toString()
+                            Log.i("dia", dia)
+                            objective_repeats = numberPickerViernes.value.toInt()
+                            makeObjetiveInstructions(
+                                dia,
+                                objective_repeats,
+                                type_objective,
+                                id_training_plan,
+                                utils
+                            )
+                        }*/
+                        Log.i("Sali", "Sali de la segunda peticíon rest")
+                        lifecycleScope.launch {
                             // Se pudo crear el plan de entrenamiento
                             val message: String = createTrainingplanResponse?.message.toString()
                             activity?.let { showMessageDialog(it, message) }
-                        } else {
-                            // No se pudo crear el plan de entrenamiento
-                            val errorMessage: String =
-                                createTrainingplanResponse?.message.toString()
-                            activity?.let { showMessageDialog(it, errorMessage) }
                         }
+
+                    } else {
+
+                        val errorMessage: String =
+                            createTrainingplanResponse?.message.toString()
+                        activity?.let { showMessageDialog(it, errorMessage) }
                     }
 
                 } catch (e: Exception) {
@@ -274,14 +255,20 @@ class AddTrainingPlanFragment : Fragment() {
 
     private fun makeObjetiveInstructions(dia: String, objective_repeats: Int, type_objective: String, id_training_plan:String, utils: Utils){
         Log.i("entre","Entre a la rutina de make Objetive")
-        val objetiveTrainingPlanRequest = ObjetiveTrainingPlanRequest(dia, objective_repeats,
+        val objetiveTrainingPlanRequest = ObjetiveTrainingPlanRequest(
+            dia,
+            objective_repeats,
             type_objective,
             id_training_plan,
             null
         )
-        val callCreateObjetiveTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createObjetiveTrainingPlan(objetiveTrainingPlanRequest).execute()
+        Log.i("day", objetiveTrainingPlanRequest.day)
+        val callCreateObjetiveTrainingplan = utils.getRetrofit(domain_2).create(ApiService::class.java).createObjetiveTrainingPlan(objetiveTrainingPlanRequest).execute()
         val callCreateObjetiveTrainingplanResponse = callCreateObjetiveTrainingplan.body()
-
+        //val callCreateObjetiveTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createObjetiveTrainingPlan(objetiveTrainingPlanRequest).execute()
+        //val callCreateObjetiveTrainingplanResponse = callCreateObjetiveTrainingplan.body()
+        Log.i("Sali", "Sali del segundo rest")
+        //Log.i("rest Objetive",callCreateObjetiveTrainingplanResponse?.message.toString() )
         val idObjective = callCreateObjetiveTrainingplanResponse?.objective?.id.toString()
         for(i in 1 ..objective_repeats){
             ShowMeessageDialogDescription()
@@ -291,7 +278,7 @@ class AddTrainingPlanFragment : Fragment() {
                 editTextInputInstructionTime.toString(),
                 idObjective)
             val callCreateInstructionTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createInstructionTrainingPlan(instructionTrainingPlanRequest).execute()
-            val  callCreateInstructionTrainingplanRequest= callCreateInstructionTrainingplan.body()
+            val callCreateInstructionTrainingplanRequest= callCreateInstructionTrainingplan.body() as InstructionTrainingPlanRequest
         }
     }
 

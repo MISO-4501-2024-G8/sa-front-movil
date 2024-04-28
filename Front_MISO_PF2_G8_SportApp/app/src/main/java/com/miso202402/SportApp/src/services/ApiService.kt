@@ -21,7 +21,7 @@ interface ApiService {
     @POST("training_plan/456")
     fun createTrainingPlan(@Body trainingPlanRequest: TrainingPlanRequest): Call<CreateTrainingPlansResponse>
 
-    @POST("objetive_training_plan/123")
+    @POST("objetive_training_plan/456")
     fun createObjetiveTrainingPlan(@Body objetiveTrainingPlanRequest: ObjetiveTrainingPlanRequest): Call<ObjetiveTrainingPlansResponse>
 
     @POST("instruction_training_plan/123")
