@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/SecondFragment">
+    app:startDestination="@id/addTrainingPlanFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_RegisterFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_TrainingSessionFragment"
+            app:destination="@id/trainingSessionFragment" />
     </fragment>
 
     <fragment
@@ -33,6 +36,8 @@
         <action
             android:id="@+id/action_SecondFragment_to_RegisterFragment"
             app:destination="@id/registerFragment" />
+
+
     </fragment>
 
     <fragment
@@ -41,7 +46,27 @@
         android:label="@string/register_fragment_label"
         tools:layout="@layout/fragment_register">
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainingSessionFragment"
+        android:name="com.miso202402.SportApp.fragments.TrainingSessionFragment"
+        android:label="@string/training_sesion"
+        tools:layout="@layout/fragment_training_session">
+
+        <action
+            android:id="@+id/action_trainingSessionFragment_to_addTrainingPlanFragment"
+            app:destination="@id/addTrainingPlanFragment" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/addTrainingPlanFragment"
+        android:name="com.miso202402.SportApp.fragments.AddTrainingPlanFragment"
+        android:label="@string/add_training_sesion"
+        tools:layout="@layout/fragment_add_training_plan">
+
+    </fragment>
+
 
 </navigation>

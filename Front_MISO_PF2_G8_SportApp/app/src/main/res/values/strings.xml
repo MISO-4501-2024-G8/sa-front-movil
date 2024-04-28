@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Front_MISO_PF2_G8_SportApp</string>
     <string name="action_settings">Settings</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="main_fragment_label">Home</string>
     <string name="second_fragment_label">Login</string>
@@ -10,9 +11,23 @@
 
     <string name="textBtnLogin">Login</string>
     <string name="textBtnRegister">Registrarse</string>
+    <string name="textBtnAddTrainginPlan">+ "Agregar"</string>
+
     <string name="previous">Previous</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="training_sesion">Plan de Entrenamiento</string>
+    <string name="add_training_sesion">Agregar plan de entrenamiento</string>
+
+
+    <string-array name="Sport">
+        <item>Atletismo</item>
+        <item>Ciclismo</item>
+    </string-array>
+
+
+
+
 </resources>
