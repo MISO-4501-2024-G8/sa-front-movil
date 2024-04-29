@@ -26,6 +26,9 @@ import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class AddTrainingPlanFragment : Fragment() {
@@ -130,20 +133,40 @@ class AddTrainingPlanFragment : Fragment() {
                 try {
                     Log.i("Entre", "entre a la corrutina")
 
-                    //val callCreateTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createTrainingPlan(trainingPlanRequest).execute()
-                    //val createTrainingplanResponse = callCreateTrainingplan.body() as CreateTrainingPlansResponse?
-                    //var dia: String
-                    //var objective_repeats: Int;
-                    //val type_objective: String = "1"
-
-                      val callCreateTrainingplan = utils.getRetrofit(domain).create(ApiService::class.java).createObjetiveTrainingPlan(
-                        ObjetiveTrainingPlanRequest("Viernes", 2,"1", "3227a946", null)
-                    ).execute()
-                    val createTrainingplanResponse = callCreateTrainingplan.body() as ObjetiveTrainingPlansResponse?
+                    val callCreateTrainingplan = utils
+                        .getRetrofit(domain)
+                        .create(ApiService::class.java)
+                        .createTrainingPlan(trainingPlanRequest)
+                        .execute()
+                    val createTrainingplanResponse = callCreateTrainingplan.body() as CreateTrainingPlansResponse?
+                    var dia: String
+                    var objective_repeats: Int;
+                    val type_objective: String = "1"
 
                     Log.i("message createTrainingplanResponse", createTrainingplanResponse?.message.toString())
 
-                    if (createTrainingplanResponse?.message == "Se pudo crear la sesión de entrenamiento exitosamante") {
+                    if(createTrainingplanResponse?.message != "Se pudo crear la sesión de entrenamiento exitosamante"){
+                        Log.e("Error",createTrainingplanResponse?.message.toString())
+                    }
+                    Log.i("content createTrainingplanResponse",createTrainingplanResponse?.trainingPlan?.id.toString());
+
+                    val idTrainingPlan = createTrainingplanResponse?.trainingPlan?.id.toString();
+                    val trainingObjectiveRequest = ObjetiveTrainingPlanRequest(
+                        "viernes",
+                        "2",
+                        "1",
+                        idTrainingPlan,
+                        "3153f2fd")
+                    val callCreateTrainingObjectivePlan = utils
+                        .getRetrofit(domain)
+                        .create(ApiService::class.java)
+                        .createObjetiveTrainingPlan(trainingObjectiveRequest)
+                        .execute()
+                    val createTrainingplanObjetiveResponse = callCreateTrainingObjectivePlan.body() as ObjetiveTrainingPlansResponse?
+                    Log.i("message objetive-code", createTrainingplanObjetiveResponse?.code.toString())
+                    Log.i("message objetive-msg", createTrainingplanObjetiveResponse?.message.toString())
+
+                    if (createTrainingplanObjetiveResponse?.message == "Se pudo crear el objetivo sesion de entrenamiento exitosamante") {
                         //val id_training_plan: String = createTrainingplanResponse.trainingPlan?.id.toString()
                         //Log.i("id_training_plan", id_training_plan)
 
@@ -208,11 +231,9 @@ class AddTrainingPlanFragment : Fragment() {
                             val message: String = createTrainingplanResponse?.message.toString()
                             activity?.let { showMessageDialog(it, message) }
                         }
-
                     } else {
-
-                        val errorMessage: String =
-                            createTrainingplanResponse?.message.toString()
+                        val errorMessage: String = createTrainingplanResponse?.message.toString()
+                        Log.e("error",errorMessage)
                         activity?.let { showMessageDialog(it, errorMessage) }
                     }
 
@@ -257,7 +278,7 @@ class AddTrainingPlanFragment : Fragment() {
         Log.i("entre","Entre a la rutina de make Objetive")
         val objetiveTrainingPlanRequest = ObjetiveTrainingPlanRequest(
             dia,
-            objective_repeats,
+            objective_repeats.toString(),
             type_objective,
             id_training_plan,
             null
