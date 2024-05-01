@@ -43,7 +43,8 @@ class MainFragment : Fragment() {
                 "id" to  arguments?.getString("id")
             )
             //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
-            findNavController().navigate(R.id.action_FirstFragment_to_TrainingSessionFragment, bundle)
+            //findNavController().navigate(R.id.action_FirstFragment_to_TrainingSessionFragment, bundle)
+            findNavController().navigate(R.id.action_FirstFragment_to_AddTrainingPlanFragment, bundle)
         }
     }
 

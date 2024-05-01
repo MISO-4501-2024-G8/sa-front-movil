@@ -11,5 +11,8 @@ class TrainingPlanRequest (@SerializedName("name") var name: String,
                            @SerializedName("jueves_enabled") var jueves_enabled: Int,
                            @SerializedName("viernes_enabled") var viernes_enabled: Int,
                            @SerializedName("typePlan") var typePlan: String,
-                           @SerializedName("sport") var sport: String) {
+                           @SerializedName("sport") var sport: String,
+                           @SerializedName("id_rest_routine") var id_rest_routine: String,
+                           @SerializedName("id_eating_routine") var id_eating_routine: String
+    ) {
 }

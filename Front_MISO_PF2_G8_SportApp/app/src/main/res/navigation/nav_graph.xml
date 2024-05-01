@@ -21,6 +21,10 @@
         <action
             android:id="@+id/action_FirstFragment_to_TrainingSessionFragment"
             app:destination="@id/trainingSessionFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_AddTrainingPlanFragment"
+            app:destination="@id/addTrainingPlanFragment" />
     </fragment>
 
     <fragment
