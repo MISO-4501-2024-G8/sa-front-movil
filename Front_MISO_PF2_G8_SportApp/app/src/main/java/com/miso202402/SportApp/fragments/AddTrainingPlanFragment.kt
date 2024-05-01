@@ -13,6 +13,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
@@ -211,6 +212,12 @@ class AddTrainingPlanFragment : Fragment() {
                             Log.i("Sali", "Sali de la De la creacion del Objeto")
                             val message: String = createTrainingplanResponse?.message.toString()
                             activity?.let { showMessageDialog(it, message) }
+
+                            val bundle = bundleOf("token" to  token,
+                                "id" to id,
+                                "sport" to sport)
+                            findNavController().navigate(R.id.action_addTrainingPlanFragment_to_FirstFragment, bundle)
+
 
 
                         } else {

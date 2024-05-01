@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/addTrainingPlanFragment">
+    app:startDestination="@id/SecondFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -69,6 +69,9 @@
         android:name="com.miso202402.SportApp.fragments.AddTrainingPlanFragment"
         android:label="@string/add_training_sesion"
         tools:layout="@layout/fragment_add_training_plan">
+        <action
+            android:id="@+id/action_addTrainingPlanFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
 
     </fragment>
 
