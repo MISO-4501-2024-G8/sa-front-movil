@@ -16,5 +16,4 @@
         android:layout_marginLeft="10dp"
         android:text="@string/training_sesion" />
 
-
 </RelativeLayout>

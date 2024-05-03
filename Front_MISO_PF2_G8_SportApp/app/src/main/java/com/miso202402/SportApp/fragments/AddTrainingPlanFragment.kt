@@ -1,5 +1,6 @@
 package com.miso202402.SportApp.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
@@ -41,10 +42,6 @@ class AddTrainingPlanFragment : Fragment() {
     private var token: String? = ""
     private var id: String? = ""
     private var sport: String? = ""
-
-    private var editTextInputInstructionDescription :String? = ""
-    private var editTextInputInstructionTime :String? = ""
-
     private var instructions = arrayOf("","","","","")
 
 
@@ -57,6 +54,7 @@ class AddTrainingPlanFragment : Fragment() {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.getString("token")?.let {
@@ -235,7 +233,6 @@ class AddTrainingPlanFragment : Fragment() {
 
 
     }
-
 
 
     private fun makeObjetiveInstructions(
