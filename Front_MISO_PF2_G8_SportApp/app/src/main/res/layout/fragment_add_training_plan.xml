@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.miso202402.SportApp.fragments.AddTrainingPlanFragment">
+
+
+    <EditText
+        android:id="@+id/editTexName_FragmentAddTrainingPlan"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="50dp"
+        android:textFontWeight="14"
+        android:ems="12"
+        android:hint="Nombre"
+        android:inputType="text"
+        android:tooltipText="Nombre"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <EditText
+        android:id="@+id/editTexWeeks_FragmentAddTrainingPlan"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="110dp"
+        android:textFontWeight="14"
+
+        android:ems="12"
+        android:hint="Semanas"
+        android:inputType="number"
+        android:tooltipText="Semanas"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <EditText
+        android:id="@+id/editTexDescription_FragmentAddTrainingPlan"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="170dp"
+        android:ems="12"
+        android:hint="Descripción"
+        android:inputType="textLongMessage"
+        android:tooltipText="Descripcíon"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="336dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox_lunes_FragmentAddTrainingPlan"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="240dp"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/main"
+        android:hint="Lunes"
+        android:text="Lunes" />
+
+    <CheckBox
+        android:id="@+id/checkBox_martes_FragmentAddTrainingPlan"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/main"
+        android:hint="Martes"
+        android:text="Martes" />
+
+    <CheckBox
+        android:id="@+id/checkBox_miercoles_FragmentAddTrainingPlan"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/main"
+        android:hint="Miercoles"
+        android:text="Miercoles" />
+
+    <CheckBox
+        android:id="@+id/checkBox_jueves_FragmentAddTrainingPlan"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="420dp"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/main"
+        android:hint="Jueves"
+        android:text="Jueves" />
+
+    <CheckBox
+        android:id="@+id/checkBox_viernes_FragmentAddTrainingPlan"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480dp"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/main"
+        android:hint="Viernes"
+        android:text="Viernes" />
+
+    <android.widget.NumberPicker
+        android:id="@+id/numberPicker_lunes"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="245dp"
+        android:layout_marginLeft="290dp"
+        />
+
+    <android.widget.NumberPicker
+        android:id="@+id/numberPicker_martes"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="305dp"
+        android:layout_marginLeft="290dp"
+        />
+
+    <android.widget.NumberPicker
+        android:id="@+id/numberPicker_miercoles"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="370dp"
+        android:layout_marginLeft="290dp"
+        />
+
+    <android.widget.NumberPicker
+        android:id="@+id/numberPicker_jueves"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="430dp"
+        android:layout_marginLeft="290dp"
+        />
+
+    <android.widget.NumberPicker
+        android:id="@+id/numberPicker_viernes"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="490dp"
+
+        android:layout_marginLeft="290dp"
+        />
+       <!--  -->
+
+    <Button
+        android:id="@+id/buttonAgregar_FragmentAddTrainingPlan"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:text="@string/textBtnAddTrainginPlan"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="600dp"/>
+
+
+
+
+
+
+</RelativeLayout>

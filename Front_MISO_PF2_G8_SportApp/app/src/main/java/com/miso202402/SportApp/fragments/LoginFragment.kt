@@ -26,12 +26,9 @@ import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
-
     private var _binding: FragmentLoginBinding? = null
     private var errorTimesLoginRejected: Int = 0
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private val domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private val binding get() = _binding!!
 
 
@@ -65,19 +62,21 @@ class LoginFragment : Fragment() {
    private fun makeLogin(){
        val email = binding.editTexEmailAddressFragmentLogin.text.toString()
        val password = binding.editTexPasswordFragmentLogin.text.toString()
-       val loginRequest = LoginRequest(email, password)
+       val loginRequest = LoginRequest(
+           email,
+           password)
        val utils = Utils()
        CoroutineScope(Dispatchers.IO).launch {
            try {
-               val callLogin = utils.getRetrofit().create(ApiService::class.java).logIn(loginRequest).execute()
+               val callLogin = utils.getRetrofit(domain).create(ApiService::class.java).logIn(loginRequest).execute()
                val loginResponse = callLogin.body() as LoginResponse?
                lifecycleScope.launch {
                    if(errorTimesLoginRejected < 3 ) {
                        if (loginResponse?.message == "Usuario logueado correctamante") {
                            activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
-                           Log.i("mesnaje al loguearse", loginResponse?.message.toString())
+                           //Log.i("mesnaje al loguearse", loginResponse?.message.toString())
                            errorTimesLoginRejected = 0
-                           val bundle = bundleOf("token" to  loginResponse?.token)
+                           val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
                            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
                        }
                        else {

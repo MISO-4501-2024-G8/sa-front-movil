@@ -1,0 +1,86 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.miso202402.SportApp.fragments.TrainingSessionOficialFragment">
+
+
+    >
+
+    <EditText
+        android:id="@+id/editTexDescription_TrainingSessionOficialFragment"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="160dp"
+        android:ems="12"
+        android:hint="Descripción"
+        android:inputType="textLongMessage"
+        android:tooltipText="Descripcíon"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="336dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton_VirtualSession_TrainingSessionOficialFragment"
+        android:layout_width="wrap_content"
+        android:textColorHighlight="@color/main"
+        android:textColor="@color/main"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="41dp"
+        android:layout_height="wrap_content"
+        android:text="Sesión Virtual" />
+
+    <RadioButton
+        android:id="@+id/radioButton_LocalSession_TrainingSessionOficialFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/main"
+        android:textColorHighlight="@color/main"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="41dp"
+        android:text="Sesión Presencial" />
+
+    <CalendarView
+        android:id="@+id/calendarView_TrainingSessionOficialFragment"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+
+        android:layout_marginTop="215dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton_Deportologo_TrainingSessionOficialFragment"
+        android:layout_width="wrap_content"
+        android:textColorHighlight="@color/main"
+        android:textColor="@color/main"
+        android:layout_marginTop="520dp"
+        android:layout_marginLeft="41dp"
+        android:layout_height="wrap_content"
+        android:text="Deportologo" />
+
+    <RadioButton
+        android:id="@+id/radioButton_Entrenador_TrainingSessionOficialFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/main"
+        android:textColorHighlight="@color/main"
+        android:layout_marginTop="580dp"
+        android:layout_marginLeft="41dp"
+        android:text="Entrenador" />
+
+    <Button
+        android:id="@+id/buttonAgregar_TrainingSessionOficialFragment"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:text="@string/textBtnAddTrainginPlan"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="650dp"/>
+
+
+
+
+
+
+</FrameLayout>
