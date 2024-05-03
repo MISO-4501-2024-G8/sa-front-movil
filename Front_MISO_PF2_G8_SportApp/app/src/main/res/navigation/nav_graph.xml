@@ -16,9 +16,6 @@
             app:destination="@id/SecondFragment" />
 
         <action
-            android:id="@+id/action_FirstFragment_to_RegisterFragment"
-            app:destination="@id/registerFragment" />
-        <action
             android:id="@+id/action_FirstFragment_to_TrainingSessionFragment"
             app:destination="@id/trainingSessionFragment" />
 
@@ -37,18 +34,6 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
 
-        <action
-            android:id="@+id/action_SecondFragment_to_RegisterFragment"
-            app:destination="@id/registerFragment" />
-
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.miso202402.front_miso_pf2_g8_sportapp.fragments.RegisterFragment"
-        android:label="@string/register_fragment_label"
-        tools:layout="@layout/fragment_register">
 
     </fragment>
 
