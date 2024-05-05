@@ -1,18 +1,25 @@
 package com.miso202402.SportApp.src.utils
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.miso202402.SportApp.fragments.ListEventsFragment
+import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
-class WeeksAdapter (private val semanas:  Array<String>) : RecyclerView.Adapter<WeeksAdapter.ViewHolder>() {
+class WeeksAdapter (private val listEvents:  List<Events>, val prueba: Array<String>, val clickListener: ClickListener ) : RecyclerView.Adapter<WeeksAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
+        var textViewName: TextView
+        var textViewDescription: TextView
         init {
-            textView = view.findViewById(R.id.textView_cardView)
+            textViewName = view.findViewById(R.id.textViewName_cardView)
+            textViewDescription = view.findViewById(R.id.textViewdescription_cardView)
         }
     }
 
@@ -25,9 +32,25 @@ class WeeksAdapter (private val semanas:  Array<String>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.textView.text = "hola mundo"
-        viewHolder.textView.text = semanas[position].toString()
+        //Log.i("onBindViewHolder", getItemCount().toString())
+        viewHolder.textViewName.text = listEvents[position].event_name.toString()
+        viewHolder.textViewDescription.text = listEvents[position].event_description.toString()
+        //viewHolder.textViewName.text = prueba[position].toString()
+        viewHolder.itemView.setOnClickListener() {
+            val event = listEvents.get(position)
+            clickListener.onCListItemClick(it)
+            Log.i("Card", position.toString())
+
+        }
+
+
+
+
     }
 
-    override fun getItemCount() = semanas.size
+    override fun getItemCount(): Int {
+        //Log.i("size Preuba", prueba.size.toString())
+        //Log.i("size list", listEvents.size.toString())
+        return listEvents.size
+    }
 }

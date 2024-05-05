@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/SecondFragment">
+    app:startDestination="@id/ListEventsFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -57,6 +57,27 @@
         <action
             android:id="@+id/action_addTrainingPlanFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ListEventsFragment"
+        android:name="com.miso202402.SportApp.fragments.ListEventsFragment"
+        android:label="@string/List_events"
+        tools:layout="@layout/fragment_list_events">
+        <action
+            android:id="@+id/action_aListEventsFragment_to_AddEventFragment"
+            app:destination="@id/AddEventFragment" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddEventFragment"
+        android:name="com.miso202402.SportApp.fragments.AddEventFragment"
+        android:label="@string/List_events"
+        tools:layout="@layout/fragment_add_event">
+
 
     </fragment>
 

@@ -49,9 +49,9 @@ class LoginFragment : Fragment() {
            makeLogin()
        }
 
-        binding.textViewSingUpFragmentLogin.setOnClickListener {
+       /* binding.textViewSingUpFragmentLogin.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_RegisterFragment)
-        }
+        }*/
     }
 
     override fun onDestroyView() {
