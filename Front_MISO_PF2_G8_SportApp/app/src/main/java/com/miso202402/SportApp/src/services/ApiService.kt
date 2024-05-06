@@ -39,13 +39,13 @@ interface ApiService {
     @GET("eventos")
     fun getAllEventos():Call<GetAllEventsResponse>
 
-    @GET("eventos/")
+    @GET("eventos/{evento_id}")
     fun getEventoById(@Path("evento_id") evento_id: String):Call<GetEventResponse>
 
     @POST("eventos")
     fun createEventos(@Body request: EventsRequest):Call<GetEventResponse>
 
-    @PUT("eventos")
+    @PUT("eventos/{evento_id}")
     fun updateEventoById(@Path("evento_id") evento_id: String, @Body request: EventsRequest): Call<GetEventResponse>
 
     @GET("rutas")

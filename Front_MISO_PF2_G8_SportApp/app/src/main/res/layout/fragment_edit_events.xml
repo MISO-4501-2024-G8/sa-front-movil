@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.miso202402.SportApp.fragments.EditEventsFragment">
+
     <EditText
         android:id="@+id/editTexName_EditEventsFragment"
         android:layout_width="326dp"
@@ -70,10 +71,10 @@
         android:layout_marginTop="330dp" />
 
     <Button
-        android:id="@+id/buttonAgregar_EditEventsFragment"
+        android:id="@+id/buttonEditar_EditEventsFragment"
         android:layout_width="301dp"
         android:layout_height="38dp"
-        android:text="@string/textBtnAddTrainginPlan"
+        android:text="@string/textBtnEditEvento"
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
         android:layout_marginLeft="57dp"

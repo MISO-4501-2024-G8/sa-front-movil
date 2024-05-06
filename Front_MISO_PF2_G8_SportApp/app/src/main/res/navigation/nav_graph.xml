@@ -65,9 +65,14 @@
         android:name="com.miso202402.SportApp.fragments.ListEventsFragment"
         android:label="@string/List_events"
         tools:layout="@layout/fragment_list_events">
+
         <action
-            android:id="@+id/action_aListEventsFragment_to_AddEventFragment"
+            android:id="@+id/action_ListEventsFragment_to_AddEventFragment"
             app:destination="@id/AddEventFragment" />
+
+        <action
+            android:id="@+id/action_ListEventsFragment_to_EditEventsFragment"
+            app:destination="@id/EditEventsFragment" />
 
 
     </fragment>
@@ -77,6 +82,21 @@
         android:name="com.miso202402.SportApp.fragments.AddEventFragment"
         android:label="@string/List_events"
         tools:layout="@layout/fragment_add_event">
+        <action
+            android:id="@+id/action_AddEventFragment_to_ListEventsFragment"
+            app:destination="@id/ListEventsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/EditEventsFragment"
+        android:name="com.miso202402.SportApp.fragments.EditEventsFragment"
+        android:label="@string/List_events"
+        tools:layout="@layout/fragment_edit_events">
+        <action
+            android:id="@+id/action_EditEventsFragment_to_ListEventsFragment"
+            app:destination="@id/ListEventsFragment" />
+
 
 
     </fragment>

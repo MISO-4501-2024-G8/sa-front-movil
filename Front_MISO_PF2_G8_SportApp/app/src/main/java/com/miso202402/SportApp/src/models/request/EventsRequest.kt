@@ -8,5 +8,5 @@ class EventsRequest(@SerializedName("event_name") var event_name: String?,
                     @SerializedName("event_type") var event_type: String?,
                     @SerializedName("sport") var sport: String?,
                     @SerializedName("link") var link: String?,
-                    @SerializedName("event_date") var event_date: String) {
+                    @SerializedName("event_date") var event_date: String?) {
 }

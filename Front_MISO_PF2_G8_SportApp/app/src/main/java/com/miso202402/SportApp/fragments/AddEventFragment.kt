@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.request.EventsRequest
 import com.miso202402.SportApp.src.models.response.GetEventResponse
@@ -61,17 +62,33 @@ class AddEventFragment : Fragment() {
             }
 
         }
+
         binding.buttonAgregarAddEventFragment.setOnClickListener {
-            var event = Events( "",
-                binding.editTexNameAddEventFragment.text.toString(),
-                binding.editTexDescriptionAddEventFragment.text.toString(),
-                binding.editTexLocationAddEventFragment.text.toString(),
-                "virtual",
-                tipoDeporte,
-                binding.editTexLocationAddEventFragment.text.toString(),
+            if(binding.editTexNameAddEventFragment.text.toString() != "" ||
+                binding.editTexDescriptionAddEventFragment.text.toString() != "" ||
+                binding.editTexLocationAddEventFragment.text.toString() != "" ||
+                binding.editLinkAddEventFragment.text.toString() != "" ){
+
+                var event = Events( "",
+                    binding.editTexNameAddEventFragment.text.toString(),
+                    binding.editTexDescriptionAddEventFragment.text.toString(),
+                    binding.editTexLocationAddEventFragment.text.toString(),
+                    "virtual",
+                    tipoDeporte,
+                    binding.editLinkAddEventFragment.text.toString(),
                 )
-            Log.i("Entre al boton", "Boton add")
-            createEvent(event)
+                Log.i("Entre al boton", "Boton add")
+                createEvent(event)
+
+            }
+            else{
+                lifecycleScope.launch {
+                    val util = Utils()
+                    val message = "Alguno de los campos estas vacios"
+                    util.showMessageDialog(context, message)
+                }
+            }
+
         }
     }
 
@@ -106,9 +123,18 @@ class AddEventFragment : Fragment() {
                                 it,
                                 createEvento?.message.toString()
                             )
-                            //falta navegar de nuevo hacia atras
                         }
-
+                        findNavController().navigate(R.id.action_AddEventFragment_to_ListEventsFragment)
+                    }
+                }
+                else {
+                    lifecycleScope.launch {
+                        activity?.let {
+                            utils.showMessageDialog(
+                                it,
+                                "Error Intente mas tarde"
+                            )
+                        }
                     }
                 }
 

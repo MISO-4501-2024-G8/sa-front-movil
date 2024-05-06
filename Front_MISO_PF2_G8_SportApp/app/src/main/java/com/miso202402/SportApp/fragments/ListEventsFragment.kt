@@ -53,6 +53,9 @@ class ListEventsFragment : Fragment(), ClickListener {
         eventList = listOf()
         listener = this
         getAllEvents()
+        binding.recyclerviewListEventsFragment.setHasFixedSize(true)
+        binding.recyclerviewListEventsFragment.layoutManager = LinearLayoutManager(context)
+        binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
 
 
         return binding.root
@@ -65,11 +68,11 @@ class ListEventsFragment : Fragment(), ClickListener {
             getAllEvents()
             binding.recyclerviewListEventsFragment.setHasFixedSize(true)
             binding.recyclerviewListEventsFragment.layoutManager = LinearLayoutManager(context)
-            binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, vectorTipoDeporte, listener)
+            binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
         }
         binding.buttonAgregarListEventsFragment.setOnClickListener {
             //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
-            findNavController().navigate(R.id.action_aListEventsFragment_to_AddEventFragment)
+            findNavController().navigate(R.id.action_ListEventsFragment_to_AddEventFragment)
         }
     }
 
@@ -88,11 +91,7 @@ class ListEventsFragment : Fragment(), ClickListener {
                     .execute()
                 val getAllEventosResponse = callGetAllEventos.body() as GetAllEventsResponse?
                 if (getAllEventosResponse?.code == 200){
-                    Log.i("Rest getALLEvents:", getAllEventosResponse?.code.toString())
-                    Log.i("Rest getALLEvents Size:", getAllEventosResponse?.content?.size.toString())
                     eventList = getAllEventosResponse?.content!!
-                    //Log.i("eventList.get(0).id:",  eventList.get(0).id.toString())
-                    //weeksAdapter = WeeksAdapter(eventList, vectorTipoDeporte, listener)
                 }
 
 
@@ -102,8 +101,10 @@ class ListEventsFragment : Fragment(), ClickListener {
         }
     }
 
-    override fun onCListItemClick(view: View) {
-        Log.i("Preuba", view.context.toString())
+    override fun onCListItemClick(view: View, event: Events) {
+        Log.i("Preuba", event.event_name.toString())
+        val bundle = bundleOf("event_id" to event.id )
+        findNavController().navigate(R.id.action_ListEventsFragment_to_EditEventsFragment, bundle)
     }
 
 
