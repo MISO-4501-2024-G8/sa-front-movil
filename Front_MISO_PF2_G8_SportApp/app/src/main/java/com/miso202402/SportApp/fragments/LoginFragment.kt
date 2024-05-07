@@ -11,7 +11,10 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentLoginBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginResponse
@@ -50,6 +53,13 @@ class LoginFragment : Fragment() {
        /* binding.textViewSingUpFragmentLogin.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_RegisterFragment)
         }*/
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Mostrar la toolbar y el fab en este fragmento
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.hideToolbarAndFab()
     }
 
     override fun onDestroyView() {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentMainBinding
 
 /**
@@ -47,6 +48,14 @@ class MainFragment : Fragment() {
         binding.textViewListEventFragmentmmain.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_ListEventsFragment, bundle)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Mostrar la toolbar y el fab en este fragmento
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.showToolbarAndFab()
+        mainActivity?.disableBack()
     }
 
     override fun onDestroyView() {
