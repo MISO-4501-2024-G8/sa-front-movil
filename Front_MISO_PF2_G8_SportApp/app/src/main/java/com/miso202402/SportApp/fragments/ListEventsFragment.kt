@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.miso202402.SportApp.src.models.models.Events
+import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.utils.ClickListener
 import com.miso202402.SportApp.src.utils.WeeksAdapter
@@ -38,8 +39,6 @@ class ListEventsFragment : Fragment(), ClickListener {
     private val binding get() = _binding!!
 
     private lateinit var eventList : List<Events>
-    private lateinit var weeksAdapter: WeeksAdapter
-    private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     lateinit var listener: ClickListener
 
@@ -56,8 +55,6 @@ class ListEventsFragment : Fragment(), ClickListener {
         binding.recyclerviewListEventsFragment.setHasFixedSize(true)
         binding.recyclerviewListEventsFragment.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
-
-
         return binding.root
     }
 
@@ -70,6 +67,7 @@ class ListEventsFragment : Fragment(), ClickListener {
             binding.recyclerviewListEventsFragment.layoutManager = LinearLayoutManager(context)
             binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
         }
+
         binding.buttonAgregarListEventsFragment.setOnClickListener {
             //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
             findNavController().navigate(R.id.action_ListEventsFragment_to_AddEventFragment)

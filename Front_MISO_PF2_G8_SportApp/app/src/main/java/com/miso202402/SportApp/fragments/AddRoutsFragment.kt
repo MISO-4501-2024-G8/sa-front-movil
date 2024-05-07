@@ -1,21 +1,24 @@
 package com.miso202402.SportApp.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.annotation.RequiresExtension
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.miso202402.SportApp.src.models.models.Events
-import com.miso202402.SportApp.src.models.request.EventsRequest
+import com.miso202402.SportApp.src.models.models.Routs
+import com.miso202402.SportApp.src.models.request.RoutsRequest
 import com.miso202402.SportApp.src.models.response.GetEventResponse
+import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.R
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddEventBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -23,25 +26,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class AddEventFragment : Fragment() {
-    private var _binding: FragmentAddEventBinding? = null
+class AddRoutsFragment : Fragment() {
+
+    private var _binding: FragmentAddRoutsBinding? = null
     private val binding get() = _binding!!
 
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
     private var tipoDeporte : String? = null
+
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddEventBinding.inflate(inflater, container, false)
+        _binding = FragmentAddRoutsBinding.inflate(inflater, container, false)
+
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var spinner = view.findViewById<Spinner>(R.id.spinner_AddEventFragment)
+        var spinner = view.findViewById<Spinner>(R.id.spinner_AddRoutsFragment)
         activity?.let {
             ArrayAdapter.createFromResource(it,
                 R.array.Sport,
@@ -63,30 +69,7 @@ class AddEventFragment : Fragment() {
 
         }
 
-        binding.buttonAgregarAddEventFragment.setOnClickListener {
-            if(binding.editTexNameAddEventFragment.text.toString() != "" ||
-                binding.editTexDescriptionAddEventFragment.text.toString() != "" ||
-                binding.editTexLocationAddEventFragment.text.toString() != "" ||
-                binding.editLinkAddEventFragment.text.toString() != "" ){
-
-                var event = Events( "",
-                    binding.editTexNameAddEventFragment.text.toString(),
-                    binding.editTexDescriptionAddEventFragment.text.toString(),
-                    binding.editTexLocationAddEventFragment.text.toString(),
-                    "virtual",
-                    tipoDeporte,
-                    binding.editLinkAddEventFragment.text.toString(),
-                )
-                Log.i("Entre al boton", "Boton add")
-                createEvent(event)
-            }
-            else{
-                lifecycleScope.launch {
-                    val util = Utils()
-                    val message = "Alguno de los campos estas vacios"
-                    util.showMessageDialog(context, message)
-                }
-            }
+        binding.buttonAgregarAddRoutsFragment.setOnClickListener {
 
         }
     }
@@ -95,35 +78,42 @@ class AddEventFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    private fun createEvent(event : Events){
+
+    private fun createRout(event : Routs){
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val callGetAllEventos = utils.getRetrofit(domain)
+                val callCreateRuta = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
-                    .createEventos(EventsRequest(
-                            event.event_name,
-                            event.event_description,
-                            event.event_location,
-                            event.event_type,
+                    .createRuta(
+                        RoutsRequest(
+                            event.route_name,
+                            event.route_description,
+                            event.route_location_A,
+                            event.route_location_B,
+                            event.route_latlon_A,
+                            event.route_latlon_B,
+                            "Virtual",
+                            "2024-05-28 14:30:00",
                             event.sport,
                             event.link,
-                        "2024-05-28 14:30:00"
-                            ))
+                            )
+                    )
                     .execute()
-                val createEvento = callGetAllEventos.body()as GetEventResponse?
+                val createRuta = callCreateRuta.body()as GetRoutsResponse?
                 Log.i("Sali a la perticion", "Rest")
-                Log.i("Sali a la perticion code ", createEvento?.code.toString())
-                if (createEvento?.code == 201){
+                Log.i("Sali a la perticion code ", createRuta?.code.toString())
+                if (createRuta?.code == 201){
                     lifecycleScope.launch {
-                        Log.i("Rest CreateEvent:", createEvento?.code.toString())
+                        Log.i("Rest CreateRout:", createRuta?.code.toString())
                         activity?.let {
                             utils.showMessageDialog(
                                 it,
-                                createEvento?.message.toString()
+                                createRuta?.message.toString()
                             )
                         }
-                        findNavController().navigate(R.id.action_AddEventFragment_to_ListEventsFragment)
+
+                        findNavController().navigate(R.id.action_AddRoutsFragment_to_ListRoutsFragment)
                     }
                 }
                 else {
@@ -143,8 +133,4 @@ class AddEventFragment : Fragment() {
             }
         }
     }
-
-
-
-
 }

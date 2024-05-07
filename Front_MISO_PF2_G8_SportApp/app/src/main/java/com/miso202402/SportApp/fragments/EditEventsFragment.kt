@@ -108,7 +108,6 @@ class EditEventsFragment : Fragment() {
                             "Error Al traer el evento para editar, intente mas tarde"
                         )
                     }
-
                 }
             }
             } catch (e: Exception) {
@@ -125,15 +124,16 @@ class EditEventsFragment : Fragment() {
                 Log.i("Entre", "update")
                 val callGetAllEventos = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
-                    .updateEventoById(event_id, EventsRequest(
-                        binding.editTexNameEditEventsFragment.text.toString(),
-                        binding.editTexDescriptionEditEventsFragment.text.toString(),
-                        binding.editTexLocationEditEventsFragment.text.toString(),
-                        event.event_type,
-                        tipoDeporte,
-                        binding.editLinkEditEventsFragment.text.toString(),
-                        "2024-05-28 14:30:00"
-                    ))
+                    .updateEventoById(event_id,
+                        EventsRequest(
+                            binding.editTexNameEditEventsFragment.text.toString(),
+                            binding.editTexDescriptionEditEventsFragment.text.toString(),
+                            binding.editTexLocationEditEventsFragment.text.toString(),
+                            event.event_type,
+                            tipoDeporte,
+                            binding.editLinkEditEventsFragment.text.toString(),
+                            "2024-05-28 14:30:00")
+                    )
                     .execute()
                 val updateEvento = callGetAllEventos.body() as GetEventResponse?
                 Log.i("Sali se la peticion updateEventoById", "Rest")

@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
+
 import androidx.recyclerview.widget.RecyclerView
-import com.miso202402.SportApp.fragments.ListEventsFragment
-import com.miso202402.SportApp.src.models.models.Events
+import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
-class WeeksAdapter (private val listEvents:  List<Events>, val clickListener: ClickListener ) : RecyclerView.Adapter<WeeksAdapter.ViewHolder>() {
+class RoutsAdapter (private val routsList:  List<Routs>, val clickListener: ClickListener_routs ) : RecyclerView.Adapter<RoutsAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var textViewName: TextView
         var textViewDescription: TextView
@@ -34,15 +32,15 @@ class WeeksAdapter (private val listEvents:  List<Events>, val clickListener: Cl
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         var realPosition: Int = position + 1
 
-        viewHolder.textViewName.text = "Evento "+ realPosition.toString() +": " + listEvents[position].event_name.toString()
-        viewHolder.textViewDescription.text = "Descripcion: "+ listEvents[position].event_description.toString()
+        viewHolder.textViewName.text = "Ruta "+ realPosition.toString() +": " + routsList[position].route_name.toString()
+        viewHolder.textViewDescription.text = "Descripcion: "+ routsList[position].route_description.toString()
         viewHolder.itemView.setOnClickListener() {
-            val event = listEvents.get(position)
+            val event = routsList.get(position)
             clickListener.onCListItemClick(it, event)
         }
     }
 
     override fun getItemCount(): Int {
-        return listEvents.size
+        return routsList.size
     }
 }

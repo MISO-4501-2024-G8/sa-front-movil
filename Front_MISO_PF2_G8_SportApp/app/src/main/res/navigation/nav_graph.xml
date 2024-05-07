@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ListEventsFragment">
+    app:startDestination="@id/AddRoutsFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -100,6 +100,46 @@
         <action
             android:id="@+id/action_EditEventsFragment_to_ListEventsFragment"
             app:destination="@id/ListEventsFragment" />
+
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ListRoutsFragment"
+        android:name="com.miso202402.SportApp.fragments.ListRoutsFragment"
+        android:label="@string/List_routs"
+        tools:layout="@layout/fragment_list_routs">
+
+        <action
+            android:id="@+id/action_ListRoutsFragment_to_AddRoutsFragment"
+            app:destination="@id/AddRoutsFragment" />
+
+        <action
+            android:id="@+id/action_ListRoutsFragment_to_EditRoutsFragment"
+            app:destination="@id/EditRoutsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddRoutsFragment"
+        android:name="com.miso202402.SportApp.fragments.AddRoutsFragment"
+        android:label="@string/Add_routs"
+        tools:layout="@layout/fragment_add_routs">
+        <action
+            android:id="@+id/action_AddRoutsFragment_to_ListRoutsFragment"
+            app:destination="@id/ListRoutsFragment" />
+
+
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/EditRoutsFragment"
+        android:name="com.miso202402.SportApp.fragments.EditRoutsFragment"
+        android:label="@string/edit_routs"
+        tools:layout="@layout/fragment_edit_routs">
+
 
 
 

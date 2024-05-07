@@ -51,7 +51,7 @@ interface ApiService {
     @GET("rutas")
     fun getAllRutas():Call<GetAllRutasResponse>
 
-    @GET("rutas/")
+    @GET("rutas/{ruta_id}")
     fun getRutaById(@Path("ruta_id") ruta_id: String):Call<GetRoutsResponse>
 
     @POST("rutas")
