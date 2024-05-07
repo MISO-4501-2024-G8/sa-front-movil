@@ -36,15 +36,16 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //arguments?.getString("token")?.let { Log.i("info", it) }
+        val bundle = bundleOf(
+            "token" to  arguments?.getString("token"),
+            "id" to  arguments?.getString("id")
+        )
         binding.textViewTrainingSessionFragmentmmain.setOnClickListener{
-            val bundle = bundleOf(
-                "token" to  arguments?.getString("token"),
-                "id" to  arguments?.getString("id")
-            )
-            //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
-            //findNavController().navigate(R.id.action_FirstFragment_to_TrainingSessionFragment, bundle)
             findNavController().navigate(R.id.action_FirstFragment_to_AddTrainingPlanFragment, bundle)
+        }
+
+        binding.textViewListEventFragmentmmain.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_ListEventsFragment, bundle)
         }
     }
 

@@ -16,4 +16,13 @@
         android:layout_marginLeft="10dp"
         android:text="@string/training_sesion" />
 
+    <TextView
+        android:id="@+id/textViewListEvent_Fragmentmmain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/main"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/List_events" />
+
 </RelativeLayout>

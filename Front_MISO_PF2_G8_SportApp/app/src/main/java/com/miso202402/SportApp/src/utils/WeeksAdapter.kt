@@ -33,12 +33,11 @@ class WeeksAdapter (private val listEvents:  List<Events>, val clickListener: Cl
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.textViewName.text = listEvents[position].event_name.toString()
-        viewHolder.textViewDescription.text = listEvents[position].event_description.toString()
+        viewHolder.textViewName.text = "Evento "+ position + 1 +": " + listEvents[position].event_name.toString()
+        viewHolder.textViewDescription.text = "Descripcion: "+ listEvents[position].event_description.toString()
         viewHolder.itemView.setOnClickListener() {
             val event = listEvents.get(position)
             clickListener.onCListItemClick(it, event)
-            //Log.i("Card", event.event_name.toString())
         }
     }
 
