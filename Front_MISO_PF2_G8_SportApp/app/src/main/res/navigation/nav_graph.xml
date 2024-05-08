@@ -26,6 +26,7 @@
         <action
             android:id="@+id/action_FirstFragment_to_ListEventsFragment"
             app:destination="@id/ListEventsFragment" />
+
     </fragment>
 
     <fragment
@@ -37,6 +38,10 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+
+        <action
+            android:id="@+id/action_Login_to_Calendar"
+            app:destination="@id/CalendarFragment" />
 
 
     </fragment>
@@ -100,10 +105,14 @@
         <action
             android:id="@+id/action_EditEventsFragment_to_ListEventsFragment"
             app:destination="@id/ListEventsFragment" />
-
-
-
     </fragment>
+
+    <fragment
+        android:id="@+id/CalendarFragment"
+        android:name="com.miso202402.SportApp.fragments.CalendarFragment"
+        android:label="Calendario"
+        tools:layout="@layout/fragment_calendar"
+        />
 
 
 </navigation>

@@ -23,7 +23,8 @@
     <string name="add_training_sesion">Agregar plan de entrenamiento</string>
     <string name="List_events">Listar los Eventos</string>
 
-
+    <string name="open_msg">Open Nav</string>
+    <string name="close_msg">Close Nav</string>
     <string-array name="Sport">
         <item>Atletismo</item>
         <item>Ciclismo</item>

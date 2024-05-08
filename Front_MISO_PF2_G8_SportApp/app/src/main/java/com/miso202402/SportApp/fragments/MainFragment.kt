@@ -55,7 +55,7 @@ class MainFragment : Fragment() {
         // Mostrar la toolbar y el fab en este fragmento
         val mainActivity = requireActivity() as? MainActivity
         mainActivity?.showToolbarAndFab()
-        mainActivity?.disableBack()
+        //mainActivity?.disableBack()
     }
 
     override fun onDestroyView() {
