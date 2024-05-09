@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +42,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
     private lateinit var user_id: String;
     private lateinit var preferences: SharedPreferences
 
+
     private val binding get() = _binding!!
     private lateinit var trainingSessions : List<TrainingSession>
     private lateinit var events : List<Events>
@@ -71,6 +73,15 @@ class CalendarFragment : Fragment(), ClicTSListener {
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
         return binding.root
+    }
+
+    fun progressBarVisible(valueV:Boolean){
+        if(valueV){
+            binding.progressBar.visibility = View.VISIBLE
+
+        }else{
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
@@ -145,6 +156,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
     }
 
     private fun fetchTrainingSessions() {
+        progressBarVisible(true)
         CoroutineScope(Dispatchers.Main).launch {
             trainingSessions = getAllTrainingSessions()
             events = getAllEvents()
@@ -155,6 +167,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
             binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
             binding.recyclerviewListTrainingSessionsFragment.layoutManager = LinearLayoutManager(context)
             binding.recyclerviewListTrainingSessionsFragment.adapter = TrainingSessionAdapter(trainingSessions, events, routes, listener)
+            progressBarVisible(false)
         }
     }
 

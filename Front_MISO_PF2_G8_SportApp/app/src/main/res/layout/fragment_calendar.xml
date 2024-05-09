@@ -12,7 +12,16 @@
         android:layout_height="wrap_content"
         android:text="Fragmento de Calendario"
         android:textSize="30sp"
+        android:id="@+id/tvTitle"
         />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
 
 
     <androidx.recyclerview.widget.RecyclerView
