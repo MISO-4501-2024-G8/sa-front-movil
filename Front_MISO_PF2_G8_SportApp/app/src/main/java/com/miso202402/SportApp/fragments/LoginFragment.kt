@@ -1,6 +1,7 @@
 package com.miso202402.front_miso_pf2_g8_sportapp.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentLoginBinding
@@ -31,6 +33,7 @@ class LoginFragment : Fragment() {
     private var errorTimesLoginRejected: Int = 0
     private val domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private val binding get() = _binding!!
+    private lateinit var preferences: SharedPreferences
 
 
 
@@ -40,6 +43,11 @@ class LoginFragment : Fragment() {
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
     }
 
 
@@ -84,6 +92,10 @@ class LoginFragment : Fragment() {
                            activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
                            //Log.i("mesnaje al loguearse", loginResponse?.message.toString())
                            errorTimesLoginRejected = 0
+
+                           preferences.saveData("token", loginResponse?.token)
+                           preferences.saveData("id", loginResponse?.id)
+
                            val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
                            //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
                            val mainActivity = requireActivity() as? MainActivity

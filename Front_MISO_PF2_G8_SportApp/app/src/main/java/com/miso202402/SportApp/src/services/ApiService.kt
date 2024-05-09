@@ -7,6 +7,7 @@ import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RoutsRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
+import com.miso202402.SportApp.src.models.response.GetAllUserTrainingSessionsResponse
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
@@ -59,5 +60,8 @@ interface ApiService {
 
     @PUT("rutas")
     fun updateRoutById(@Path("ruta_id") ruta_id: String, @Body request: RoutsRequest): Call<GetRoutsResponse>
+
+    @GET("training_session/{user_id}")
+    fun getTrainingSessionsById(@Path("user_id") user_id: String):Call<GetAllUserTrainingSessionsResponse>
 
 }
