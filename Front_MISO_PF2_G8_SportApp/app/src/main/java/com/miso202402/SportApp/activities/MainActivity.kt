@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.miso202402.SportApp.fragments.CalendarFragment
 import com.miso202402.SportApp.fragments.ChatFragment
+import com.miso202402.SportApp.fragments.EditEventsFragment
 import com.miso202402.SportApp.fragments.GoalFragment
 import com.miso202402.SportApp.fragments.ListEventsFragment
 import com.miso202402.SportApp.fragments.SportFragment
@@ -95,6 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }*/
     }
 
+    /*
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.calendar -> supportFragmentManager.beginTransaction()
@@ -112,6 +114,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }*/
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.calendar -> navigateToFragment(R.id.CalendarFragment)
+            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment)
+            R.id.events -> navigateToFragment(R.id.ListEventsFragment)
+            R.id.sport -> navigateToFragment(R.id.SportFragment)
+            R.id.goals -> navigateToFragment(R.id.GoalFragment)
+            R.id.chat -> navigateToFragment(R.id.ChatFragment)
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    fun navigateToFragment(fragmentId: Int, bundle: Bundle? = null) {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        if (bundle != null) {
+            navController.navigate(fragmentId, bundle)
+        } else {
+            navController.navigate(fragmentId)
+        }
     }
 
     override fun onBackPressed(){

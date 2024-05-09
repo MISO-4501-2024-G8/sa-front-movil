@@ -85,7 +85,9 @@ class LoginFragment : Fragment() {
                            //Log.i("mesnaje al loguearse", loginResponse?.message.toString())
                            errorTimesLoginRejected = 0
                            val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
-                           findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
+                           //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
+                           val mainActivity = requireActivity() as? MainActivity
+                           mainActivity?.navigateToFragment(R.id.CalendarFragment, bundle)
                        }
                        else {
                            errorTimesLoginRejected++

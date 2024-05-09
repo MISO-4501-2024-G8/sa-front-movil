@@ -114,5 +114,28 @@
         tools:layout="@layout/fragment_calendar"
         />
 
+    <fragment
+        android:id="@+id/SportFragment"
+        android:name="com.miso202402.SportApp.fragments.SportFragment"
+        android:label="Sport"
+        tools:layout="@layout/fragment_sport"
+        />
+
+    <fragment
+        android:id="@+id/GoalFragment"
+        android:name="com.miso202402.SportApp.fragments.GoalFragment"
+        android:label="Goal"
+        tools:layout="@layout/fragment_goal"
+        />
+
+    <fragment
+        android:id="@+id/ChatFragment"
+        android:name="com.miso202402.SportApp.fragments.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat"
+        />
+
+
+
 
 </navigation>

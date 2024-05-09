@@ -21,6 +21,7 @@ import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.utils.ClickListener
 import com.miso202402.SportApp.src.utils.WeeksAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddEventBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditEventsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListEventsBinding
@@ -102,9 +103,12 @@ class ListEventsFragment : Fragment(), ClickListener {
     }
 
     override fun onCListItemClick(view: View, event: Events) {
-        Log.i("Preuba", event.event_name.toString())
+        Log.i("Prueba", event.event_name.toString())
         val bundle = bundleOf("event_id" to event.id )
-        findNavController().navigate(R.id.action_ListEventsFragment_to_EditEventsFragment, bundle)
+        //findNavController().navigate(R.id.action_ListEventsFragment_to_EditEventsFragment, bundle)
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.navigateToFragment(R.id.action_ListEventsFragment_to_EditEventsFragment, bundle)
+
     }
 
 
