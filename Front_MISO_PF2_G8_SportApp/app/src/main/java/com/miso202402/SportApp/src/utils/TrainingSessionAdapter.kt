@@ -10,10 +10,16 @@ import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.miso202402.SportApp.fragments.ListEventsFragment
+import com.miso202402.SportApp.src.models.models.Events
+import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.models.TrainingSession
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
-class TrainingSessionAdapter (private val listTrainingSessions:  List<TrainingSession>, val clickListener: ClicTSListener ) : RecyclerView.Adapter<TrainingSessionAdapter.ViewHolder>(){
+class TrainingSessionAdapter (
+    private val listTrainingSessions:  List<TrainingSession>,
+    private val listEventos: List<Events>,
+    private val listRutas: List<Routs>,
+    val clickListener: ClicTSListener ) : RecyclerView.Adapter<TrainingSessionAdapter.ViewHolder>(){
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var tvName: TextView
@@ -49,18 +55,60 @@ class TrainingSessionAdapter (private val listTrainingSessions:  List<TrainingSe
         return TrainingSessionAdapter.ViewHolder(view)
     }
 
+    fun List<Events>.findFirstEventById(id: String): Events? {
+        return this.firstOrNull { it.id == id }
+    }
+    fun List<Routs>.findFirstRouteById(id: String): Routs? {
+        return this.firstOrNull { it.id == id }
+    }
     override fun onBindViewHolder(viewHolder: TrainingSessionAdapter.ViewHolder, position: Int) {
-
-        viewHolder.tvName.text = "ID Evento "+ position + 1 +": " + listTrainingSessions[position].id_event.toString()
-        viewHolder.tvLocation.text = "Categoria: "+ listTrainingSessions[position].event_category.toString()
+        var esEvento = false
+        var esRuta = false
+        var esAtletismo = false
+        var esCiclismo = false
+        var esVirtual = false
+        var esPresencial = false
+        val id_event = listTrainingSessions[position].id_event.toString()
+        val sport_type = listTrainingSessions[position].sport_type.toString()
+        val categoria = listTrainingSessions[position].event_category.toString()
         viewHolder.tvDate.text = "Fecha: " + listTrainingSessions[position].session_date.toString()
-        viewHolder.tvDescription.text = "Descripcion: desc test"
-        val esEvento = true
-        val esRuta = false
-        val esAtletismo = false
-        val esCiclismo = true
-        val esVirtual = false
-        val esPresencial = true
+
+        if(categoria == "evento"){
+            esEvento = true
+            val evento = listEventos.findFirstEventById(id_event)
+            viewHolder.tvName.text = evento?.event_name
+            viewHolder.tvLocation.text = "Lugar: " + evento?.event_location
+            viewHolder.tvDescription.text = "Descripcion: " + evento?.event_description
+            if(evento?.event_type == "virtual"){
+                esVirtual = true
+            }else if(evento?.event_type == "presencial"){
+                esPresencial = true
+            }
+        } else if (categoria == "ruta"){
+            esRuta = true
+            val ruta = listRutas.findFirstRouteById(id_event)
+            viewHolder.tvName.text = ruta?.route_name
+            viewHolder.tvLocation.text = "Lugar: " + ruta?.route_location_A + " - " + ruta?.route_location_B
+            viewHolder.tvDescription.text = "Descripcion: " + ruta?.route_description
+            if(ruta?.route_type == "virtual"){
+                esVirtual = true
+            }else if(ruta?.route_type == "presencial"){
+                esPresencial = true
+            }
+        }
+
+        if(sport_type == "Atletismo"){
+            esAtletismo = true
+        } else if(sport_type == "Ciclismo"){
+            esCiclismo = true
+        }
+
+
+        // viewHolder.tvName.text = "ID Evento "+ position + 1 +": " + listTrainingSessions[position].id_event.toString()
+        // viewHolder.tvLocation.text = "Categoria: "+ listTrainingSessions[position].event_category.toString()
+        //viewHolder.tvDate.text = "Fecha: " + listTrainingSessions[position].session_date.toString()
+        //viewHolder.tvDescription.text = "Descripcion: desc test"
+
         if(esEvento){
             viewHolder.isEvento.visibility = View.VISIBLE
         }else{
