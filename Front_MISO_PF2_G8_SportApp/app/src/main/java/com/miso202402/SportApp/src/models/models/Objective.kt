@@ -7,6 +7,7 @@ class Objective (
     @SerializedName("id_routine") var id_routine:String?,
     @SerializedName("day") var day:String?,
     @SerializedName("repeats") var repeats:Int?,
-    @SerializedName("type_objective") var type_objective:String?
+    @SerializedName("type_objective") var type_objective:String?,
+    @SerializedName("instructions") var instructions:List<Instruction>?
     ){
 }
