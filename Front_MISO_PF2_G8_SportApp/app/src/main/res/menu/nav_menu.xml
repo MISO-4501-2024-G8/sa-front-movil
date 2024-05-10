@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view"
+    >
+    <group
+        android:checkableBehavior="single"
+        >
+        <item
+            android:id="@+id/calendar"
+            android:icon="@drawable/baseline_calendar_month_24"
+            android:title="Calendario"
+            ></item>
+        <item
+            android:id="@+id/plans"
+            android:icon="@drawable/round_account_tree_24"
+            android:title="Planes y Rutinas"
+            ></item>
+        <item
+            android:id="@+id/events"
+            android:icon="@drawable/baseline_alt_route_24"
+            android:title="Eventos y Rutas"
+            ></item>
+        <item
+            android:id="@+id/sport"
+            android:icon="@drawable/baseline_alarm_add_24"
+            android:title="Registros Deportivos"
+            ></item>
+        <item
+            android:id="@+id/goals"
+            android:icon="@drawable/baseline_analytics_24"
+            android:title="Indicadores y Objetivos"
+            ></item>
+        <item
+            android:id="@+id/chat"
+            android:icon="@drawable/baseline_announcement_24"
+            android:title="Sesiones Virtuales y Chats"
+            ></item>
+    </group>
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/baseline_arrow_forward_24"
+                android:title="Logout"
+                ></item>
+            <item
+                android:id="@+id/nav_lang"
+                android:icon="@drawable/baseline_blur_circular_24"
+                android:title="Español"
+                ></item>
+
+        </menu>
+    </item>
+
+</menu>

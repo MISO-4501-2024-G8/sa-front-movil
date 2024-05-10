@@ -26,6 +26,9 @@
     <string name="List_routs">Listar las Rutas</string>
     <string name="Add_routs">Agregas las Rutas</string>
     <string name="edit_routs">Asociar las Rutas</string>
+
+    <string name="open_msg">Open Nav</string>
+    <string name="close_msg">Close Nav</string>
     <string-array name="Sport">
         <item>Atletismo</item>
         <item>Ciclismo</item>
