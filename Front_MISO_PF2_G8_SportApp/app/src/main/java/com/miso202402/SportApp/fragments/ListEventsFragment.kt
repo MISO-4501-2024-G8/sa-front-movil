@@ -42,12 +42,17 @@ class ListEventsFragment : Fragment(), ClickListener {
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     lateinit var listener: ClickListener
 
+    private lateinit var token: String
+    private lateinit var user_id : String
+
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        token = arguments?.getString("token").toString()
+        user_id = arguments?.getString("user_id").toString()
         _binding = FragmentListEventsBinding.inflate(inflater, container, false)
         eventList = listOf()
         listener = this
@@ -68,10 +73,10 @@ class ListEventsFragment : Fragment(), ClickListener {
             binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
         }
 
-        binding.buttonAgregarListEventsFragment.setOnClickListener {
+       /* binding.buttonAgregarListEventsFragment.setOnClickListener {
             //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
             findNavController().navigate(R.id.action_ListEventsFragment_to_AddEventFragment)
-        }
+        }*/
     }
 
     override fun onDestroyView() {
@@ -101,7 +106,10 @@ class ListEventsFragment : Fragment(), ClickListener {
 
     override fun onCListItemClick(view: View, event: Events) {
         Log.i("Preuba", event.event_name.toString())
-        val bundle = bundleOf("event_id" to event.id )
+        val bundle = bundleOf(
+            "event_id" to event.id,
+            "user_id" to user_id)
+
         findNavController().navigate(R.id.action_ListEventsFragment_to_EditEventsFragment, bundle)
     }
 

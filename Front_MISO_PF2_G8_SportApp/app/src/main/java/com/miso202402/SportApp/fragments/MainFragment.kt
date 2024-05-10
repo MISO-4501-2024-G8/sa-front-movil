@@ -11,9 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentMainBinding
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
+
 class MainFragment : Fragment() {
     val token : String? = null
     private var _binding: FragmentMainBinding? = null
@@ -38,7 +36,7 @@ class MainFragment : Fragment() {
 
         val bundle = bundleOf(
             "token" to  arguments?.getString("token"),
-            "id" to  arguments?.getString("id")
+            "user_id" to  arguments?.getString("user_id")
         )
         binding.textViewTrainingSessionFragmentmmain.setOnClickListener{
             findNavController().navigate(R.id.action_FirstFragment_to_AddTrainingPlanFragment, bundle)
@@ -46,6 +44,10 @@ class MainFragment : Fragment() {
 
         binding.textViewListEventFragmentmmain.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_ListEventsFragment, bundle)
+        }
+
+        binding.textViewListRoutsFragmentmmain.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_ListRoutsFragment, bundle)
         }
     }
 

@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
                            activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
                            //Log.i("mesnaje al loguearse", loginResponse?.message.toString())
                            errorTimesLoginRejected = 0
-                           val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
+                           val bundle = bundleOf("token" to  loginResponse?.token, "user_id" to loginResponse?.id)
                            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
                        }
                        else {

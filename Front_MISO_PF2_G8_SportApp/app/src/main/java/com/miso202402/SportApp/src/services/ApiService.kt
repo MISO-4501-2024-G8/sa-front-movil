@@ -6,11 +6,13 @@ import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RoutsRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
+import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
+import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginResponse
@@ -47,6 +49,9 @@ interface ApiService {
 
     @PUT("eventos/{evento_id}")
     fun updateEventoById(@Path("evento_id") evento_id: String, @Body request: EventsRequest): Call<GetEventResponse>
+
+    @POST("training_session")
+    fun createTrainigSession(@Body request: TrainingSessionRequest):Call<TraingSessionResponse>
 
     @GET("rutas")
     fun getAllRutas():Call<GetAllRutasResponse>

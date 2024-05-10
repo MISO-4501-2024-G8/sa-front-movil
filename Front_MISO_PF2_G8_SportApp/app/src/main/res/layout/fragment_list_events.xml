@@ -15,15 +15,6 @@
         android:textSize="30sp"
         android:layout_marginLeft="80dp"
         android:text="Lista de Eventos" />
-    <Button
-        android:id="@+id/buttonAgregar_ListEventsFragment"
-        android:layout_width="120dp"
-        android:layout_height="38dp"
-        android:text="@string/textBtnAddTrainginPlan"
-        android:textFontWeight="14"
-        android:backgroundTint="@color/main"
-        android:layout_marginLeft="270dp"
-        android:layout_marginTop="120dp"/>
 
     <Button
         android:id="@+id/buttonActualizar_ListEventsFragment"

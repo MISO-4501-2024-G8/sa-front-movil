@@ -13,7 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.request.EventsRequest
+import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetEventResponse
+import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditEventsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
@@ -28,6 +30,7 @@ class EditEventsFragment : Fragment() {
 
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private lateinit var event_id: String;
+    private lateinit var user_id: String;
     private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
     private lateinit var event: Events
     private var tipoDeporte : String? = null
@@ -39,7 +42,9 @@ class EditEventsFragment : Fragment() {
     ): View {
         _binding = FragmentEditEventsBinding.inflate(inflater, container, false)
         event_id = arguments?.getString("event_id").toString()
+        user_id = arguments?.getString("user_id").toString()
         Log.i("event_id", event_id)
+        Log.i("user_id", user_id)
         event = Events("", "","","","", "", "")
         getEventById(event_id)
         return binding.root
@@ -70,8 +75,8 @@ class EditEventsFragment : Fragment() {
         }
 
         binding.buttonEditarEditEventsFragment.setOnClickListener {
-           updateEventoById(event_id)
-
+           //updateEventoById(event_id)
+            createTrainigSession(event_id, user_id)
         }
     }
 
@@ -98,14 +103,18 @@ class EditEventsFragment : Fragment() {
                     binding.editTexDescriptionEditEventsFragment.setText(event.event_description.toString())
                     binding.editTexLocationEditEventsFragment.setText(event.event_location.toString())
                     binding.editLinkEditEventsFragment.setText(event.link.toString())
-                    if (event.sport == "Atletismo") binding.spinnerEditEventsFragment.setSelection(0)
-                    else binding.spinnerEditEventsFragment.setSelection(1)
+                    if (event.sport == "Atletismo"){
+                        binding.spinnerEditEventsFragment.setSelection(0)
+                        tipoDeporte = binding.spinnerEditEventsFragment.setSelection(0).toString()
+                    } else {
+                        binding.spinnerEditEventsFragment.setSelection(1)
+                        tipoDeporte = binding.spinnerEditEventsFragment.setSelection(1).toString()
+                    }
                 } else {
-
                     activity?.let {
                         utils.showMessageDialog(
                             it,
-                            "Error Al traer el evento para editar, intente mas tarde"
+                            "Error Al traer el evento, intente mas tarde"
                         )
                     }
                 }
@@ -148,6 +157,48 @@ class EditEventsFragment : Fragment() {
                             utils.showMessageDialog(
                                 it,
                                 "Error Al traer el evento para editar, intente mas tarde"
+                            )
+                        }
+
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("error",e.message.toString())
+            }
+        }
+
+    }
+
+    private fun createTrainigSession(event_id: String, user_id: String){
+        val utils = Utils()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.i("Entre", "update")
+                val callCreateTrainigSession = utils.getRetrofit(domain)
+                    .create(ApiService::class.java)
+                    .createTrainigSession(
+                        TrainingSessionRequest(
+                            user_id,
+                            event_id,
+                            event.event_type,
+                            tipoDeporte,
+                            "2024-05-28 14:30:00"
+                        )
+                    )
+                    .execute()
+                val createSession = callCreateTrainigSession.body() as TraingSessionResponse?
+                Log.i("Sali se la peticion createSession", "Rest")
+                Log.i("Sali a la peticion code ", createSession?.code.toString())
+                lifecycleScope.launch {
+                    if (createSession?.code == 201) {
+                        val messageSucces = createSession.message
+                        utils.showMessageDialog(context, messageSucces.toString())
+                        findNavController().navigate(R.id.action_EditEventsFragment_to_ListEventsFragment)
+                    } else {
+                        activity?.let {
+                            utils.showMessageDialog(
+                                it,
+                                "Error No se pudo asocciar correctmente"
                             )
                         }
 

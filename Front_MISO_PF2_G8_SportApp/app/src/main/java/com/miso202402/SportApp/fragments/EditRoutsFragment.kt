@@ -12,10 +12,13 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresExtension
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Routs
+import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
+import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditRoutsBinding
@@ -34,6 +37,7 @@ class EditRoutsFragment : Fragment() {
     private var tipoDeporte : String? = null
     private lateinit var rout: Routs
     private lateinit var route_id: String;
+    private lateinit var user_id: String
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
@@ -41,17 +45,19 @@ class EditRoutsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEditRoutsBinding.inflate(inflater, container, false)
-        route_id = arguments?.getString("event_id").toString()
-        Log.i("event_id", route_id)
+        route_id = arguments?.getString("rout_id").toString()
+        user_id = arguments?.getString("user_id").toString()
+        Log.i("rout_id", route_id)
+        Log.i("user_id", user_id)
         rout = Routs("", "","","","",
             "", "", "", "","","")
-
+        getRoutById(route_id)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var spinner = view.findViewById<Spinner>(R.id.spinner_EditEventsFragment)
+        var spinner = view.findViewById<Spinner>(R.id.spinner_EditRoutsFragment)
         activity?.let {
             ArrayAdapter.createFromResource(
                 it,
@@ -72,6 +78,7 @@ class EditRoutsFragment : Fragment() {
             }
         }
         binding.buttonAgregarEditRoutsFragment.setOnClickListener {
+            createTrainigSession(route_id, user_id)
 
         }
     }
@@ -89,24 +96,31 @@ class EditRoutsFragment : Fragment() {
                     .create(ApiService::class.java)
                     .getRutaById(event_id)
                     .execute()
-                val getRuta = callGetRutaById.body()as GetRoutsResponse?
+                val getRuta = callGetRutaById.body() as GetRoutsResponse?
                 Log.i("Sali se la peticion getRuta", "Rest")
-                Log.i("Sali a la peticion code ", getEvento?.code.toString())
+                Log.i("Sali a la peticion code ", getRuta?.code.toString())
                 lifecycleScope.launch {
                     if (getRuta?.code == 200) {
                         rout = getRuta.content!!
-                        binding.editTexNameEditEventsFragment.setText(event.event_name.toString())
-                        binding.editTexDescriptionEditEventsFragment.setText(event.event_description.toString())
-                        binding.editTexLocationEditEventsFragment.setText(event.event_location.toString())
-                        binding.editLinkEditEventsFragment.setText(event.link.toString())
-                        if (event.sport == "Atletismo") binding.spinnerEditEventsFragment.setSelection(0)
-                        else binding.spinnerEditEventsFragment.setSelection(1)
-                    } else {
+                        binding.editTexNameEditRoutsFragment.setText(rout.route_name.toString())
+                        binding.editTexDescriptionEditRoutsFragment.setText(rout.route_description.toString())
+                        binding.editTexLocationIEditRoutsFragment.setText(rout.route_location_A.toString())
+                        binding.editTexLocationFEditRoutsFragment.setText(rout.route_location_B.toString())
+                        binding.editLinkEditRoutsFragment.setText(rout.link.toString())
+                       if (rout.sport == "Atletismo") {
+                           binding.spinnerEditRoutsFragment.setSelection(0)
+                           tipoDeporte = binding.spinnerEditRoutsFragment.setSelection(0).toString()
 
+                       } else {
+                           binding.spinnerEditRoutsFragment.setSelection(1)
+                           tipoDeporte = binding.spinnerEditRoutsFragment.setSelection(1).toString()
+
+                       }
+                    } else {
                         activity?.let {
                             utils.showMessageDialog(
                                 it,
-                                "Error Al traer el evento para editar, intente mas tarde"
+                                "Error Al traer la ruta, intente mas tarde"
                             )
                         }
                     }
@@ -115,6 +129,48 @@ class EditRoutsFragment : Fragment() {
                 Log.e("error",e.message.toString())
             }
         }
+    }
+
+    private fun createTrainigSession(route_id: String, user_id: String){
+        val utils = Utils()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.i("Entre", "update")
+                val callCreateTrainigSession = utils.getRetrofit(domain)
+                    .create(ApiService::class.java)
+                    .createTrainigSession(
+                        TrainingSessionRequest(
+                            user_id,
+                            route_id,
+                            rout.route_type,
+                            tipoDeporte,
+                            "2024-05-28 14:30:00"
+                        )
+                    )
+                    .execute()
+                val createSession = callCreateTrainigSession.body() as TraingSessionResponse?
+                Log.i("Sali se la peticion createSession", "Rest")
+                Log.i("Sali a la peticion code ", createSession?.code.toString())
+                lifecycleScope.launch {
+                    if (createSession?.code == 201) {
+                        val messageSucces = createSession.message
+                        utils.showMessageDialog(context, messageSucces.toString())
+                        findNavController().navigate(R.id.action_EditRoutsFragment_to_ListRoutsFragment)
+                    } else {
+                        activity?.let {
+                            utils.showMessageDialog(
+                                it,
+                                "Error No se pudo asocciar correctmente"
+                            )
+                        }
+
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("error",e.message.toString())
+            }
+        }
 
     }
+
 }

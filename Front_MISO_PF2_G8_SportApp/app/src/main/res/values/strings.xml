@@ -22,9 +22,10 @@
     <string name="training_sesion">Plan de Entrenamiento</string>
     <string name="add_training_sesion">Agregar plan de entrenamiento</string>
     <string name="List_events">Listar los Eventos</string>
+    <string name="edit_events">Asociar los Eventos</string>
     <string name="List_routs">Listar las Rutas</string>
     <string name="Add_routs">Agregas las Rutas</string>
-    <string name="edit_routs">Editar las Rutas</string>
+    <string name="edit_routs">Asociar las Rutas</string>
     <string-array name="Sport">
         <item>Atletismo</item>
         <item>Ciclismo</item>

@@ -35,6 +35,9 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
     private lateinit var routsList : List<Routs>
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     lateinit var listener: ClickListener_routs
+    private lateinit var token: String
+    private lateinit var user_id : String
+
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 
     override fun onCreateView(
@@ -43,6 +46,8 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
     ): View {
         _binding = FragmentListRoutsBinding.inflate(inflater, container, false)
 
+        token = arguments?.getString("token").toString()
+        user_id = arguments?.getString("user_id").toString()
         routsList = listOf()
         listener = this
         getAllRouts()
@@ -62,10 +67,10 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
             binding.recyclerviewListRoutsFragment.adapter = RoutsAdapter(routsList, listener)
         }
 
-        binding.buttonAgregarListRoutsFragment.setOnClickListener {
+      /*  binding.buttonAgregarListRoutsFragment.setOnClickListener {
             //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
             findNavController().navigate(R.id.action_ListRoutsFragment_to_AddRoutsFragment)
-        }
+        }*/
     }
 
     override fun onDestroyView() {
@@ -94,7 +99,10 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
     }
     override fun onCListItemClick(view: View, rout: Routs) {
         Log.i("Preuba", rout.route_name.toString())
-        val bundle = bundleOf("rout_id" to rout.id)
+        val bundle = bundleOf(
+            "rout_id" to rout.id,
+            "user_id" to user_id
+        )
         findNavController().navigate(R.id.action_ListRoutsFragment_to_EditRoutsFragment, bundle)
     }
 

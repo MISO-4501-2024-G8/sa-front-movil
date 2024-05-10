@@ -25,4 +25,13 @@
         android:layout_marginLeft="10dp"
         android:text="@string/List_events" />
 
+    <TextView
+        android:id="@+id/textViewListRouts_Fragmentmmain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/main"
+        android:layout_marginTop="125dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/List_routs" />
+
 </RelativeLayout>

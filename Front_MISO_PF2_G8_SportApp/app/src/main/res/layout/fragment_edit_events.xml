@@ -16,6 +16,7 @@
         android:hint="Nombre"
         android:inputType="text"
         android:tooltipText="Nombre del Evento"
+        android:enabled="false"
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="270dp" />
 
@@ -30,6 +31,7 @@
         android:hint="Descripcíón"
         android:inputType="textLongMessage"
         android:tooltipText="Descripcíón del Evento"
+        android:enabled="false"
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="270dp" />
 
@@ -44,6 +46,7 @@
         android:inputType="textLongMessage"
         android:tooltipText="Ubicación del Evento"
         tools:ignore="MissingConstraints"
+        android:enabled="false"
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="336dp" />
 
@@ -58,6 +61,7 @@
         android:inputType="textLongMessage"
         android:tooltipText="Link del Evento"
         tools:ignore="MissingConstraints"
+        android:enabled="false"
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="336dp" />
 
@@ -68,13 +72,14 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="57dp"
         android:layout_alignParentTop="true"
+        android:enabled="false"
         android:layout_marginTop="330dp" />
 
     <Button
         android:id="@+id/buttonEditar_EditEventsFragment"
         android:layout_width="301dp"
         android:layout_height="38dp"
-        android:text="@string/textBtnEditEvento"
+        android:text="Asociar Evento"
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
         android:layout_marginLeft="57dp"
