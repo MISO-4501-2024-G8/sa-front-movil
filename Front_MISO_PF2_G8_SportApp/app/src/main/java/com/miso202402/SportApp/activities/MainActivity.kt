@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.fragments.CalendarFragment
 import com.miso202402.SportApp.fragments.ChatFragment
 import com.miso202402.SportApp.fragments.EditEventsFragment
@@ -131,6 +132,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun navigateToFragment(fragmentId: Int, bundle: Bundle? = null) {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val menu = findViewById<NavigationView>(R.id.nav_view).menu
+        for (i in 0 until menu.size()) {
+            menu.getItem(i).isChecked = false
+        }
+
         if (bundle != null) {
             navController.navigate(fragmentId, bundle)
         } else {
@@ -142,8 +148,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onBackPressed()
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START)
-        }else{
-            onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -170,4 +174,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
+
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import android.widget.Spinner
 import androidx.annotation.RequiresExtension
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
@@ -90,7 +92,23 @@ class EditRoutsFragment : Fragment() {
             createTrainigSession(route_id, user_id)
 
         }
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
     }
+
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

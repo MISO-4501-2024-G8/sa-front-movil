@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.models.TrainingSession
@@ -80,7 +82,8 @@ class CalendarFragment : Fragment(), ClicTSListener {
     @RequiresApi(Build.VERSION_CODES.O)
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
@@ -146,6 +149,25 @@ class CalendarFragment : Fragment(), ClicTSListener {
 
         }else{
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
+    }
+
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
         }
     }
 

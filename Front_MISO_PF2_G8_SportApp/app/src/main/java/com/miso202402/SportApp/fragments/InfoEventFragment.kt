@@ -3,6 +3,7 @@ package com.miso202402.SportApp.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.request.EventsRequest
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
@@ -67,6 +69,21 @@ class InfoEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
+    }
+
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {

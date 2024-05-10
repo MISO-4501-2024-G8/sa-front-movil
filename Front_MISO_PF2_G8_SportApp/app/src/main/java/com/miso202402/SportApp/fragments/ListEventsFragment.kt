@@ -5,6 +5,7 @@ import android.net.http.HttpException
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
@@ -82,6 +84,22 @@ class ListEventsFragment : Fragment(), ClickListener {
             //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
             findNavController().navigate(R.id.action_ListEventsFragment_to_AddEventFragment)
         }*/
+
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
+    }
+
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {

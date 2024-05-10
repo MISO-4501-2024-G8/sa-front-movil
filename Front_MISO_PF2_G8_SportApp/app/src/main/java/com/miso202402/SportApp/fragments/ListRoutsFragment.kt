@@ -3,6 +3,7 @@ package com.miso202402.SportApp.fragments
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
@@ -72,11 +74,27 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
             binding.recyclerviewListRoutsFragment.adapter = RoutsAdapter(routsList, listener)
         }
 
-      /*  binding.buttonAgregarListRoutsFragment.setOnClickListener {
+        /*  binding.buttonAgregarListRoutsFragment.setOnClickListener {
             //val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
             findNavController().navigate(R.id.action_ListRoutsFragment_to_AddRoutsFragment)
         }*/
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
     }
+
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
