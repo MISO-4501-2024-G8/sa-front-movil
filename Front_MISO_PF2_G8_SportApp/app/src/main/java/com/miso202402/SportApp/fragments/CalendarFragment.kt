@@ -180,9 +180,15 @@ class CalendarFragment : Fragment(), ClicTSListener {
 
     override fun onCListTSItemClic(view: View, trainingSession: TrainingSession) {
         Log.i("Prueba", trainingSession.id_event.toString())
-        val bundle = bundleOf("event_id" to trainingSession.id_event )
-        val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.EditEventsFragment, bundle)
+        if(trainingSession.event_category == "evento") {
+            val bundle = bundleOf("event_id" to trainingSession.id_event)
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.EditEventsFragment, bundle)
+        }else if(trainingSession.event_category == "ruta"){
+            val bundle = bundleOf("rout_id" to trainingSession.id_event)
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.EditRoutsFragment, bundle)
+        }
     }
 
 }

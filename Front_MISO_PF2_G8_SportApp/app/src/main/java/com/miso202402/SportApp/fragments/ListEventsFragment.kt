@@ -61,6 +61,10 @@ class ListEventsFragment : Fragment(), ClickListener {
         binding.recyclerviewListEventsFragment.setHasFixedSize(true)
         binding.recyclerviewListEventsFragment.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
+        binding.imageButtonRoutsListEventsFragment.setOnClickListener(){
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment)
+        }
         return binding.root
     }
 
@@ -111,7 +115,6 @@ class ListEventsFragment : Fragment(), ClickListener {
         //findNavController().navigate(R.id.action_ListEventsFragment_to_EditEventsFragment, bundle)
         val mainActivity = requireActivity() as? MainActivity
         mainActivity?.navigateToFragment(R.id.action_ListEventsFragment_to_EditEventsFragment, bundle)
-
     }
 
 

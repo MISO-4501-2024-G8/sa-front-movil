@@ -38,6 +38,7 @@ class EditEventsFragment : Fragment() {
     private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
     private lateinit var event: Events
     private var tipoDeporte : String? = null
+    private var event_date : String? = null
 
     private val binding get() = _binding!!
 
@@ -55,7 +56,8 @@ class EditEventsFragment : Fragment() {
         Log.i("event_id", event_id)
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
-        event = Events("", "","","","", "", "")
+        event = Events("", "","","","", "","", "")
+        binding.spinnerEditEventsFragment.isEnabled = false
         getEventById(event_id)
         return binding.root
     }
@@ -113,6 +115,7 @@ class EditEventsFragment : Fragment() {
                     binding.editTexDescriptionEditEventsFragment.setText(event.event_description.toString())
                     binding.editTexLocationEditEventsFragment.setText(event.event_location.toString())
                     binding.editLinkEditEventsFragment.setText(event.link.toString())
+                    event_date = event.event_date.toString()
                     if (event.sport == "Atletismo"){
                         binding.spinnerEditEventsFragment.setSelection(0)
                         tipoDeporte = "Atletismo"
@@ -151,7 +154,7 @@ class EditEventsFragment : Fragment() {
                             event.event_type,
                             tipoDeporte,
                             binding.editLinkEditEventsFragment.text.toString(),
-                            "2024-05-28 14:30:00")
+                            event_date)
                     )
                     .execute()
                 val updateEvento = callGetAllEventos.body() as GetEventResponse?
@@ -192,7 +195,7 @@ class EditEventsFragment : Fragment() {
                             event_id,
                             "evento",
                             tipoDeporte,
-                            "2024-05-28 14:30:00"
+                            event_date
                         )
                     )
                     .execute()

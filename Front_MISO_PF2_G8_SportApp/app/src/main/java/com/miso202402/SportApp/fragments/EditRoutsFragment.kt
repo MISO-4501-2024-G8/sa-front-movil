@@ -1,5 +1,6 @@
 package com.miso202402.SportApp.fragments
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -19,7 +20,9 @@ import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
@@ -31,6 +34,7 @@ import kotlinx.coroutines.launch
 
 class EditRoutsFragment : Fragment() {
     private var _binding: FragmentEditRoutsBinding? = null
+    private lateinit var preferences: SharedPreferences
     private val binding get() = _binding!!
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
@@ -38,6 +42,12 @@ class EditRoutsFragment : Fragment() {
     private lateinit var rout: Routs
     private lateinit var route_id: String;
     private lateinit var user_id: String
+    private var route_date : String? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
+    }
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
@@ -46,11 +56,12 @@ class EditRoutsFragment : Fragment() {
     ): View {
         _binding = FragmentEditRoutsBinding.inflate(inflater, container, false)
         route_id = arguments?.getString("rout_id").toString()
-        user_id = arguments?.getString("user_id").toString()
         Log.i("rout_id", route_id)
+        user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
         rout = Routs("", "","","","",
             "", "", "", "","","")
+        binding.spinnerEditRoutsFragment.isEnabled = false
         getRoutById(route_id)
         return binding.root
     }
@@ -79,7 +90,6 @@ class EditRoutsFragment : Fragment() {
         }
         binding.buttonAgregarEditRoutsFragment.setOnClickListener {
             createTrainigSession(route_id, user_id)
-
         }
     }
 
@@ -107,13 +117,14 @@ class EditRoutsFragment : Fragment() {
                         binding.editTexLocationIEditRoutsFragment.setText(rout.route_location_A.toString())
                         binding.editTexLocationFEditRoutsFragment.setText(rout.route_location_B.toString())
                         binding.editLinkEditRoutsFragment.setText(rout.link.toString())
+                        route_date = rout.route_date.toString()
                        if (rout.sport == "Atletismo") {
                            binding.spinnerEditRoutsFragment.setSelection(0)
-                           tipoDeporte = binding.spinnerEditRoutsFragment.setSelection(0).toString()
+                           tipoDeporte = "Atletismo"
 
                        } else {
                            binding.spinnerEditRoutsFragment.setSelection(1)
-                           tipoDeporte = binding.spinnerEditRoutsFragment.setSelection(1).toString()
+                           tipoDeporte = "Ciclismo"
 
                        }
                     } else {
@@ -142,9 +153,9 @@ class EditRoutsFragment : Fragment() {
                         TrainingSessionRequest(
                             user_id,
                             route_id,
-                            rout.route_type,
+                            "ruta",
                             tipoDeporte,
-                            "2024-05-28 14:30:00"
+                            route_date
                         )
                     )
                     .execute()

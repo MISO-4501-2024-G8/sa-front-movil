@@ -20,6 +20,7 @@ import com.miso202402.SportApp.src.utils.ClickListener_routs
 import com.miso202402.SportApp.src.utils.RoutsAdapter
 import com.miso202402.SportApp.src.utils.WeeksAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListEventsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
@@ -54,6 +55,10 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
         binding.recyclerviewListRoutsFragment .setHasFixedSize(true)
         binding.recyclerviewListRoutsFragment.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewListRoutsFragment.adapter = RoutsAdapter(routsList, listener)
+        binding.imageButtonCalendarListRoutsFragment.setOnClickListener(){
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment)
+        }
 
     return binding.root
     }
