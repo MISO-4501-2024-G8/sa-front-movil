@@ -1,7 +1,9 @@
 package com.miso202402.SportApp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +11,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.request.EventsRequest
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditEventsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
@@ -27,6 +32,7 @@ import kotlinx.coroutines.launch
 
 class EditEventsFragment : Fragment() {
     private var _binding: FragmentEditEventsBinding? = null
+    private lateinit var preferences: SharedPreferences
 
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private lateinit var event_id: String;
@@ -34,18 +40,26 @@ class EditEventsFragment : Fragment() {
     private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
     private lateinit var event: Events
     private var tipoDeporte : String? = null
+    private var event_date : String? = null
 
     private val binding get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEditEventsBinding.inflate(inflater, container, false)
         event_id = arguments?.getString("event_id").toString()
-        user_id = arguments?.getString("user_id").toString()
+        //user_id = arguments?.getString("user_id").toString()
         Log.i("event_id", event_id)
+        user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
-        event = Events("", "","","","", "", "")
+        event = Events("", "","","","", "","", "")
+        binding.spinnerEditEventsFragment.isEnabled = false
         getEventById(event_id)
         return binding.root
     }
@@ -78,6 +92,21 @@ class EditEventsFragment : Fragment() {
            //updateEventoById(event_id)
             createTrainigSession(event_id, user_id)
         }
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
+    }
+
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {
@@ -103,12 +132,13 @@ class EditEventsFragment : Fragment() {
                     binding.editTexDescriptionEditEventsFragment.setText(event.event_description.toString())
                     binding.editTexLocationEditEventsFragment.setText(event.event_location.toString())
                     binding.editLinkEditEventsFragment.setText(event.link.toString())
+                    event_date = event.event_date.toString()
                     if (event.sport == "Atletismo"){
                         binding.spinnerEditEventsFragment.setSelection(0)
-                        tipoDeporte = binding.spinnerEditEventsFragment.setSelection(0).toString()
+                        tipoDeporte = "Atletismo"
                     } else {
                         binding.spinnerEditEventsFragment.setSelection(1)
-                        tipoDeporte = binding.spinnerEditEventsFragment.setSelection(1).toString()
+                        tipoDeporte = "Ciclismo"
                     }
                 } else {
                     activity?.let {
@@ -141,7 +171,7 @@ class EditEventsFragment : Fragment() {
                             event.event_type,
                             tipoDeporte,
                             binding.editLinkEditEventsFragment.text.toString(),
-                            "2024-05-28 14:30:00")
+                            event_date)
                     )
                     .execute()
                 val updateEvento = callGetAllEventos.body() as GetEventResponse?
@@ -173,22 +203,22 @@ class EditEventsFragment : Fragment() {
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.i("Entre", "update")
+                Log.i("Entre", "create training$event_id $user_id")
                 val callCreateTrainigSession = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createTrainigSession(
                         TrainingSessionRequest(
                             user_id,
                             event_id,
-                            event.event_type,
+                            "evento",
                             tipoDeporte,
-                            "2024-05-28 14:30:00"
+                            event_date.toString().replace("T"," ")
                         )
                     )
                     .execute()
                 val createSession = callCreateTrainigSession.body() as TraingSessionResponse?
-                Log.i("Sali se la peticion createSession", "Rest")
-                Log.i("Sali a la peticion code ", createSession?.code.toString())
+                Log.i("Sali se la peticion createTrainigSession", "Rest")
+                Log.i("Sali a la peticion createTrainigSession code ", createSession?.code.toString())
                 lifecycleScope.launch {
                     if (createSession?.code == 201) {
                         val messageSucces = createSession.message

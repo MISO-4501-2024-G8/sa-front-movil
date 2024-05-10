@@ -11,10 +11,9 @@
         android:id="@+id/fragment_Login_logo"
         android:layout_width="338dp"
         android:layout_height="209dp"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/logo_spa"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp"
@@ -24,10 +23,10 @@
         android:id="@+id/editTexEmailAddress_FragmentLogin"
         android:layout_width="326dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="310dp"
+        android:layout_below="@id/fragment_Login_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:textFontWeight="14"
-
         android:ems="12"
         android:hint="Email"
         android:inputType="textEmailAddress"
@@ -39,8 +38,9 @@
         android:id="@+id/editTexPassword_FragmentLogin"
         android:layout_width="326dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="380dp"
+        android:layout_below="@id/editTexEmailAddress_FragmentLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:ems="12"
         android:hint="Password"
         android:inputType="textPassword"
@@ -56,16 +56,19 @@
         android:text="LOGIN"
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="450dp"/>
+        android:layout_below="@id/editTexPassword_FragmentLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        />
 
     <TextView
         android:id="@+id/textViewForgotPassword_FragmentLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/main"
-        android:layout_marginTop="510dp"
-        android:layout_marginLeft="150dp"
+        android:layout_below="@id/buttonLogin_FragmentLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:text="Forgot Password" />
 
     <TextView
@@ -73,8 +76,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/main"
-        android:layout_marginTop="540dp"
-        android:layout_marginLeft="180dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/textViewForgotPassword_FragmentLogin"
+        android:layout_centerHorizontal="true"
         android:text="Sign Up" />
 
 

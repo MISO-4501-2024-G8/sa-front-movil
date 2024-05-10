@@ -1,17 +1,26 @@
 package com.miso202402.front_miso_pf2_g8_sportapp.fragments
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentLoginBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginResponse
@@ -28,6 +37,9 @@ class LoginFragment : Fragment() {
     private var errorTimesLoginRejected: Int = 0
     private val domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private val binding get() = _binding!!
+    private lateinit var preferences: SharedPreferences
+    private lateinit var forgotP: TextView
+    private lateinit var signUp:TextView
 
 
 
@@ -36,7 +48,26 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        forgotP = binding.textViewForgotPasswordFragmentLogin
+        signUp = binding.textViewSingUpFragmentLogin
+
+        forgotP.setOnClickListener{
+            view?.let {
+                Snackbar.make(it, "Funcionalidad en construccion...", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
+        signUp.setOnClickListener{
+            val uri = "https://d1jiuccttec78g.cloudfront.net/#/signup"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            startActivity(intent)
+        }
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
     }
 
 
@@ -50,6 +81,13 @@ class LoginFragment : Fragment() {
        /* binding.textViewSingUpFragmentLogin.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_RegisterFragment)
         }*/
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Mostrar la toolbar y el fab en este fragmento
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.hideToolbarAndFab()
     }
 
     override fun onDestroyView() {
@@ -74,8 +112,14 @@ class LoginFragment : Fragment() {
                            activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
                            //Log.i("mesnaje al loguearse", loginResponse?.message.toString())
                            errorTimesLoginRejected = 0
-                           val bundle = bundleOf("token" to  loginResponse?.token, "user_id" to loginResponse?.id)
-                           findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
+
+                           preferences.saveData("token", loginResponse?.token)
+                           preferences.saveData("id", loginResponse?.id)
+
+                           val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
+                           //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
+                           val mainActivity = requireActivity() as? MainActivity
+                           mainActivity?.navigateToFragment(R.id.CalendarFragment, bundle)
                        }
                        else {
                            errorTimesLoginRejected++

@@ -7,6 +7,7 @@ class Events ( @SerializedName("id") var id:String?,
                @SerializedName("event_description") var event_description:String?,
                @SerializedName("event_location") var event_location:String?,
                @SerializedName("event_type") var event_type:String?,
+               @SerializedName("event_date") var event_date:String?,
                @SerializedName("sport") var sport:String?,
                @SerializedName("link") var link:String?) {
 }

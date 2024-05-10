@@ -1,6 +1,8 @@
 package com.miso202402.SportApp.fragments
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,25 +18,23 @@ import androidx.annotation.RequiresExtension
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
-import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddRoutsBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditRoutsBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoRoutBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-class EditRoutsFragment : Fragment() {
-    private var _binding: FragmentEditRoutsBinding? = null
+class InfoRoutFragment : Fragment() {
+    private var _binding: FragmentInfoRoutBinding? = null
     private lateinit var preferences: SharedPreferences
     private val binding get() = _binding!!
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
@@ -55,43 +55,22 @@ class EditRoutsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEditRoutsBinding.inflate(inflater, container, false)
+        _binding = FragmentInfoRoutBinding.inflate(inflater, container, false)
         route_id = arguments?.getString("rout_id").toString()
         Log.i("rout_id", route_id)
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
         rout = Routs("", "","","","",
             "", "", "", "","","")
+        binding.buttonAtrasRoutsFragment.setOnClickListener(){
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.CalendarFragment)
+        }
         getRoutById(route_id)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        var spinner = view.findViewById<Spinner>(R.id.spinner_EditRoutsFragment)
-        activity?.let {
-            ArrayAdapter.createFromResource(
-                it,
-                R.array.Sport,
-                android.R.layout.simple_spinner_item
-            ).also { arrayAdapter ->
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinner.adapter = arrayAdapter
-            }
-        }
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                tipoDeporte = vectorTipoDeporte[p2]
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }
-        binding.buttonAgregarEditRoutsFragment.setOnClickListener {
-            createTrainigSession(route_id, user_id)
-
-        }
         view.isFocusableInTouchMode = true
         view.requestFocus()
         view.setOnKeyListener { _, keyCode, event ->
@@ -108,7 +87,6 @@ class EditRoutsFragment : Fragment() {
             Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -129,21 +107,33 @@ class EditRoutsFragment : Fragment() {
                 lifecycleScope.launch {
                     if (getRuta?.code == 200) {
                         rout = getRuta.content!!
-                        binding.editTexNameEditRoutsFragment.setText(rout.route_name.toString())
-                        binding.editTexDescriptionEditRoutsFragment.setText(rout.route_description.toString())
-                        binding.editTexLocationIEditRoutsFragment.setText(rout.route_location_A.toString())
-                        binding.editTexLocationFEditRoutsFragment.setText(rout.route_location_B.toString())
-                        binding.editLinkEditRoutsFragment.setText(rout.link.toString())
-                        route_date = rout.route_date.toString()
-                       if (rout.sport == "Atletismo") {
-                           binding.spinnerEditRoutsFragment.setSelection(0)
-                           tipoDeporte = "Atletismo"
-
-                       } else {
-                           binding.spinnerEditRoutsFragment.setSelection(1)
-                           tipoDeporte = "Ciclismo"
-
-                       }
+                        binding.editTexNameRoutsFragment.setText(rout.route_name.toString())
+                        binding.editTexDescriptionRoutsFragment.setText(rout.route_description.toString())
+                        binding.editTexLocationRoutsFragment.setText(rout.route_location_A.toString() + "-" + rout.route_location_B.toString())
+                        binding.sportRoutsFragment.setText(rout.sport.toString())
+                        binding.dateRoutsFragment.setText(rout.route_date.toString())
+                        binding.buttonLinkRoutsFragment.setOnClickListener{
+                            val url = rout.link.toString()
+                            Log.i("URL LINK ",url)
+                            if(url == "") {
+                                mostrarSnackbar("No hay un link asociado, intente mas tarde")
+                            }else{
+                                Log.i("URL TO OPEN ",url)
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                startActivity(intent)
+                            }
+                        }
+                        binding.buttonMapaRoutsFragment.setOnClickListener {
+                            val originLatLon = rout.route_latlon_A.toString().replace(" ","")
+                            val destinationLatLon = rout.route_latlon_B.toString().replace(" ","")
+                            var mode = "driving" // Puedes cambiar esto a "walking", "bicycling", o "transit" según el modo de transporte deseado
+                            if(rout.sport.toString() == "Atletismo"){
+                                mode = "walking"
+                            }
+                            val uri = "https://www.google.com/maps/dir/?api=1&origin=$originLatLon&destination=$destinationLatLon&travelmode=$mode"
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                            startActivity(intent)
+                        }
                     } else {
                         activity?.let {
                             utils.showMessageDialog(
@@ -157,49 +147,6 @@ class EditRoutsFragment : Fragment() {
                 Log.e("error",e.message.toString())
             }
         }
-    }
-
-    private fun createTrainigSession(route_id: String, user_id: String){
-        val utils = Utils()
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                Log.i("Entre", "update")
-                Log.i("createTrainigSession","$user_id $route_id $tipoDeporte $route_date")
-                val callCreateTrainigSession = utils.getRetrofit(domain)
-                    .create(ApiService::class.java)
-                    .createTrainigSession(
-                        TrainingSessionRequest(
-                            user_id,
-                            route_id,
-                            "ruta",
-                            tipoDeporte,
-                            route_date.toString().replace("T"," ")
-                        )
-                    )
-                    .execute()
-                val createSession = callCreateTrainigSession.body() as TraingSessionResponse?
-                Log.i("Sali se la peticion createSession", "Rest")
-                Log.i("Sali a la peticion code ", createSession?.code.toString())
-                lifecycleScope.launch {
-                    if (createSession?.code == 201) {
-                        val messageSucces = createSession.message
-                        utils.showMessageDialog(context, messageSucces.toString())
-                        findNavController().navigate(R.id.action_EditRoutsFragment_to_ListRoutsFragment)
-                    } else {
-                        activity?.let {
-                            utils.showMessageDialog(
-                                it,
-                                "Error No se pudo asocciar correctmente"
-                            )
-                        }
-
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("error",e.message.toString())
-            }
-        }
-
     }
 
 }

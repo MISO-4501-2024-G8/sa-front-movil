@@ -74,8 +74,9 @@ class AddEventFragment : Fragment() {
                     binding.editTexDescriptionAddEventFragment.text.toString(),
                     binding.editTexLocationAddEventFragment.text.toString(),
                     "virtual",
+                    "",
                     tipoDeporte,
-                    binding.editLinkAddEventFragment.text.toString(),
+                    binding.editLinkAddEventFragment.text.toString()
                 )
                 Log.i("Entre al boton", "Boton add")
                 createEvent(event)

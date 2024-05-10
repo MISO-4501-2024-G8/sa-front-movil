@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.miso202402.SportApp.fragments.TrainingSessionFragment">
 
@@ -11,17 +12,16 @@
         android:id="@+id/spinner_TrainingSessionFragment"
         android:layout_width="301dp"
         android:layout_height="56dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="57dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp" />
+        android:layout_centerHorizontal="true"
+         />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_TrainingSessionFragment"
         android:layout_width="409dp"
         android:layout_height="460dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="110dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/spinner_TrainingSessionFragment"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:visibility="visible"
@@ -37,6 +37,7 @@
         android:text="@string/textBtnAddTrainginPlan"
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="600dp"/>
+        android:layout_below="@id/recyclerview_TrainingSessionFragment"
+        android:layout_centerHorizontal="true"
+    />
 </RelativeLayout>
