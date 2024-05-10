@@ -195,7 +195,7 @@ class EditEventsFragment : Fragment() {
                             event_id,
                             "evento",
                             tipoDeporte,
-                            event_date
+                            event_date.toString().replace("T"," ")
                         )
                     )
                     .execute()

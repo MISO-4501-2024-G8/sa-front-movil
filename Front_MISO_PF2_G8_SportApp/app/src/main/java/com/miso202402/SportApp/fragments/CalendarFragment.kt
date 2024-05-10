@@ -183,11 +183,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
         if(trainingSession.event_category == "evento") {
             val bundle = bundleOf("event_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.EditEventsFragment, bundle)
+            mainActivity?.navigateToFragment(R.id.InfoEventFragment, bundle)
         }else if(trainingSession.event_category == "ruta"){
             val bundle = bundleOf("rout_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.EditRoutsFragment, bundle)
+            mainActivity?.navigateToFragment(R.id.InfoRoutFragment, bundle)
         }
     }
 

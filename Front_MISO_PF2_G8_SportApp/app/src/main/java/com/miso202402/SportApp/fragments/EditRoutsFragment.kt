@@ -22,7 +22,6 @@ import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
-import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
@@ -61,7 +60,6 @@ class EditRoutsFragment : Fragment() {
         Log.i("user_id", user_id)
         rout = Routs("", "","","","",
             "", "", "", "","","")
-        binding.spinnerEditRoutsFragment.isEnabled = false
         getRoutById(route_id)
         return binding.root
     }
@@ -90,6 +88,7 @@ class EditRoutsFragment : Fragment() {
         }
         binding.buttonAgregarEditRoutsFragment.setOnClickListener {
             createTrainigSession(route_id, user_id)
+
         }
     }
 
@@ -147,6 +146,7 @@ class EditRoutsFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 Log.i("Entre", "update")
+                Log.i("createTrainigSession","$user_id $route_id $tipoDeporte $route_date")
                 val callCreateTrainigSession = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createTrainigSession(
@@ -155,7 +155,7 @@ class EditRoutsFragment : Fragment() {
                             route_id,
                             "ruta",
                             tipoDeporte,
-                            route_date
+                            route_date.toString().replace("T"," ")
                         )
                     )
                     .execute()

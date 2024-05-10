@@ -146,6 +146,20 @@
     </fragment>
 
     <fragment
+        android:id="@+id/InfoEventFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoEventFragment"
+        android:label="InfoEventFragment"
+        tools:layout="@layout/fragment_info_event"
+        />
+
+    <fragment
+        android:id="@+id/InfoRoutFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoRoutFragment"
+        android:label="InfoRoutFragment"
+        tools:layout="@layout/fragment_info_rout"
+        />
+
+    <fragment
         android:id="@+id/CalendarFragment"
         android:name="com.miso202402.SportApp.fragments.CalendarFragment"
         android:label="Calendario"

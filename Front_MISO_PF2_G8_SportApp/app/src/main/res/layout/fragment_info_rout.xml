@@ -1,0 +1,136 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.miso202402.SportApp.fragments.InfoRoutFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        >
+        <TextView
+            android:id="@+id/titleFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:layout_marginLeft="80dp"
+            android:text="Detalle de Ruta" />
+        <EditText
+            android:id="@+id/editTexName_RoutsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/titleFragment"
+            android:textFontWeight="14"
+            android:ems="12"
+            android:hint="Nombre"
+            android:inputType="text"
+            android:tooltipText="Nombre de la Ruta"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp" />
+
+        <EditText
+            android:id="@+id/editTexDescription_RoutsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexName_RoutsFragment"
+            android:textFontWeight="14"
+            android:ems="12"
+            android:hint="Descripcíón"
+            android:inputType="textLongMessage"
+            android:tooltipText="Descripcíón del Ruta"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp" />
+
+        <EditText
+            android:id="@+id/editTexLocation_RoutsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexDescription_RoutsFragment"
+            android:ems="12"
+            android:hint="Ubicación"
+            android:inputType="textLongMessage"
+            android:tooltipText="Ubicación de la Ruta"
+            tools:ignore="MissingConstraints"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+
+        <EditText
+            android:id="@+id/sport_RoutsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexLocation_RoutsFragment"
+            android:ems="12"
+            android:hint="Deporte"
+            android:inputType="textLongMessage"
+            android:tooltipText="Deporte de la Ruta"
+            tools:ignore="MissingConstraints"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <EditText
+            android:id="@+id/date_RoutsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/sport_RoutsFragment"
+            android:ems="12"
+            android:hint="Fecha"
+            android:inputType="textLongMessage"
+            android:tooltipText="Fecha de la Ruta"
+            tools:ignore="MissingConstraints"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <Button
+            android:id="@+id/buttonLink_RoutsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/date_RoutsFragment"
+            android:text="Link"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+        <Button
+            android:id="@+id/buttonMapa_RoutsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/buttonLink_RoutsFragment"
+            android:text="Mapa"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+        <Button
+            android:id="@+id/buttonAtras_RoutsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/buttonMapa_RoutsFragment"
+            android:text="Atras"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+    </RelativeLayout>
+
+</FrameLayout>
