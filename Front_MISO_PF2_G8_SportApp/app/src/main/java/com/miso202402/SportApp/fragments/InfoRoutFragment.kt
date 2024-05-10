@@ -114,8 +114,14 @@ class InfoRoutFragment : Fragment() {
                         binding.dateRoutsFragment.setText(rout.route_date.toString())
                         binding.buttonLinkRoutsFragment.setOnClickListener{
                             val url = rout.link.toString()
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                            startActivity(intent)
+                            Log.i("URL LINK ",url)
+                            if(url == "") {
+                                mostrarSnackbar("No hay un link asociado, intente mas tarde")
+                            }else{
+                                Log.i("URL TO OPEN ",url)
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                startActivity(intent)
+                            }
                         }
                         binding.buttonMapaRoutsFragment.setOnClickListener {
                             val originLatLon = rout.route_latlon_A.toString().replace(" ","")

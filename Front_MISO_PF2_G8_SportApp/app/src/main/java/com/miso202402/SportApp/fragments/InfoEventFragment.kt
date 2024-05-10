@@ -1,6 +1,8 @@
 package com.miso202402.SportApp.fragments
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -108,10 +110,20 @@ class InfoEventFragment : Fragment() {
                         binding.editTexNameEventsFragment.setText(event.event_name.toString())
                         binding.editTexDescriptionEventsFragment.setText(event.event_name.toString())
                         binding.editTexLocationEventsFragment.setText(event.event_location.toString())
-                        binding.editLinkEventsFragment.setText(event.link.toString())
                         binding.sportEventsFragment.setText(event.sport.toString())
                         binding.dateEventsFragment.setText(event.event_date.toString())
                         event_date = event.event_date.toString()
+                        binding.buttonLinkEventsFragment.setOnClickListener{
+                            val url = event.link.toString()
+                            Log.i("URL LINK ",url)
+                            if(url == "") {
+                                mostrarSnackbar("No hay un link asociado, intente mas tarde")
+                            }else{
+                                Log.i("URL TO OPEN ",url)
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                startActivity(intent)
+                            }
+                        }
                     } else {
                         activity?.let {
                             utils.showMessageDialog(

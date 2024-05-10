@@ -66,28 +66,12 @@
             tools:layout_editor_absoluteY="336dp" />
 
         <EditText
-            android:id="@+id/editLink_EventsFragment"
-            android:layout_width="326dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/editTexLocation_EventsFragment"
-            android:ems="12"
-            android:hint="Link"
-            android:inputType="textLongMessage"
-            android:tooltipText="Link del Evento"
-            tools:ignore="MissingConstraints"
-            android:enabled="false"
-            tools:layout_editor_absoluteX="71dp"
-            tools:layout_editor_absoluteY="336dp" />
-
-        <EditText
             android:id="@+id/sport_EventsFragment"
             android:layout_width="326dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:layout_below="@id/editLink_EventsFragment"
+            android:layout_below="@id/editTexLocation_EventsFragment"
             android:ems="12"
             android:hint="Deporte"
             android:inputType="textLongMessage"
@@ -114,12 +98,23 @@
             tools:layout_editor_absoluteY="336dp" />
 
         <Button
-            android:id="@+id/buttonAtras_EventsFragment"
+            android:id="@+id/buttonLink_EventsFragment"
             android:layout_width="301dp"
             android:layout_height="38dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_below="@id/date_EventsFragment"
+            android:text="Link"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+        <Button
+            android:id="@+id/buttonAtras_EventsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/buttonLink_EventsFragment"
             android:text="Atras"
             android:textFontWeight="14"
             android:backgroundTint="@color/main"
