@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.DatePicker
 import android.widget.ProgressBar
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +33,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 /**
@@ -45,12 +52,17 @@ class CalendarFragment : Fragment(), ClicTSListener {
 
     private val binding get() = _binding!!
     private lateinit var trainingSessions : List<TrainingSession>
+    private lateinit var filterTrainingSessions : List<TrainingSession>
     private lateinit var events : List<Events>
     private lateinit var routes : List<Routs>
     private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
     private var vectorTipoSesion  =  arrayOf("Virtual", "Presencial")
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     lateinit var listener: ClicTSListener
+    lateinit var datePicker: DatePicker
+    lateinit var btnLimpiar: Button
+    lateinit var btnEventos : Button
+    lateinit var btnRutas : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -60,6 +72,12 @@ class CalendarFragment : Fragment(), ClicTSListener {
         preferences = SharedPreferences(requireContext())
     }
 
+    fun convertirFechaAFormatoISO8601(fecha: Date): String {
+        val formato = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        return formato.format(fecha)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,11 +85,58 @@ class CalendarFragment : Fragment(), ClicTSListener {
     ): View {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         trainingSessions = listOf()
+        filterTrainingSessions = listOf()
         events = listOf()
         routes = listOf()
         listener = this
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
+        datePicker = binding.datePickerF
+        datePicker.setOnDateChangedListener { _, year, month, dayOfMonth ->
+            try {
+                progressBarVisible(true)
+                // Construir la fecha seleccionada
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(year, month, dayOfMonth)
+                val fechaFormateada =
+                    convertirFechaAFormatoISO8601(selectedDate.time).substring(0, 10)
+                filterTrainingSessions = trainingSessions
+                val datosFiltrados = filterTrainingSessions.filter { item ->
+                    val itemDate = item.session_date.toString().substring(0, 10)
+                    itemDate == fechaFormateada
+                }
+                filterTrainingSessions = datosFiltrados
+                binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
+                binding.recyclerviewListTrainingSessionsFragment.layoutManager =
+                    LinearLayoutManager(context)
+                binding.recyclerviewListTrainingSessionsFragment.adapter =
+                    TrainingSessionAdapter(filterTrainingSessions, events, routes, listener)
+                progressBarVisible(false)
+            }catch (e: Exception) {
+                Log.e("error filtrando datos: ", e.message.toString())
+                progressBarVisible(false)
+            }
+        }
+        btnEventos = binding.btnPEvento
+        btnRutas = binding.btnPRuta
+        btnLimpiar = binding.btnLimpiar
+
+        btnEventos.setOnClickListener{
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment)
+        }
+        btnRutas.setOnClickListener{
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment)
+        }
+        btnLimpiar.setOnClickListener {
+            progressBarVisible(true)
+            filterTrainingSessions = trainingSessions
+            binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
+            binding.recyclerviewListTrainingSessionsFragment.layoutManager = LinearLayoutManager(context)
+            binding.recyclerviewListTrainingSessionsFragment.adapter = TrainingSessionAdapter(filterTrainingSessions, events, routes, listener)
+            progressBarVisible(false)
+        }
         return binding.root
     }
 
@@ -159,6 +224,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
         progressBarVisible(true)
         CoroutineScope(Dispatchers.Main).launch {
             trainingSessions = getAllTrainingSessions()
+            filterTrainingSessions = trainingSessions
             events = getAllEvents()
             routes = getAllRoutes()
             Log.i("GetAllUserTrainingSessionsResponse: ", trainingSessions.size.toString())
@@ -166,7 +232,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
             Log.i("GetAllRutasResponse: ", routes.size.toString())
             binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
             binding.recyclerviewListTrainingSessionsFragment.layoutManager = LinearLayoutManager(context)
-            binding.recyclerviewListTrainingSessionsFragment.adapter = TrainingSessionAdapter(trainingSessions, events, routes, listener)
+            binding.recyclerviewListTrainingSessionsFragment.adapter = TrainingSessionAdapter(filterTrainingSessions, events, routes, listener)
             progressBarVisible(false)
         }
     }

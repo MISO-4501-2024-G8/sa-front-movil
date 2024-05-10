@@ -7,30 +7,65 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="com.miso202402.SportApp.fragments.CalendarFragment">
 
-    <TextView
+    <!-- Primer DatePicker -->
+    <DatePicker
+        android:id="@+id/datePickerF"
         android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:calendarViewShown="false"
+        android:datePickerMode="calendar"
+        android:spinnersShown="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fragmento de Calendario"
-        android:textSize="30sp"
-        android:id="@+id/tvTitle"
-        />
+        android:orientation="horizontal"
+        android:layout_marginTop="205dp"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/btnLimpiar"
+            android:backgroundTint="#085ED6"
+            android:text="Limpiar"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="205dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/btnPEvento"
+            android:backgroundTint="#167347"
+            android:text="Programar Evento"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="205dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#BB2D3A"
+            android:id="@+id/btnPRuta"
+            android:text="Programa Ruta"/>
+
+    </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="250dp"
         android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
-
+        android:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_ListTrainingSessionsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="175dp"
+        android:layout_marginTop="275dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/datePickerF"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
