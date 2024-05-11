@@ -68,7 +68,7 @@ class EditRoutsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var spinner = view.findViewById<Spinner>(R.id.spinner_EditRoutsFragment)
+       /* var spinner = view.findViewById<Spinner>(R.id.spinner_EditRoutsFragment)
         activity?.let {
             ArrayAdapter.createFromResource(
                 it,
@@ -87,7 +87,7 @@ class EditRoutsFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-        }
+        }*/
         binding.buttonAgregarEditRoutsFragment.setOnClickListener {
             createTrainigSession(route_id, user_id)
 
@@ -134,8 +134,9 @@ class EditRoutsFragment : Fragment() {
                         binding.editTexLocationIEditRoutsFragment.setText(rout.route_location_A.toString())
                         binding.editTexLocationFEditRoutsFragment.setText(rout.route_location_B.toString())
                         binding.editLinkEditRoutsFragment.setText(rout.link.toString())
+                        binding.editTexDateEditRoutsFragment.setText(rout.route_date.toString())
                         route_date = rout.route_date.toString()
-                       if (rout.sport == "Atletismo") {
+                      /* if (rout.sport == "Atletismo") {
                            binding.spinnerEditRoutsFragment.setSelection(0)
                            tipoDeporte = "Atletismo"
 
@@ -143,7 +144,7 @@ class EditRoutsFragment : Fragment() {
                            binding.spinnerEditRoutsFragment.setSelection(1)
                            tipoDeporte = "Ciclismo"
 
-                       }
+                       }*/
                     } else {
                         activity?.let {
                             utils.showMessageDialog(

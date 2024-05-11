@@ -55,7 +55,7 @@
         android:layout_width="326dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="41dp"
-        android:layout_marginTop="270dp"
+        android:layout_marginTop="260dp"
         android:ems="12"
         android:hint="Ubicación Final"
         android:inputType="textLongMessage"
@@ -70,7 +70,7 @@
         android:layout_width="326dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="41dp"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="320dp"
         android:ems="12"
         android:hint="Link"
         android:inputType="textLongMessage"
@@ -80,15 +80,21 @@
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="336dp" />
 
-    <Spinner
-        android:id="@+id/spinner_EditRoutsFragment"
-        android:layout_width="301dp"
-        android:layout_height="56dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="57dp"
-        android:layout_alignParentTop="true"
+    <EditText
+        android:id="@+id/editTexDate_EditRoutsFragment"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="380dp"
+        android:ems="12"
         android:enabled="false"
-        android:layout_marginTop="390dp" />
+        android:hint="Fecha"
+        android:inputType="text"
+        android:tooltipText="Link del Evento"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="336dp" />
+
 
     <Button
         android:id="@+id/buttonAgregar_EditRoutsFragment"
