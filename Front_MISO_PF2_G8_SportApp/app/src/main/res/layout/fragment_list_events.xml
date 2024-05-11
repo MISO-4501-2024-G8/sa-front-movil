@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.miso202402.SportApp.fragments.ListEventsFragment">
 
@@ -12,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:layout_marginTop="30dp"
+        android:textSize="40sp"
         android:layout_marginLeft="80dp"
         android:text="Lista de Eventos" />
 
@@ -29,7 +29,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_ListEventsFragment"
         android:layout_width="409dp"
-        android:layout_height="300dp"
+        android:layout_height="450dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="175dp"
         android:layout_marginEnd="1dp"
@@ -45,7 +45,7 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="650dp"
         android:layout_marginLeft="130dp"
         android:src="@drawable/calendar_logo" />
 
@@ -55,7 +55,7 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="650dp"
         android:layout_marginLeft="250dp"
         android:src="@drawable/world_vector" />
 

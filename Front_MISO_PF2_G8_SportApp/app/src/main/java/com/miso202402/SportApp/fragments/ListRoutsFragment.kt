@@ -87,6 +87,13 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
             }
             false
         }
+        binding.imageButtonRoutsListRoutsFragment.setOnClickListener{
+            val bundle = bundleOf(
+                "token" to token,
+                "user_id" to user_id
+            )
+            findNavController().navigate(R.id.action_ListRoutsFragment_to_ListEventsFragment, bundle)
+        }
     }
 
     private fun mostrarSnackbar(mensaje: String) {

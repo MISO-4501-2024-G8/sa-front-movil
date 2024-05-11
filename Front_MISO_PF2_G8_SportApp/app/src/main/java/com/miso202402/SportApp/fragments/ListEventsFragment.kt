@@ -94,6 +94,14 @@ class ListEventsFragment : Fragment(), ClickListener {
             }
             false
         }
+        binding.imageButtonCalendarListEventsFragment.setOnClickListener {
+            val bundle = bundleOf(
+                "token" to token,
+                "user_id" to user_id
+            )
+            findNavController().navigate(R.id.action_ListEventsFragment_to_ListRoutsFragment, bundle)
+
+        }
     }
 
     private fun mostrarSnackbar(mensaje: String) {

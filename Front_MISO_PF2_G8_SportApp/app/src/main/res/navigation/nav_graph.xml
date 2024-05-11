@@ -86,6 +86,10 @@
             android:id="@+id/action_ListEventsFragment_to_EditEventsFragment"
             app:destination="@id/EditEventsFragment" />
 
+        <action
+            android:id="@+id/action_ListEventsFragment_to_ListRoutsFragment"
+            app:destination="@id/ListRoutsFragment" />
+
 
     </fragment>
 
@@ -123,6 +127,10 @@
         <action
             android:id="@+id/action_ListRoutsFragment_to_EditRoutsFragment"
             app:destination="@id/EditRoutsFragment" />
+
+        <action
+            android:id="@+id/action_ListRoutsFragment_to_ListEventsFragment"
+            app:destination="@id/ListEventsFragment" />
     </fragment>
 
     <fragment
