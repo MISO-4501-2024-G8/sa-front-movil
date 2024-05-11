@@ -5,16 +5,15 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
-import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
@@ -95,6 +94,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
         datePicker = binding.datePickerF
+        resetDateToToday()
         datePicker.setOnDateChangedListener { _, year, month, dayOfMonth ->
             try {
                 progressBarVisible(true)
@@ -134,6 +134,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
         }
         btnLimpiar.setOnClickListener {
             progressBarVisible(true)
+            resetDateToToday()
             filterTrainingSessions = trainingSessions
             binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
             binding.recyclerviewListTrainingSessionsFragment.layoutManager = LinearLayoutManager(context)
@@ -141,6 +142,15 @@ class CalendarFragment : Fragment(), ClicTSListener {
             progressBarVisible(false)
         }
         return binding.root
+    }
+
+    fun resetDateToToday() {
+        val cal = Calendar.getInstance()
+        datePicker.updateDate(
+            cal[Calendar.YEAR],
+            cal[Calendar.MONTH] ,
+            cal[Calendar.DAY_OF_MONTH]
+        )
     }
 
     fun progressBarVisible(valueV:Boolean){
