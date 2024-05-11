@@ -44,10 +44,10 @@ class TrainingSessionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val weeksAdapter =  WeeksAdapter(this.vectorTipoDeporte)
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview_TrainingSessionFragment)
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.adapter = weeksAdapter
+        //val weeksAdapter =  WeeksAdapter(this.vectorTipoDeporte)
+        //val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview_TrainingSessionFragment)
+        //recyclerView.layoutManager = LinearLayoutManager(view.context)
+        //recyclerView.adapter = weeksAdapter
 
         arguments?.getString("token")?.let {
             this.token = it.toString()

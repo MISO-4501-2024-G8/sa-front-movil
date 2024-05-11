@@ -11,7 +11,9 @@
 
     <string name="textBtnLogin">Login</string>
     <string name="textBtnRegister">Registrarse</string>
-    <string name="textBtnAddTrainginPlan">+ "Agregar"</string>
+    <string name="textBtnAddTrainginPlan">+ Agregar</string>
+    <string name="textBtnEditEvento">+ Actualizar</string>
+    <string name="textBtnActualizarAddTrainginPlan">Actualizar</string>
 
     <string name="previous">Previous</string>
 
@@ -19,8 +21,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="training_sesion">Plan de Entrenamiento</string>
     <string name="add_training_sesion">Agregar plan de entrenamiento</string>
+    <string name="List_events">Listar los Eventos</string>
+    <string name="edit_events">Asociar los Eventos</string>
+    <string name="List_routs">Listar las Rutas</string>
+    <string name="Add_routs">Agregas las Rutas</string>
+    <string name="edit_routs">Asociar las Rutas</string>
 
-
+    <string name="open_msg">Open Nav</string>
+    <string name="close_msg">Close Nav</string>
     <string-array name="Sport">
         <item>Atletismo</item>
         <item>Ciclismo</item>

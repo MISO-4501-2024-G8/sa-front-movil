@@ -6,11 +6,14 @@ import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RoutsRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
+import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
+import com.miso202402.SportApp.src.models.response.GetAllUserTrainingSessionsResponse
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
+import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginResponse
@@ -39,19 +42,22 @@ interface ApiService {
     @GET("eventos")
     fun getAllEventos():Call<GetAllEventsResponse>
 
-    @GET("eventos/")
+    @GET("eventos/{evento_id}")
     fun getEventoById(@Path("evento_id") evento_id: String):Call<GetEventResponse>
 
     @POST("eventos")
     fun createEventos(@Body request: EventsRequest):Call<GetEventResponse>
 
-    @PUT("eventos")
+    @PUT("eventos/{evento_id}")
     fun updateEventoById(@Path("evento_id") evento_id: String, @Body request: EventsRequest): Call<GetEventResponse>
+
+    @POST("training_session")
+    fun createTrainigSession(@Body request: TrainingSessionRequest):Call<TraingSessionResponse>
 
     @GET("rutas")
     fun getAllRutas():Call<GetAllRutasResponse>
 
-    @GET("rutas/")
+    @GET("rutas/{ruta_id}")
     fun getRutaById(@Path("ruta_id") ruta_id: String):Call<GetRoutsResponse>
 
     @POST("rutas")
@@ -59,5 +65,8 @@ interface ApiService {
 
     @PUT("rutas")
     fun updateRoutById(@Path("ruta_id") ruta_id: String, @Body request: RoutsRequest): Call<GetRoutsResponse>
+
+    @GET("training_session/{user_id}")
+    fun getTrainingSessionsById(@Path("user_id") user_id: String):Call<GetAllUserTrainingSessionsResponse>
 
 }

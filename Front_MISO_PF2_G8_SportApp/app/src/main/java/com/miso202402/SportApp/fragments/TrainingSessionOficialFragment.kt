@@ -39,9 +39,9 @@ class TrainingSessionOficialFragment : Fragment() {
             this.token = it.toString()
             Log.i("token", this.token.toString())
         }
-        arguments?.getString("id")?.let {
+        arguments?.getString("user_id")?.let {
             this.id = it.toString()
-            Log.i("id", this.id.toString())
+            Log.i("user_id", this.id.toString())
         }
 
         arguments?.getString("sport")?.let {

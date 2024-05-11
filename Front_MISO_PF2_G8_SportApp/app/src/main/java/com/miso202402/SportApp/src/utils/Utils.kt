@@ -1,8 +1,7 @@
 package com.miso202402.front_miso_pf2_g8_sportapp.src.utils
 
-import android.app.Activity
+import android.content.Context
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,7 +16,7 @@ class Utils {
             .build()
     }
 
-    fun showMessageDialog(activity: FragmentActivity, message: String) {
+    fun showMessageDialog(activity: Context?, message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 }
