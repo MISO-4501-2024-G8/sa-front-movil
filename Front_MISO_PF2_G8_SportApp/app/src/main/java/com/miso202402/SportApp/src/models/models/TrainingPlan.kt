@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 class TrainingPlan(@SerializedName("id") var id:String?,
     @SerializedName("name") var name:String?,
     @SerializedName("description") var description:String?,
+    @SerializedName("weeks") var weeks:String?,
     @SerializedName("lunes_enabled") var lunes_enabled:Int?,
     @SerializedName("martes_enabled") var martes_enabled:Int?,
     @SerializedName("miercoles_enabled") var miercoles_enabled:Int?,
@@ -13,5 +14,7 @@ class TrainingPlan(@SerializedName("id") var id:String?,
     @SerializedName("viernes_enabled") var viernes_enabled:Int?,
     @SerializedName("type_plan") var type_plan:String?,
     @SerializedName("sport") var sport:String?,
+    @SerializedName("id_eating_routine") var id_eating_routine:String?,
+    @SerializedName("id_rest_routine") var id_rest_routine:String?,
     @SerializedName("objectives") var objectives: Array<Objective>? = null) {
 }
