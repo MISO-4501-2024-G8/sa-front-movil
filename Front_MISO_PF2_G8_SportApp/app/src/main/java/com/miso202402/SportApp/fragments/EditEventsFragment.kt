@@ -59,7 +59,7 @@ class EditEventsFragment : Fragment() {
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
         event = Events("", "","","","", "","", "")
-        binding.spinnerEditEventsFragment.isEnabled = false
+        //binding.spinnerEditEventsFragment.isEnabled = false
         getEventById(event_id)
         return binding.root
     }
@@ -67,7 +67,7 @@ class EditEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var spinner = view.findViewById<Spinner>(R.id.spinner_EditEventsFragment)
+        /*var spinner = view.findViewById<Spinner>(R.id.spinner_EditEventsFragment)
         activity?.let {
             ArrayAdapter.createFromResource(
                 it,
@@ -86,7 +86,7 @@ class EditEventsFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-        }
+        }*/
 
         binding.buttonEditarEditEventsFragment.setOnClickListener {
            //updateEventoById(event_id)
@@ -132,14 +132,15 @@ class EditEventsFragment : Fragment() {
                     binding.editTexDescriptionEditEventsFragment.setText(event.event_description.toString())
                     binding.editTexLocationEditEventsFragment.setText(event.event_location.toString())
                     binding.editLinkEditEventsFragment.setText(event.link.toString())
+                    binding.editTexDateEditEventsFragment.setText(event.event_date.toString())
                     event_date = event.event_date.toString()
-                    if (event.sport == "Atletismo"){
+                   /* if (event.sport == "Atletismo"){
                         binding.spinnerEditEventsFragment.setSelection(0)
                         tipoDeporte = "Atletismo"
                     } else {
                         binding.spinnerEditEventsFragment.setSelection(1)
                         tipoDeporte = "Ciclismo"
-                    }
+                    }*/
                 } else {
                     activity?.let {
                         utils.showMessageDialog(
