@@ -11,7 +11,7 @@
     <DatePicker
         android:id="@+id/datePickerF"
         android:layout_width="wrap_content"
-        android:layout_height="310dp"
+        android:layout_height="320dp"
         android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:calendarViewShown="false"
@@ -21,12 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="325dp"
+        android:gravity="center"
+        android:layout_marginTop="330dp"
         >
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:textSize="10dp"
             android:id="@+id/btnLimpiar"
             android:backgroundTint="#085ED6"
             android:text="Limpiar"/>
@@ -35,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="205dp"
             android:layout_gravity="center_horizontal"
+            android:textSize="10dp"
             android:id="@+id/btnPEvento"
             android:backgroundTint="#167347"
             android:text="Programar Evento"/>
@@ -44,6 +47,7 @@
             android:layout_marginTop="205dp"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="#BB2D3A"
+            android:textSize="10dp"
             android:id="@+id/btnPRuta"
             android:text="Programa Ruta"/>
 
@@ -54,7 +58,7 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="375dp"
         android:layout_gravity="center_horizontal"
         android:visibility="visible" />
 
