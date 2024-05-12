@@ -59,7 +59,7 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
         binding.recyclerviewListRoutsFragment.adapter = RoutsAdapter(routsList, listener)
         binding.imageButtonCalendarListRoutsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListEventsFragment)
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos")
         }
 
     return binding.root
@@ -133,7 +133,9 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
             "rout_id" to rout.id,
             "user_id" to user_id
         )
-        findNavController().navigate(R.id.action_ListRoutsFragment_to_EditRoutsFragment, bundle)
+        //findNavController().navigate(R.id.action_ListRoutsFragment_to_EditRoutsFragment, bundle)
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.navigateToFragment(R.id.action_ListRoutsFragment_to_EditRoutsFragment, "Ruta",bundle)
     }
 
 

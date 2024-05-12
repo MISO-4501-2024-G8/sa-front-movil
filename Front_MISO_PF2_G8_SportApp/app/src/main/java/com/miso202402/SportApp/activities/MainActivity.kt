@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         fab = findViewById<FloatingActionButton>(R.id.fab)
+        toolbar.setTitle("SPORT APP")
         setSupportActionBar(toolbar)
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
@@ -119,23 +120,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.calendar -> navigateToFragment(R.id.CalendarFragment)
-            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment)
-            R.id.events -> navigateToFragment(R.id.ListEventsFragment)
-            R.id.sport -> navigateToFragment(R.id.SportFragment)
-            R.id.goals -> navigateToFragment(R.id.GoalFragment)
-            R.id.chat -> navigateToFragment(R.id.ChatFragment)
+            R.id.calendar -> navigateToFragment(R.id.CalendarFragment, "Calendario")
+            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+            R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos")
+            R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva")
+            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo")
+            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats")
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    fun navigateToFragment(fragmentId: Int, bundle: Bundle? = null) {
+    fun navigateToFragment(fragmentId: Int, toolbarTitle: String? = "SPORT APP",bundle: Bundle? = null) {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         val menu = findViewById<NavigationView>(R.id.nav_view).menu
         for (i in 0 until menu.size()) {
             menu.getItem(i).isChecked = false
         }
+        toolbar.setTitle(toolbarTitle)
 
         if (bundle != null) {
             navController.navigate(fragmentId, bundle)

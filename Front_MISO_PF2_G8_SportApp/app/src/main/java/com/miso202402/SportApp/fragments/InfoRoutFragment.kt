@@ -64,7 +64,7 @@ class InfoRoutFragment : Fragment() {
             "", "", "", "","","")
         binding.buttonAtrasRoutsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.CalendarFragment)
+            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Detalle Ruta")
         }
         getRoutById(route_id)
         return binding.root
