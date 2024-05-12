@@ -14,6 +14,7 @@ import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
+import com.miso202402.SportApp.src.models.response.ValidateTokenResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginResponse
@@ -68,5 +69,8 @@ interface ApiService {
 
     @GET("training_session/{user_id}")
     fun getTrainingSessionsById(@Path("user_id") user_id: String):Call<GetAllUserTrainingSessionsResponse>
+
+    @GET("login/validate_token")
+    fun validateSession():Call<ValidateTokenResponse>
 
 }
