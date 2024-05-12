@@ -16,28 +16,44 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.TrainingPlan
+import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
+import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
+import com.miso202402.SportApp.src.utils.ClicTPListener
 import com.miso202402.SportApp.src.utils.ClickListener
 import com.miso202402.SportApp.src.utils.SharedPreferences
+import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
+import com.miso202402.SportApp.src.utils.TrainingSessionAdapter
 import com.miso202402.SportApp.src.utils.WeeksAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.R.*
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentTrainingSessionBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
+import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
-class TrainingSessionFragment : Fragment() {
+class TrainingSessionFragment : Fragment(), ClicTPListener {
 
 
     private var _binding: FragmentTrainingSessionBinding? = null
     private val binding get() = _binding!!
     private var tipoDeporte : String? = null
-    private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
+    private var vectorTipoDeporte  =  arrayOf("Todos","Atletismo", "Ciclismo")
     private var user_id: String? = ""
+    private var typePlan: String? = ""
     private lateinit var preferences: SharedPreferences
     private lateinit var trainingPlanList : List<TrainingPlan>
-    private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
-    lateinit var listener: ClickListener
+    private lateinit var trainingPlanListFilter : List<TrainingPlan>
+    //private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
+    private var domain: String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
+    lateinit var listener: ClicTPListener
 
 
 
@@ -53,7 +69,14 @@ class TrainingSessionFragment : Fragment() {
     ): View {
         _binding = FragmentTrainingSessionBinding.inflate(inflater, container, false)
         user_id = preferences.getData<String>("id").toString()
+        typePlan = preferences.getData<String>("typePlan").toString()
         Log.i("user_id", user_id!!)
+        Log.i("typePlan", typePlan!!)
+        trainingPlanList = listOf()
+        trainingPlanListFilter = listOf()
+        listener = this
+        //Llamar a lista de planes
+        getAllTrainingPlans()
         return binding.root
     }
 
@@ -74,12 +97,21 @@ class TrainingSessionFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 tipoDeporte = vectorTipoDeporte[p2]
                 Log.i("mesnaje al selecionar tipo de deporte ", tipoDeporte.toString())
+                trainingPlanListFilter = trainingPlanList
+                var datosFiltrados: List<TrainingPlan> = trainingPlanListFilter
+                if(tipoDeporte !== "Todos") {
+                    datosFiltrados = trainingPlanListFilter.filter { item ->
+                        item.sport == tipoDeporte
+                    }
+                }
+                trainingPlanListFilter = datosFiltrados
+                binding.recyclerviewTrainingSessionFragment.setHasFixedSize(true)
+                binding.recyclerviewTrainingSessionFragment.layoutManager =
+                    LinearLayoutManager(context)
+                binding.recyclerviewTrainingSessionFragment.adapter =
+                    TrainingPlanAdapter(trainingPlanListFilter, listener)
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
         binding.buttonAgregarFragmentTrainingSession.setOnClickListener {
             val bundle = bundleOf(
@@ -94,10 +126,56 @@ class TrainingSessionFragment : Fragment() {
 
     }
 
+    private fun getAllTrainingPlans(){
+        val utils = Utils()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val callGetTrainingPlans = utils.getRetrofit(domain)
+                    .create(ApiService::class.java)
+                    .getTrainingPlans()
+                    .execute()
+                val getAllTrainingListPlansResponse = callGetTrainingPlans.body() as TrainingListPlansResponse?
+                if (getAllTrainingListPlansResponse?.code == 200){
+                    Log.i("callGetTrainingPlans","Antes de refrescar la lista")
+                    trainingPlanList = getAllTrainingListPlansResponse?.training_plans!!
+                    trainingPlanListFilter = trainingPlanList
+                    if(_binding != null) {
+                        withContext(Dispatchers.Main) {
+                            binding.recyclerviewTrainingSessionFragment.setHasFixedSize(true)
+                            binding.recyclerviewTrainingSessionFragment.layoutManager =
+                                LinearLayoutManager(context)
+                            binding.recyclerviewTrainingSessionFragment.adapter =
+                                TrainingPlanAdapter(trainingPlanListFilter, listener)
+                        }
+                    }
+                }else{
+                    Log.e("getAllTrainingPlans error: ",getAllTrainingListPlansResponse?.message.toString())
+                }
+            } catch (e: Exception) {
+                Log.e("error",e.message.toString())
+            }
+        }
+    }
+
+    /*
+    override fun onResume() {
+        super.onResume()
+        getAllTrainingPlans()
+    }
+    */
+
     private fun CreateTrainingSesion(){
 
     }
 
-
+    override fun onCListItemClick(view: View, trainingPlan: TrainingPlan) {
+        Log.i("TPlan Item: ", trainingPlan.name.toString())
+        val bundle = bundleOf("training_plan_id" to trainingPlan.id )
+        view?.let {
+            Snackbar.make(it, "Funcionalidad en construccion...", Snackbar.LENGTH_SHORT).show()
+        }
+        //val mainActivity = requireActivity() as? MainActivity
+        //mainActivity?.navigateToFragment(R.id.action_ListEventsFragment_to_EditEventsFragment, "Evento",bundle)
+    }
 
 }

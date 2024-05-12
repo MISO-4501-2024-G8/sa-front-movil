@@ -14,6 +14,7 @@ import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
+import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
 import com.miso202402.SportApp.src.models.response.ValidateTokenResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
@@ -33,6 +34,9 @@ interface ApiService {
 
     @POST("training_plan")
     fun createTrainingPlan(@Body request: TrainingPlanRequest): Call<TrainingPlansResponse>
+
+    @GET("training_plan")
+    fun getTrainingPlans(): Call<TrainingListPlansResponse>
 
     @POST("objetive_training_plan")
     fun createObjetiveTrainingPlan(@Body request: ObjetiveTrainingPlanRequest): Call<ObjetiveTrainingPlanResponse>

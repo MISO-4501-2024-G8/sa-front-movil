@@ -262,10 +262,14 @@ class CalendarFragment : Fragment(), ClicTSListener {
             Log.i("GetAllUserTrainingSessionsResponse: ", trainingSessions.size.toString())
             Log.i("GetAllEventsResponse: ", events.size.toString())
             Log.i("GetAllRutasResponse: ", routes.size.toString())
-            binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
-            binding.recyclerviewListTrainingSessionsFragment.layoutManager = LinearLayoutManager(context)
-            binding.recyclerviewListTrainingSessionsFragment.adapter = TrainingSessionAdapter(filterTrainingSessions, events, routes, listener)
-            progressBarVisible(false)
+            if(_binding != null) {
+                binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
+                binding.recyclerviewListTrainingSessionsFragment.layoutManager =
+                    LinearLayoutManager(context)
+                binding.recyclerviewListTrainingSessionsFragment.adapter =
+                    TrainingSessionAdapter(filterTrainingSessions, events, routes, listener)
+                progressBarVisible(false)
+            }
         }
     }
 
