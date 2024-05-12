@@ -40,11 +40,7 @@ import java.util.Date
 import java.util.Locale
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CalendarFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class CalendarFragment : Fragment(), ClicTSListener {
     private var _binding: FragmentCalendarBinding? = null
     private lateinit var user_id: String;

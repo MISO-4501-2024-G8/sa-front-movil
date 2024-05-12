@@ -7,12 +7,18 @@ import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RoutsRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
+import com.miso202402.SportApp.src.models.response.GetAllConsultationSessionsResponse
+import com.miso202402.SportApp.src.models.response.GetAllDoctorsResponse
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
+import com.miso202402.SportApp.src.models.response.GetAllTrainersResponse
 import com.miso202402.SportApp.src.models.response.GetAllUserTrainingSessionsResponse
+import com.miso202402.SportApp.src.models.response.GetConsultationByIdResponse
+import com.miso202402.SportApp.src.models.response.GetDoctor
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
+import com.miso202402.SportApp.src.models.response.GetTrainersByIdResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
@@ -68,5 +74,34 @@ interface ApiService {
 
     @GET("training_session/{user_id}")
     fun getTrainingSessionsById(@Path("user_id") user_id: String):Call<GetAllUserTrainingSessionsResponse>
+
+    @GET("consultation/consultations")
+    fun getAllConsultationsSessions():Call<GetAllConsultationSessionsResponse>
+
+    @GET("consultation/consultation/{id}")
+    fun getConsultationBYId(@Path("id") id: String):Call<GetConsultationByIdResponse>
+
+    @GET("consultation/consultations/user/{id}")
+    fun getConsultationBYuserId(@Path("id") id: String):Call<GetAllConsultationSessionsResponse>
+
+    @POST("consultation/consultations")
+    fun CreateConsultation ():Call<GetConsultationByIdResponse>
+
+    @PUT("consultation/consultations/{id}")
+    fun UpdateConsultation (@Path("id") id: String):Call<GetConsultationByIdResponse>
+
+    @GET("sportsSpecialist/doctors")
+    fun getAllDoctors():Call<GetAllDoctorsResponse>
+
+    @GET("sportsSpecialist/doctor/{id}")
+    fun getDoctorsByID(@Path("id") id: String):Call<GetDoctor>
+
+    @GET("sportsSpecialist/trainers")
+    fun getAllTrainers():Call<GetAllTrainersResponse>
+
+    @GET("sportsSpecialist/doctor/{id}")
+    fun getTrainerssByID(@Path("id") id: String):Call<GetTrainersByIdResponse>
+
+
 
 }

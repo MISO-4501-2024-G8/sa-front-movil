@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.events -> navigateToFragment(R.id.ListEventsFragment)
             R.id.sport -> navigateToFragment(R.id.SportFragment)
             R.id.goals -> navigateToFragment(R.id.GoalFragment)
-            R.id.chat -> navigateToFragment(R.id.ChatFragment)
+            R.id.chat -> navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

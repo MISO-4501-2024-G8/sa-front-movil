@@ -34,9 +34,10 @@ import kotlinx.coroutines.launch
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     private var errorTimesLoginRejected: Int = 0
     private val domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
-    private val binding get() = _binding!!
     private lateinit var preferences: SharedPreferences
     private lateinit var forgotP: TextView
     private lateinit var signUp:TextView

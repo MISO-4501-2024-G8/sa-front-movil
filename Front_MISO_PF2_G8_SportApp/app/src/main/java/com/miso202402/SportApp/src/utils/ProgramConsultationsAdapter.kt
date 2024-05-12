@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.miso202402.SportApp.src.models.models.Events
+import com.miso202402.SportApp.src.models.models.ConsultationsSessions
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
-class WeeksAdapter (private val listEvents:  List<Events>, val clicListener: ClicListener ) : RecyclerView.Adapter<WeeksAdapter.ViewHolder>() {
+class ProgramConsultationsAdapter  (private val listEvents:  List<ConsultationsSessions>, val clicListener: ClicListener_ProgramConsultation ) : RecyclerView.Adapter<ProgramConsultationsAdapter.ViewHolder>() {
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var textViewName: TextView
         var textViewDescription: TextView
@@ -30,8 +31,8 @@ class WeeksAdapter (private val listEvents:  List<Events>, val clicListener: Cli
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         var realPosition: Int = position + 1
 
-        viewHolder.textViewName.text = "Evento "+ realPosition.toString() +": " + listEvents[position].event_name.toString()
-        viewHolder.textViewDescription.text = "Descripcion: "+ listEvents[position].event_description.toString()
+        viewHolder.textViewName.text = "Sesión "+ realPosition.toString() +": " + listEvents[position].consultation_type
+        viewHolder.textViewDescription.text = "Fecha: "+ listEvents[position].consultation_date.toString()
         viewHolder.itemView.setOnClickListener() {
             val event = listEvents.get(position)
             clicListener.onCListItemClick(it, event)

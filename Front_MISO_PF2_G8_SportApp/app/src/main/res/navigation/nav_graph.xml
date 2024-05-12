@@ -195,6 +195,13 @@
         tools:layout="@layout/fragment_chat"
         />
 
+    <fragment
+        android:id="@+id/ListProgramSessionsConsultationsFragment"
+        android:name="com.miso202402.SportApp.fragments.ListProgramSessionsConsultationsFragment"
+        android:label="Sessiones Programadas "
+        tools:layout="@layout/fragment_list_program_sessions_consultations"
+        />
+
 
 
 
