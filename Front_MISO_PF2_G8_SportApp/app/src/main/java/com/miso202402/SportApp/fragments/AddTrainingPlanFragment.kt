@@ -24,12 +24,20 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.miso202402.SportApp.src.models.models.Instruction
+import com.miso202402.SportApp.src.models.models.Objective
 import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
+import com.miso202402.SportApp.src.utils.ClicListener_Instruction
+import com.miso202402.SportApp.src.utils.ClickListener_Objective
+import com.miso202402.SportApp.src.utils.ClickListener_routs
+import com.miso202402.SportApp.src.utils.InstructionAdapter
+import com.miso202402.SportApp.src.utils.ObjectiveAdapter
+import com.miso202402.SportApp.src.utils.RoutsAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
@@ -43,7 +51,7 @@ import kotlinx.coroutines.launch
 import java.util.Vector
 
 
-class AddTrainingPlanFragment : Fragment() {
+class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
 
     private var _binding: FragmentAddTrainingPlanBinding? = null
     private val binding get() = _binding!!
@@ -59,12 +67,18 @@ class AddTrainingPlanFragment : Fragment() {
     private lateinit var weeksEditText: EditText
     private lateinit var descriptionEditText: EditText
     private lateinit var buttonAddPlan: Button
+    private lateinit var objectiveAdapter: ObjectiveAdapter
+    lateinit var listener: ClickListener_Objective
+    private lateinit var objectiveList: MutableList<Objective>
 
+
+    /*
     private lateinit var numberPickerLunes: NumberPicker
     private lateinit var numberPickerMartes: NumberPicker
     private lateinit var numberPickerMiercoles: NumberPicker
     private lateinit var numberPickerJueves: NumberPicker
     private lateinit var numberPickerViernes: NumberPicker
+    */
     private lateinit var checkBoxLunes: CheckBox
     private lateinit var checkBoxMartes: CheckBox
     private lateinit var checkBoxMiercoles: CheckBox
@@ -79,7 +93,8 @@ class AddTrainingPlanFragment : Fragment() {
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddTrainingPlanBinding.inflate(inflater, container, false)
@@ -87,9 +102,62 @@ class AddTrainingPlanFragment : Fragment() {
         typePlan = preferences.getData<String>("typePlan").toString()
         Log.i("user_id", user_id!!)
         Log.i("typePlan", typePlan!!)
+        listener = this
+        objectiveList =  mutableListOf()
+        objectiveAdapter = context?.let { ObjectiveAdapter(objectiveList, it, listener) }!!
+        binding.recyclerviewListObjetivos.setHasFixedSize(true)
+        binding.recyclerviewListObjetivos.layoutManager = LinearLayoutManager(context)
+        binding.recyclerviewListObjetivos.adapter = objectiveAdapter
+        val objectivoLunes = Objective("","","Lunes",0,"1", listOf())
+        objectiveList.add(objectivoLunes)
+        objectiveAdapter.notifyDataSetChanged()
         return binding.root
     }
 
+    override fun onAddItemClick(view: View, objective: Objective) {
+        // Crear un cuadro de diálogo para agregar una nueva instrucción
+        val dialog = AlertDialog.Builder(requireContext())
+        val inflater = requireActivity().layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_add_instruction, null)
+        val editTextDescription = dialogView.findViewById<EditText>(R.id.editTextDescription)
+        val editTextTime = dialogView.findViewById<EditText>(R.id.editTextTime)
+
+        dialog.setView(dialogView)
+            .setTitle("Agregar Instrucción")
+            .setPositiveButton("Agregar") { dialogInterface, _ ->
+                // Obtener los valores ingresados por el usuario en el cuadro de diálogo
+                val description = editTextDescription.text.toString()
+                val time = editTextTime.text.toString().toIntOrNull() ?: 0
+
+                // Validar que se haya ingresado una descripción y un tiempo válido
+                if (description.isNotEmpty() && time > 0) {
+                    // Crear una nueva instrucción con los valores ingresados
+                    val newInstruction = Instruction("",objective.day,description, time)
+
+                    // Agregar la nueva instrucción a la lista de instrucciones del objetivo
+                    objective.instructions?.toMutableList()?.apply {
+                        add(newInstruction)
+                        objective.instructions = this
+                    }
+
+                    // Notificar al adaptador que se agregó una nueva instrucción
+                    notifyDataSetChanged()
+                } else {
+                    // Mostrar un mensaje de error si la descripción está vacía o el tiempo no es válido
+                    Toast.makeText(requireContext(), "Por favor, ingrese una descripción y un tiempo válido.", Toast.LENGTH_SHORT).show()
+                }
+                dialogInterface.dismiss()
+            }
+            .setNegativeButton("Cancelar") { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    fun notifyDataSetChanged(){
+        objectiveAdapter.notifyDataSetChanged()
+    }
 
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -189,6 +257,7 @@ class AddTrainingPlanFragment : Fragment() {
         */
     }
 
+    /*
     private fun AddTrainingPlan(){
         Log.i("vector", instructions?.size.toString())
         Log.i("vector", instructions[0].toString())
@@ -277,7 +346,7 @@ class AddTrainingPlanFragment : Fragment() {
             }
         }
     }
-
+*/
 
     private fun makeObjetiveInstructions(
         dia: String,

@@ -62,62 +62,18 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="71dp"
             tools:layout_editor_absoluteY="336dp" />
-        <LinearLayout
-            android:layout_width="326dp"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_ListObjetivos"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/LayoutLunes"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:layout_marginLeft="40dp"
-            android:layout_below="@id/editTexDescription_FragmentAddTrainingPlan"
-            >
-            <CheckBox
-                android:id="@+id/checkBox_lunes_FragmentAddTrainingPlan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:layoutDirection="rtl"
-                android:hint="Lunes"
-                android:text="Lunes"
-                android:background="@color/mainBG" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="326dp"
-            android:layout_height="40dp"
-            android:id="@+id/LayoutRepLunes"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="40dp"
-            android:layout_below="@id/LayoutLunes">
-
-            <TextView
-                android:layout_width="210dp"
-                android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="Repeticiones" />
-
-            <ImageButton
-                android:id="@+id/btnMinus"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@color/main"
-                android:src="@drawable/baseline_add_24" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minWidth="30dp"
-                android:gravity="center"
-                android:text="1" />
-
-            <ImageButton
-                android:id="@+id/btnPlus"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@color/main"
-                android:src="@drawable/outline_check_indeterminate_small_24" />
-        </LinearLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_below="@+id/editTexDescription_FragmentAddTrainingPlan"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <!--

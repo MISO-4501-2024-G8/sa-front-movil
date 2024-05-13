@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:backgroundTint="#FFFF"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp">
+
+    <LinearLayout
+        android:id="@+id/ParentLayoutLunes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/LayoutLunes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkBoxDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/mainBG"
+                android:hint="Lunes"
+                android:layoutDirection="rtl"
+                android:paddingLeft="10dp"
+                android:text="Lunes" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LayoutRepLunes"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/LayoutLunes"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Repeticiones" />
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:id="@+id/qtyText"
+                    android:textSize="12dp"
+                    android:text="Qty" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnMinusRepeticiones"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/main"
+                android:src="@drawable/outline_check_indeterminate_small_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="30dp"
+                android:text="1" />
+
+            <ImageButton
+                android:id="@+id/btnPlusRepeticiones"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/main"
+                android:src="@drawable/baseline_add_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LayoutInstLunes"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/LayoutLunes"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Instrucciones" />
+
+            <ImageButton
+                android:id="@+id/btnPlusInstruction"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/main"
+                android:src="@drawable/baseline_add_24" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_ListInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutInstLunes"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
