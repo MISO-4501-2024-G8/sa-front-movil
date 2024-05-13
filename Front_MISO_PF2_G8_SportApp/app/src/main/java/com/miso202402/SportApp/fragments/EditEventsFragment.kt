@@ -203,8 +203,8 @@ class EditEventsFragment : Fragment() {
     private fun createTrainigSession(event_id: String, user_id: String){
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
-            try {
-                Log.i("Entre", "create training$event_id $user_id")
+          // try {
+                Log.i("Entre", "create training $event_id $user_id")
                 val callCreateTrainigSession = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createTrainigSession(
@@ -213,7 +213,8 @@ class EditEventsFragment : Fragment() {
                             event_id,
                             "evento",
                             tipoDeporte,
-                            event_date.toString().replace("T"," ")
+                            //event_date.toString().replace("T"," ")
+                            "2024-05-28 14:30:00"
                         )
                     )
                     .execute()
@@ -232,12 +233,11 @@ class EditEventsFragment : Fragment() {
                                 "Error No se pudo asocciar correctmente"
                             )
                         }
-
                     }
                 }
-            } catch (e: Exception) {
+           /* } catch (e: Exception) {
                 Log.e("error",e.message.toString())
-            }
+            }*/
         }
 
     }

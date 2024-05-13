@@ -1,5 +1,6 @@
 package com.miso202402.front_miso_pf2_g8_sportapp.src.services
 
+import com.miso202402.SportApp.src.models.request.ConsultationRequest
 import com.miso202402.SportApp.src.models.request.EventsRequest
 import com.miso202402.SportApp.src.models.response.GetAllRutasResponse
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
@@ -85,10 +86,10 @@ interface ApiService {
     fun getConsultationBYuserId(@Path("id") id: String):Call<GetAllConsultationSessionsResponse>
 
     @POST("consultation/consultations")
-    fun CreateConsultation ():Call<GetConsultationByIdResponse>
+    fun createConsultation (@Body request: ConsultationRequest):Call<GetConsultationByIdResponse>
 
     @PUT("consultation/consultations/{id}")
-    fun UpdateConsultation (@Path("id") id: String):Call<GetConsultationByIdResponse>
+    fun updateConsultation (@Path("id") id: String):Call<GetConsultationByIdResponse>
 
     @GET("sportsSpecialist/doctors")
     fun getAllDoctors():Call<GetAllDoctorsResponse>

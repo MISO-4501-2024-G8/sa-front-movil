@@ -202,6 +202,13 @@
         tools:layout="@layout/fragment_list_program_sessions_consultations"
         />
 
+    <fragment
+        android:id="@+id/TrainingSessionOficialFragment"
+        android:name="com.miso202402.SportApp.fragments.TrainingSessionOficialFragment"
+        android:label="Agendar Sesión"
+        tools:layout="@layout/fragment_training_session_oficial"
+        />
+
 
 
 

@@ -152,7 +152,6 @@ class CalendarFragment : Fragment(), ClicTSListener {
     fun progressBarVisible(valueV:Boolean){
         if(valueV){
             binding.progressBar.visibility = View.VISIBLE
-
         }else{
             binding.progressBar.visibility = View.GONE
         }

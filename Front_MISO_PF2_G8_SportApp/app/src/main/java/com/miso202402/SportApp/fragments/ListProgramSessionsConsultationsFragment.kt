@@ -55,6 +55,11 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
         consultationsSessionsList = emptyList<ConsultationsSessions>()
         listener = this
 
+        binding.buttonAgregarListProgramSessionsConsultationsFragment.setOnClickListener {
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment)
+        }
+
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,7 +123,7 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
         }
     }
 
-    fun progressBarVisible(valueV:Boolean){
+    private fun progressBarVisible(valueV:Boolean){
         if(valueV){
             binding.progressBar.visibility = View.VISIBLE
 

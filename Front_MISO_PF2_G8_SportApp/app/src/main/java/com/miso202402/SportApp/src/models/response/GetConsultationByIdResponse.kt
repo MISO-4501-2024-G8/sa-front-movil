@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.miso202402.SportApp.src.models.models.ConsultationsSessions
 
 class GetConsultationByIdResponse (@SerializedName("message") var message: String?,
-                                   @SerializedName("content") var content: ConsultationsSessions?,
+                                   @SerializedName("consultation") var content: ConsultationsSessions?,
                                    @SerializedName("code") var code: Int?,
                                    @SerializedName("error") var error: String?) {
 }

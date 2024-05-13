@@ -33,7 +33,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class EditRoutsFragment : Fragment() {
+class
+EditRoutsFragment : Fragment() {
     private var _binding: FragmentEditRoutsBinding? = null
     private lateinit var preferences: SharedPreferences
     private val binding get() = _binding!!
@@ -174,7 +175,8 @@ class EditRoutsFragment : Fragment() {
                             route_id,
                             "ruta",
                             tipoDeporte,
-                            route_date.toString().replace("T"," ")
+                            //route_date.toString().replace("T"," ")
+                            "2024-05-28T14:30:00"
                         )
                     )
                     .execute()
