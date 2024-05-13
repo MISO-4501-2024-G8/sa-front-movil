@@ -1,15 +1,12 @@
 package com.miso202402.SportApp.src.utils
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.miso202402.SportApp.src.models.models.Instruction
-import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
 class InstructionAdapter (

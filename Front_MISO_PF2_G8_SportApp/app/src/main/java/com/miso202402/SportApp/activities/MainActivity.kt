@@ -57,23 +57,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.visibility = View.GONE
     }
 
-    /*
-    fun enableBack(){
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
-    }
 
-    fun disableBack(){
-        actionBar?.setDisplayHomeAsUpEnabled(false)
-        toolbar.setNavigationIcon(null)
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //binding = ActivityMainBinding.inflate(layoutInflater)
-        //setContentView(binding.root)
-        //setSupportActionBar(binding.toolbar)
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         fab = findViewById<FloatingActionButton>(R.id.fab)
@@ -87,36 +75,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        //val navController = findNavController(R.id.nav_host_fragment_content_main)
-        //appBarConfiguration = AppBarConfiguration(navController.graph)
-        //setupActionBarWithNavController(navController, appBarConfiguration)
         fab.setOnClickListener {}
 
-       /* if(savedInstanceState == null){
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, LoginFragment()).commit()
-        }*/
     }
-
-    /*
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.calendar -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, CalendarFragment()).commit()
-            R.id.plans -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, TrainingSessionFragment()).commit()
-            R.id.events -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, ListEventsFragment()).commit()
-            R.id.sport -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, SportFragment()).commit()
-            R.id.goals -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, GoalFragment()).commit()
-            R.id.chat -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, ChatFragment()).commit()
-        }
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
-    }*/
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
@@ -148,8 +109,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed(){
         super.onBackPressed()
+        Log.i("MainActivity", "onBackPressed")
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START)
+        }else{
+            mostrarMensaje("Utiliza los botones de navegación en la aplicación.")
+        }
+    }
+
+    private fun mostrarMensaje(mensaje: String) {
+        findViewById<View>(android.R.id.content)?.let { contentView ->
+            Snackbar.make(contentView, mensaje, Snackbar.LENGTH_SHORT).show()
         }
     }
 

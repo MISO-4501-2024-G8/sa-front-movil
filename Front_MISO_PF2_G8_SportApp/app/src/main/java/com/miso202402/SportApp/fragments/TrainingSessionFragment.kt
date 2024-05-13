@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +83,15 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
 
         var spinner = view.findViewById<Spinner>(R.id.spinner_TrainingSessionFragment)
         activity?.let {
@@ -117,7 +127,12 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
             val mainActivity = requireActivity() as? MainActivity
             mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
         }
+    }
 
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun getAllTrainingPlans(){

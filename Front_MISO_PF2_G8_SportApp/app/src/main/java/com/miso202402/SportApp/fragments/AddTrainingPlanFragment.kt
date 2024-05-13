@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +20,13 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Instruction
 import com.miso202402.SportApp.src.models.models.Objective
 import com.miso202402.SportApp.src.models.models.TrainingPlan
@@ -41,6 +44,7 @@ import com.miso202402.SportApp.src.utils.RoutsAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddTrainingPlanBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
@@ -61,31 +65,16 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     private var typePlan: String? = ""
     private var instructions = arrayOf("","","","","")
     private lateinit var preferences: SharedPreferences
-    private var tipoDeporte : String? = ""
+    private var tipoDeporte : String? = "Atletismo"
     private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
     private lateinit var nameEditText: EditText
     private lateinit var weeksEditText: EditText
     private lateinit var descriptionEditText: EditText
     private lateinit var buttonAddPlan: Button
+    private lateinit var buttonAtras: Button
     lateinit var objectiveAdapter: ObjectiveAdapter
     lateinit var listener: ClickListener_Objective
     private lateinit var objectiveList: MutableList<Objective>
-
-
-    /*
-    private lateinit var numberPickerLunes: NumberPicker
-    private lateinit var numberPickerMartes: NumberPicker
-    private lateinit var numberPickerMiercoles: NumberPicker
-    private lateinit var numberPickerJueves: NumberPicker
-    private lateinit var numberPickerViernes: NumberPicker
-    */
-    /*
-    private lateinit var checkBoxLunes: CheckBox
-    private lateinit var checkBoxMartes: CheckBox
-    private lateinit var checkBoxMiercoles: CheckBox
-    private lateinit var checkBoxJueves: CheckBox
-    private lateinit var checkBoxViernes: CheckBox
-     */
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -113,6 +102,14 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
 
         val objectivoLunes = Objective("","","Lunes",0,"1", listOf())
         objectiveList.add(objectivoLunes)
+        val objectivoMartes = Objective("","","Martes",0,"1", listOf())
+        objectiveList.add(objectivoMartes)
+        val objectivoMiercoles = Objective("","","Miercoles",0,"1", listOf())
+        objectiveList.add(objectivoMiercoles)
+        val objectivoJueves = Objective("","","Jueves",0,"1", listOf())
+        objectiveList.add(objectivoJueves)
+        val objectivoViernes = Objective("","","Viernes",0,"1", listOf())
+        objectiveList.add(objectivoViernes)
         objectiveAdapter.notifyDataSetChanged()
         return binding.root
     }
@@ -164,6 +161,19 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                mostrarSnackbar("Utilizar los botones de la aplicacion para navegar.")
+                return@setOnKeyListener true
+            }
+            false
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            mostrarSnackbar("Utiliza los botones de la aplicación para navegar.")
+        }
 
         var spinner = view.findViewById<Spinner>(R.id.spinner_TrainingSessionFragment)
         activity?.let {
@@ -186,77 +196,50 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         nameEditText = view.findViewById<EditText>(R.id.editTexName_FragmentAddTrainingPlan)
         weeksEditText = view.findViewById<EditText>(R.id.editTexWeeks_FragmentAddTrainingPlan)
         descriptionEditText = view.findViewById<EditText>(R.id.editTexDescription_FragmentAddTrainingPlan)
-        /*
         buttonAddPlan = view.findViewById<Button>(R.id.buttonAgregar_FragmentAddTrainingPlan)
-        numberPickerLunes = view.findViewById<NumberPicker>(R.id.numberPicker_lunes)
-        numberPickerLunes.minValue = 1
-        numberPickerLunes.maxValue = 10
-        numberPickerLunes.isEnabled = false
+        buttonAtras = view.findViewById<Button>(R.id.buttonAtras_FragmentAddTrainingPlan)
 
-
-        numberPickerMartes = view.findViewById<NumberPicker>(R.id.numberPicker_martes)
-        numberPickerMartes.minValue = 1
-        numberPickerMartes.maxValue = 10
-        numberPickerMartes.isEnabled = false
-
-        numberPickerMiercoles = view.findViewById<NumberPicker>(R.id.numberPicker_miercoles)
-        numberPickerMiercoles.minValue = 1
-        numberPickerMiercoles.maxValue = 10
-        numberPickerMiercoles.isEnabled = false
-
-        numberPickerJueves = view.findViewById<NumberPicker>(R.id.numberPicker_jueves)
-        numberPickerJueves.minValue = 1
-        numberPickerJueves.maxValue = 10
-        numberPickerJueves.isEnabled = false
-
-        numberPickerViernes = view.findViewById<NumberPicker>(R.id.numberPicker_viernes)
-        numberPickerViernes.minValue = 1
-        numberPickerViernes.maxValue = 10
-        numberPickerViernes.isEnabled = false
-        //numberPicker.setOnValueChangedListener{ picker, oldVal, newVal ->
-        //}
-
-        checkBoxLunes = view.findViewById<CheckBox>(R.id.checkBox_lunes_FragmentAddTrainingPlan)
-        checkBoxMartes = view.findViewById<CheckBox>(R.id.checkBox_martes_FragmentAddTrainingPlan)
-        checkBoxMiercoles = view.findViewById<CheckBox>(R.id.checkBox_miercoles_FragmentAddTrainingPlan)
-        checkBoxJueves = view.findViewById<CheckBox>(R.id.checkBox_jueves_FragmentAddTrainingPlan)
-        checkBoxViernes = view.findViewById<CheckBox>(R.id.checkBox_viernes_FragmentAddTrainingPlan)
-
-        checkBoxLunes.setOnClickListener {
-            if( checkBoxLunes.isChecked)
-                numberPickerLunes.isEnabled = true
-            else numberPickerLunes.isEnabled = false
-            ShowMeessageDialogDescription(0)
+        buttonAtras.setOnClickListener(){
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
         }
-        checkBoxMartes.setOnClickListener {
-            if( checkBoxMartes.isChecked)
-                numberPickerMartes.isEnabled = true
-            else numberPickerMartes.isEnabled = false
-            ShowMeessageDialogDescription(1)
-        }
-        checkBoxMiercoles.setOnClickListener {
-            if( checkBoxMiercoles.isChecked)
-                numberPickerMiercoles.isEnabled = true
-            else numberPickerMiercoles.isEnabled = false
-            ShowMeessageDialogDescription(2)
-        }
-        checkBoxJueves.setOnClickListener {
-            if( checkBoxJueves.isChecked)
-                numberPickerJueves.isEnabled = true
-            else numberPickerJueves.isEnabled = false
-            ShowMeessageDialogDescription(3)
-        }
-        checkBoxViernes.setOnClickListener {
-            if( checkBoxViernes.isChecked)
-                numberPickerViernes.isEnabled = true
-            else numberPickerViernes.isEnabled = false
-            ShowMeessageDialogDescription(4)
+        buttonAddPlan.setOnClickListener(){
+
+            if(nameEditText.text.toString() == ""){
+                mostrarSnackbar("El nombre del plan no debe ser vacio")
+                return@setOnClickListener
+            }
+            if(weeksEditText.text.toString() == ""){
+                mostrarSnackbar("La cantidad de semanas del plan no debe ser vacia")
+                return@setOnClickListener
+            }
+            if(descriptionEditText.text.toString() == ""){
+                mostrarSnackbar("La descripcion del plan no debe ser vacio")
+                return@setOnClickListener
+            }
+            for (objective in objectiveList) {
+                Log.i("ObjectiveList", "Day: ${objective.day}, Checked: ${objective.checked},Repeats: ${objective.repeats}, Qty Instrucciones: ${objective.instructions?.size.toString()}")
+                if(objective.checked == true){
+                    if(objective.repeats == 0){
+                        mostrarSnackbar("Las cantidad de repeticiones del dia ${objective.day} deben ser al menos 1")
+                        return@setOnClickListener
+                    }
+                    if(objective.instructions?.size == 0){
+                        mostrarSnackbar("Las cantidad de instrucciones del dia ${objective.day} deben ser al menos 1")
+                        return@setOnClickListener
+                    }
+                }
+            }
+            Log.i("ObjectiveList","Continuar Proceso de Creacion de Plan..")
+            Log.i("ObjectiveList","Nombre: ${nameEditText.text} Semanas: ${weeksEditText.text} Descripcion: ${descriptionEditText.text} Deporte: $tipoDeporte")
         }
 
-        buttonAddPlan.setOnClickListener {
-            AddTrainingPlan()
+    }
+
+    private fun mostrarSnackbar(mensaje: String) {
+        view?.let {
+            Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
         }
-        */
     }
 
     /*
