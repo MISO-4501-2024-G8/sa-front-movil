@@ -133,6 +133,7 @@ class EditEventsFragment : Fragment() {
                     binding.editTexLocationEditEventsFragment.setText(event.event_location.toString())
                     binding.editLinkEditEventsFragment.setText(event.link.toString())
                     binding.editTexDateEditEventsFragment.setText(event.event_date.toString())
+                    tipoDeporte = event.sport.toString()
                     event_date = event.event_date.toString()
                    /* if (event.sport == "Atletismo"){
                         binding.spinnerEditEventsFragment.setSelection(0)
@@ -179,7 +180,7 @@ class EditEventsFragment : Fragment() {
                 Log.i("Sali se la peticion updateEventoById", "Rest")
                 Log.i("Sali a la peticion code ", updateEvento?.code.toString())
                 lifecycleScope.launch {
-                    if (updateEvento?.code == 200) {
+                    if (updateEvento?.code == 200 || updateEvento?.code == 201) {
                         val messageSucces = updateEvento.message
                         utils.showMessageDialog(context, messageSucces.toString())
                         findNavController().navigate(R.id.action_EditEventsFragment_to_ListEventsFragment)
@@ -204,7 +205,7 @@ class EditEventsFragment : Fragment() {
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.i("Entre", "create training$event_id $user_id")
+                Log.i("Entre", "create training $event_id $user_id $tipoDeporte $event_date")
                 val callCreateTrainigSession = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createTrainigSession(

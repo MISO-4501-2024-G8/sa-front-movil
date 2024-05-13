@@ -1,160 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="70dp"
     tools:context="com.miso202402.SportApp.fragments.AddTrainingPlanFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editTexName_FragmentAddTrainingPlan"
-        android:layout_width="326dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="50dp"
-        android:textFontWeight="14"
-        android:ems="12"
-        android:hint="Nombre"
-        android:inputType="text"
-        android:tooltipText="Nombre"
-        tools:layout_editor_absoluteX="71dp"
-        tools:layout_editor_absoluteY="270dp" />
+        <Spinner
+            android:id="@+id/spinner_TrainingSessionFragment"
+            android:layout_width="326dp"
+            android:layout_height="56dp"
+            android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:id="@+id/editTexWeeks_FragmentAddTrainingPlan"
-        android:layout_width="326dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="110dp"
-        android:textFontWeight="14"
+        <EditText
+            android:id="@+id/editTexName_FragmentAddTrainingPlan"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/spinner_TrainingSessionFragment"
+            android:layout_marginTop="10dp"
+            android:ems="12"
+            android:hint="Nombre"
+            android:inputType="text"
+            android:textFontWeight="14"
+            android:tooltipText="Nombre"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp"
+            />
 
-        android:ems="12"
-        android:hint="Semanas"
-        android:inputType="number"
-        android:tooltipText="Semanas"
-        tools:layout_editor_absoluteX="71dp"
-        tools:layout_editor_absoluteY="270dp" />
+        <EditText
+            android:id="@+id/editTexWeeks_FragmentAddTrainingPlan"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/editTexName_FragmentAddTrainingPlan"
+            android:layout_marginTop="10dp"
+            android:ems="12"
+            android:hint="Semanas"
+            android:inputType="number"
+            android:textFontWeight="14"
+            android:tooltipText="Semanas"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp" />
 
-    <EditText
-        android:id="@+id/editTexDescription_FragmentAddTrainingPlan"
-        android:layout_width="326dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="170dp"
-        android:ems="12"
-        android:hint="Descripción"
-        android:inputType="textLongMessage"
-        android:tooltipText="Descripcíon"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="71dp"
-        tools:layout_editor_absoluteY="336dp" />
+        <EditText
+            android:id="@+id/editTexDescription_FragmentAddTrainingPlan"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/editTexWeeks_FragmentAddTrainingPlan"
+            android:layout_marginTop="10dp"
+            android:ems="12"
+            android:hint="Descripción"
+            android:inputType="textLongMessage"
+            android:tooltipText="Descripcíon"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+        <LinearLayout
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/LayoutLunes"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_below="@id/editTexDescription_FragmentAddTrainingPlan"
+            >
+            <CheckBox
+                android:id="@+id/checkBox_lunes_FragmentAddTrainingPlan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:layoutDirection="rtl"
+                android:hint="Lunes"
+                android:text="Lunes"
+                android:background="@color/mainBG" />
+        </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/checkBox_lunes_FragmentAddTrainingPlan"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
-        android:layout_marginLeft="50dp"
-        android:textColor="@color/main"
-        android:hint="Lunes"
-        android:text="Lunes" />
+        <LinearLayout
+            android:layout_width="326dp"
+            android:layout_height="40dp"
+            android:id="@+id/LayoutRepLunes"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="40dp"
+            android:layout_below="@id/LayoutLunes">
 
-    <CheckBox
-        android:id="@+id/checkBox_martes_FragmentAddTrainingPlan"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:layout_marginLeft="50dp"
-        android:textColor="@color/main"
-        android:hint="Martes"
-        android:text="Martes" />
+            <TextView
+                android:layout_width="210dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="Repeticiones" />
 
-    <CheckBox
-        android:id="@+id/checkBox_miercoles_FragmentAddTrainingPlan"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:layout_marginLeft="50dp"
-        android:textColor="@color/main"
-        android:hint="Miercoles"
-        android:text="Miercoles" />
+            <ImageButton
+                android:id="@+id/btnMinus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/main"
+                android:src="@drawable/baseline_add_24" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="30dp"
+                android:gravity="center"
+                android:text="1" />
 
-    <CheckBox
-        android:id="@+id/checkBox_jueves_FragmentAddTrainingPlan"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
-        android:layout_marginLeft="50dp"
-        android:textColor="@color/main"
-        android:hint="Jueves"
-        android:text="Jueves" />
-
-    <CheckBox
-        android:id="@+id/checkBox_viernes_FragmentAddTrainingPlan"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="480dp"
-        android:layout_marginLeft="50dp"
-        android:textColor="@color/main"
-        android:hint="Viernes"
-        android:text="Viernes" />
-
-    <android.widget.NumberPicker
-        android:id="@+id/numberPicker_lunes"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="245dp"
-        android:layout_marginLeft="290dp"
-        />
-
-    <android.widget.NumberPicker
-        android:id="@+id/numberPicker_martes"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="305dp"
-        android:layout_marginLeft="290dp"
-        />
-
-    <android.widget.NumberPicker
-        android:id="@+id/numberPicker_miercoles"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="370dp"
-        android:layout_marginLeft="290dp"
-        />
-
-    <android.widget.NumberPicker
-        android:id="@+id/numberPicker_jueves"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="430dp"
-        android:layout_marginLeft="290dp"
-        />
-
-    <android.widget.NumberPicker
-        android:id="@+id/numberPicker_viernes"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="490dp"
-
-        android:layout_marginLeft="290dp"
-        />
-       <!--  -->
-
-    <Button
-        android:id="@+id/buttonAgregar_FragmentAddTrainingPlan"
-        android:layout_width="301dp"
-        android:layout_height="38dp"
-        android:text="@string/textBtnAddTrainginPlan"
-        android:textFontWeight="14"
-        android:backgroundTint="@color/main"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="600dp"/>
+            <ImageButton
+                android:id="@+id/btnPlus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/main"
+                android:src="@drawable/outline_check_indeterminate_small_24" />
+        </LinearLayout>
 
 
+        <!--
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LayoutMartes"
+            android:orientation="horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_below="@id/LayoutLunes"
+            >
+            <CheckBox
+                android:id="@+id/checkBox_martes_FragmentAddTrainingPlan"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:hint="Martes"
+                android:text="Martes"
+                android:background="@color/mainBG" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LayoutMiercoles"
+            android:orientation="horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_below="@id/LayoutMartes"
+            >
+            <CheckBox
+                android:id="@+id/checkBox_miercoles_FragmentAddTrainingPlan"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:hint="Miercoles"
+                android:text="Miercoles"
+                android:background="@color/mainBG" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LayoutJueves"
+            android:orientation="horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_below="@id/LayoutMiercoles"
+            >
+            <CheckBox
+                android:id="@+id/checkBox_jueves_FragmentAddTrainingPlan"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:hint="Jueves"
+                android:text="Jueves"
+                android:background="@color/mainBG" />
 
+        </LinearLayout>
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LayoutViernes"
+            android:orientation="horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_below="@id/LayoutJueves"
+            >
+            <CheckBox
+                android:id="@+id/checkBox_viernes_FragmentAddTrainingPlan"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:hint="Viernes"
+                android:text="Viernes"
+                android:background="@color/mainBG" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonAgregar_FragmentAddTrainingPlan"
+            android:layout_below="@id/LayoutViernes"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/main"
+            android:text="@string/textBtnAddTrainginPlan"
+            android:textFontWeight="14" />
+            -->
+    </RelativeLayout>
+</ScrollView>

@@ -3,25 +3,35 @@ package com.miso202402.SportApp.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.NumberPicker
+import android.widget.Spinner
 import android.widget.Toast
+import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
+import com.miso202402.SportApp.src.utils.SharedPreferences
+import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddTrainingPlanBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
@@ -39,17 +49,44 @@ class AddTrainingPlanFragment : Fragment() {
     private val binding get() = _binding!!
 
     var domain : String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
-    private var token: String? = ""
-    private var id: String? = ""
-    private var sport: String? = ""
+    private var user_id: String? = ""
+    private var typePlan: String? = ""
     private var instructions = arrayOf("","","","","")
+    private lateinit var preferences: SharedPreferences
+    private var tipoDeporte : String? = ""
+    private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
+    private lateinit var nameEditText: EditText
+    private lateinit var weeksEditText: EditText
+    private lateinit var descriptionEditText: EditText
+    private lateinit var buttonAddPlan: Button
+
+    private lateinit var numberPickerLunes: NumberPicker
+    private lateinit var numberPickerMartes: NumberPicker
+    private lateinit var numberPickerMiercoles: NumberPicker
+    private lateinit var numberPickerJueves: NumberPicker
+    private lateinit var numberPickerViernes: NumberPicker
+    private lateinit var checkBoxLunes: CheckBox
+    private lateinit var checkBoxMartes: CheckBox
+    private lateinit var checkBoxMiercoles: CheckBox
+    private lateinit var checkBoxJueves: CheckBox
+    private lateinit var checkBoxViernes: CheckBox
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
+    }
 
 
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddTrainingPlanBinding.inflate(inflater, container, false)
+        user_id = preferences.getData<String>("id").toString()
+        typePlan = preferences.getData<String>("typePlan").toString()
+        Log.i("user_id", user_id!!)
+        Log.i("typePlan", typePlan!!)
         return binding.root
     }
 
@@ -57,60 +94,63 @@ class AddTrainingPlanFragment : Fragment() {
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString("token")?.let {
-            this.token = it.toString()
-            Log.i("token", this.token.toString())
+
+        var spinner = view.findViewById<Spinner>(R.id.spinner_TrainingSessionFragment)
+        activity?.let {
+            ArrayAdapter.createFromResource(it,
+                R.array.SportPlanCreation,
+                android.R.layout.simple_spinner_item
+            ).also { arrayAdapter ->
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = arrayAdapter
+            }
         }
-        arguments?.getString("id")?.let {
-            this.id = it.toString()
-            Log.i("id", this.id.toString())
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                tipoDeporte = vectorTipoDeporte[p2]
+                Log.i("mesnaje al selecionar tipo de deporte ", tipoDeporte.toString())
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        arguments?.getString("sport")?.let {
-            this.sport = it.toString()
-            Log.i("sport", this.id.toString())
-        }
-
-        val nameEditText = view.findViewById<EditText>(R.id.editTexName_FragmentAddTrainingPlan)
-        val weeksEditText = view.findViewById<EditText>(R.id.editTexWeeks_FragmentAddTrainingPlan)
-        val descriptionEditText = view.findViewById<EditText>(R.id.editTexDescription_FragmentAddTrainingPlan)
-
-        var buttonAddPlan = view.findViewById<Button>(R.id.buttonAgregar_FragmentAddTrainingPlan)
-
-
-        val numberPickerLunes = view.findViewById<NumberPicker>(R.id.numberPicker_lunes)
+        nameEditText = view.findViewById<EditText>(R.id.editTexName_FragmentAddTrainingPlan)
+        weeksEditText = view.findViewById<EditText>(R.id.editTexWeeks_FragmentAddTrainingPlan)
+        descriptionEditText = view.findViewById<EditText>(R.id.editTexDescription_FragmentAddTrainingPlan)
+        /*
+        buttonAddPlan = view.findViewById<Button>(R.id.buttonAgregar_FragmentAddTrainingPlan)
+        numberPickerLunes = view.findViewById<NumberPicker>(R.id.numberPicker_lunes)
         numberPickerLunes.minValue = 1
         numberPickerLunes.maxValue = 10
         numberPickerLunes.isEnabled = false
 
 
-        val numberPickerMartes = view.findViewById<NumberPicker>(R.id.numberPicker_martes)
+        numberPickerMartes = view.findViewById<NumberPicker>(R.id.numberPicker_martes)
         numberPickerMartes.minValue = 1
         numberPickerMartes.maxValue = 10
         numberPickerMartes.isEnabled = false
 
-        val numberPickerMiercoles = view.findViewById<NumberPicker>(R.id.numberPicker_miercoles)
+        numberPickerMiercoles = view.findViewById<NumberPicker>(R.id.numberPicker_miercoles)
         numberPickerMiercoles.minValue = 1
         numberPickerMiercoles.maxValue = 10
         numberPickerMiercoles.isEnabled = false
 
-        val numberPickerJueves = view.findViewById<NumberPicker>(R.id.numberPicker_jueves)
+        numberPickerJueves = view.findViewById<NumberPicker>(R.id.numberPicker_jueves)
         numberPickerJueves.minValue = 1
         numberPickerJueves.maxValue = 10
         numberPickerJueves.isEnabled = false
 
-        val numberPickerViernes = view.findViewById<NumberPicker>(R.id.numberPicker_viernes)
+        numberPickerViernes = view.findViewById<NumberPicker>(R.id.numberPicker_viernes)
         numberPickerViernes.minValue = 1
         numberPickerViernes.maxValue = 10
         numberPickerViernes.isEnabled = false
         //numberPicker.setOnValueChangedListener{ picker, oldVal, newVal ->
         //}
 
-        val checkBoxLunes = view.findViewById<CheckBox>(R.id.checkBox_lunes_FragmentAddTrainingPlan)
-        val checkBoxMartes = view.findViewById<CheckBox>(R.id.checkBox_martes_FragmentAddTrainingPlan)
-        val checkBoxMiercoles = view.findViewById<CheckBox>(R.id.checkBox_miercoles_FragmentAddTrainingPlan)
-        val checkBoxJueves = view.findViewById<CheckBox>(R.id.checkBox_jueves_FragmentAddTrainingPlan)
-        val checkBoxViernes = view.findViewById<CheckBox>(R.id.checkBox_viernes_FragmentAddTrainingPlan)
+        checkBoxLunes = view.findViewById<CheckBox>(R.id.checkBox_lunes_FragmentAddTrainingPlan)
+        checkBoxMartes = view.findViewById<CheckBox>(R.id.checkBox_martes_FragmentAddTrainingPlan)
+        checkBoxMiercoles = view.findViewById<CheckBox>(R.id.checkBox_miercoles_FragmentAddTrainingPlan)
+        checkBoxJueves = view.findViewById<CheckBox>(R.id.checkBox_jueves_FragmentAddTrainingPlan)
+        checkBoxViernes = view.findViewById<CheckBox>(R.id.checkBox_viernes_FragmentAddTrainingPlan)
 
         checkBoxLunes.setOnClickListener {
             if( checkBoxLunes.isChecked)
@@ -144,94 +184,98 @@ class AddTrainingPlanFragment : Fragment() {
         }
 
         buttonAddPlan.setOnClickListener {
-            Log.i("vector", instructions?.size.toString())
-            Log.i("vector", instructions[0].toString())
-            Log.i("Entre", "entre al boton")
-            val sport: String = if(this.sport.toString() == "") "Ciclismo" else "Atletismo"
-            val utils = Utils()
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    Log.i("Entre", "entre a la corrutina")
-                    val callCreateTrainingplan = utils.getRetrofit(domain)
-                        .create(ApiService::class.java)
-                        .createTrainingPlan(TrainingPlanRequest(
-                            nameEditText.text.toString(),
-                            descriptionEditText.text.toString(),
-                            weeksEditText.text.toString().toInt(),
-                            if (checkBoxLunes.isChecked()) 1 else 0,
-                            if (checkBoxMartes.isChecked()) 1 else 0,
-                            if (checkBoxMiercoles.isChecked()) 1 else 0,
-                            if (checkBoxJueves.isChecked()) 1 else 0,
-                            if (checkBoxViernes.isChecked()) 1 else 0,
-                            "1",
-                            sport,
-                            "",
-                            "")).execute()
-                    val createTrainingplanResponse = callCreateTrainingplan.body() as TrainingPlansResponse?
-                    var dia: String
-                    var objective_repeats: Int;
-                    val type_objective: String = "1"
-                        Log.i("message createTrainingplanResponse", createTrainingplanResponse?.message.toString())
-                        if (createTrainingplanResponse?.code == 200) {
-                            val id_training_plan: String = createTrainingplanResponse.trainingPlan?.id.toString()
-                            Log.i("id_training_plan", id_training_plan)
+            AddTrainingPlan()
+        }
+        */
+    }
 
-                            if (checkBoxLunes.isChecked() == true) {
-                                dia = "Lunes"
-                                objective_repeats = numberPickerLunes.value.toInt()
-                                Log.i("objective_repeats", objective_repeats.toString())
-                                makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
-                            }
-                            if (checkBoxMartes.isChecked() == true) {
-                                dia = "Martes"
-                                objective_repeats = numberPickerLunes.value.toInt()
-                                Log.i("objective_repeats", objective_repeats.toString())
-                                makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
-                            }
-                            if (checkBoxMiercoles.isChecked() == true) {
-                                dia = "Miercoles"
-                                Log.i("Entre miercoles", "Miercoles")
-                                objective_repeats = numberPickerLunes.value.toInt()
-                                Log.i("objective_repeats", objective_repeats.toString())
-                                makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
-                            }
-                            if (checkBoxJueves.isChecked() == true) {
-                                dia = "Jueves"
-                                objective_repeats = numberPickerLunes.value.toInt()
-                                Log.i("objective_repeats", objective_repeats.toString())
-                                makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
-                            }
-                            if (checkBoxViernes.isChecked() == true) {
-                                dia = "Viernes"
-                                objective_repeats = numberPickerLunes.value.toInt()
-                                Log.i("objective_repeats", objective_repeats.toString())
-                                makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
-                            }
-                            Log.i("Sali", "Sali de la De la creacion del Objeto")
-                            val message: String = createTrainingplanResponse?.message.toString()
-                            activity?.let { showMessageDialog(it, message) }
+    private fun AddTrainingPlan(){
+        Log.i("vector", instructions?.size.toString())
+        Log.i("vector", instructions[0].toString())
+        Log.i("Entre", "entre al boton")
+        val sport: String = if(this.tipoDeporte.toString() == "") "Ciclismo" else "Atletismo"
+        val utils = Utils()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.i("Entre", "entre a la corrutina")
+                val callCreateTrainingplan = utils.getRetrofit(domain)
+                    .create(ApiService::class.java)
+                    .createTrainingPlan(TrainingPlanRequest(
+                        nameEditText.text.toString(),
+                        descriptionEditText.text.toString(),
+                        weeksEditText.text.toString().toInt(),
+                        if (checkBoxLunes.isChecked()) 1 else 0,
+                        if (checkBoxMartes.isChecked()) 1 else 0,
+                        if (checkBoxMiercoles.isChecked()) 1 else 0,
+                        if (checkBoxJueves.isChecked()) 1 else 0,
+                        if (checkBoxViernes.isChecked()) 1 else 0,
+                        "1",
+                        sport,
+                        "",
+                        "")).execute()
+                val createTrainingplanResponse = callCreateTrainingplan.body() as TrainingPlansResponse?
+                var dia: String
+                var objective_repeats: Int;
+                val type_objective: String = "1"
+                Log.i("message createTrainingplanResponse", createTrainingplanResponse?.message.toString())
+                if (createTrainingplanResponse?.code == 200) {
+                    val id_training_plan: String = createTrainingplanResponse.trainingPlan?.id.toString()
+                    Log.i("id_training_plan", id_training_plan)
 
-                            val bundle = bundleOf("token" to  token,
-                                "id" to id,
-                                "sport" to sport)
-                            findNavController().navigate(R.id.action_addTrainingPlanFragment_to_FirstFragment, bundle)
+                    if (checkBoxLunes.isChecked() == true) {
+                        dia = "Lunes"
+                        objective_repeats = numberPickerLunes.value.toInt()
+                        Log.i("objective_repeats", objective_repeats.toString())
+                        makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
+                    }
+                    if (checkBoxMartes.isChecked() == true) {
+                        dia = "Martes"
+                        objective_repeats = numberPickerLunes.value.toInt()
+                        Log.i("objective_repeats", objective_repeats.toString())
+                        makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
+                    }
+                    if (checkBoxMiercoles.isChecked() == true) {
+                        dia = "Miercoles"
+                        Log.i("Entre miercoles", "Miercoles")
+                        objective_repeats = numberPickerLunes.value.toInt()
+                        Log.i("objective_repeats", objective_repeats.toString())
+                        makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
+                    }
+                    if (checkBoxJueves.isChecked() == true) {
+                        dia = "Jueves"
+                        objective_repeats = numberPickerLunes.value.toInt()
+                        Log.i("objective_repeats", objective_repeats.toString())
+                        makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
+                    }
+                    if (checkBoxViernes.isChecked() == true) {
+                        dia = "Viernes"
+                        objective_repeats = numberPickerLunes.value.toInt()
+                        Log.i("objective_repeats", objective_repeats.toString())
+                        makeObjetiveInstructions(dia, objective_repeats, type_objective, id_training_plan, utils)
+                    }
+                    Log.i("Sali", "Sali de la De la creacion del Objeto")
+                    val message: String = createTrainingplanResponse?.message.toString()
+                    activity?.let { showMessageDialog(it, message) }
+
+                    /*
+                    val bundle = bundleOf("token" to  token,
+                        "id" to id,
+                        "sport" to sport)
+                    findNavController().navigate(R.id.action_addTrainingPlanFragment_to_FirstFragment, bundle)
+                    */
 
 
-
-                        } else {
-                            val errorMessage: String =
-                                createTrainingplanResponse?.message.toString()
-                            activity?.let { showMessageDialog(it, errorMessage) }
-                        }
-                    //}
-
-                } catch (e: Exception) {
-                    Log.e("error",e.message.toString())
+                } else {
+                    val errorMessage: String =
+                        createTrainingplanResponse?.message.toString()
+                    activity?.let { showMessageDialog(it, errorMessage) }
                 }
+                //}
+
+            } catch (e: Exception) {
+                Log.e("error",e.message.toString())
             }
         }
-
-
     }
 
 

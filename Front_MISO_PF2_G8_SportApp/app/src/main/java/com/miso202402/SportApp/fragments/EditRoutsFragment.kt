@@ -136,6 +136,7 @@ class EditRoutsFragment : Fragment() {
                         binding.editLinkEditRoutsFragment.setText(rout.link.toString())
                         binding.editTexDateEditRoutsFragment.setText(rout.route_date.toString())
                         route_date = rout.route_date.toString()
+                        tipoDeporte = rout.sport.toString()
                       /* if (rout.sport == "Atletismo") {
                            binding.spinnerEditRoutsFragment.setSelection(0)
                            tipoDeporte = "Atletismo"

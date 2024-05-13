@@ -114,14 +114,8 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
         binding.buttonAgregarFragmentTrainingSession.setOnClickListener {
-            val bundle = bundleOf(
-                "token" to  arguments?.getString("token"),
-                "id" to  arguments?.getString("id"),
-                "sport" to tipoDeporte
-            )
-            findNavController().navigate(
-                R.id.action_trainingSessionFragment_to_addTrainingPlanFragment,
-                bundle)
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
         }
 
     }

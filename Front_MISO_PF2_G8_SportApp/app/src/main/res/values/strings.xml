@@ -35,5 +35,10 @@
         <item>Ciclismo</item>
     </string-array>
 
+    <string-array name="SportPlanCreation">
+        <item>Atletismo</item>
+        <item>Ciclismo</item>
+    </string-array>
+
 
 </resources>
