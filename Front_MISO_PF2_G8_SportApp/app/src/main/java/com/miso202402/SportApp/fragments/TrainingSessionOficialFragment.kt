@@ -107,7 +107,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                 Log.i("Info date", date)
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    createConsultation()
+                    createConsultation(date)
                 }
 
             //}
@@ -125,7 +125,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
     }
 
 
-    private suspend fun createConsultation() {
+    private suspend fun createConsultation(date: String) {
         val utils = Utils()
         return withContext(Dispatchers.IO) {
             try {
@@ -138,7 +138,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                         user_id,
                         if(binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked) "Virtual" else "Presencial",
                         date,
-                        binding.editTexDescriptionTrainingSessionOficialFragment.text.toString()
+                        ""
 
                     ))
                     .execute()
@@ -148,7 +148,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                 Log.i("getAllConsultation Size: ",
                     getAllConsultationByUserIdResponse?.content?.id!!
                 )
-                if (getAllConsultationByUserIdResponse?.code == 200){
+                if (getAllConsultationByUserIdResponse?.code == 201){
 
                     val message: String = "La session fue programada exitosamante"
                     activity?.let { utils.showMessageDialog(it, message)}
@@ -158,6 +158,9 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                     mainActivity?.navigateToFragment(R.id.calendar)
 
                 } else {
+                    val message: String = "La session no fue programada exitosamante"
+                    activity?.let { utils.showMessageDialog(it, message)}
+                    Log.e("Fallo al Crear la Sesion", message)
 
                 }
             } catch (e: Exception) {

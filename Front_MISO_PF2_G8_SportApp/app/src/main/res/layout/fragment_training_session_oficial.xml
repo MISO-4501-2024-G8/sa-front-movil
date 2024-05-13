@@ -11,10 +11,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="45dp"
         android:textColor="@color/black"
         android:textSize="25sp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="120dp"
         android:text="Agendar Sesíon" />
 
     <RadioButton
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:textColorHighlight="@color/main"
         android:textColor="@color/main"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="80dp"
         android:layout_marginLeft="41dp"
         android:layout_height="wrap_content"
         android:text="Sesión Virtual" />
@@ -33,23 +33,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/main"
         android:textColorHighlight="@color/main"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="80dp"
         android:layout_marginLeft="230dp"
         android:text="Sesión Presencial" />
-
-    <EditText
-        android:id="@+id/editTexDescription_TrainingSessionOficialFragment"
-        android:layout_width="326dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="110dp"
-        android:ems="12"
-        android:hint="Descripción"
-        android:inputType="textLongMessage"
-        android:tooltipText="Descripcíon"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="71dp"
-        tools:layout_editor_absoluteY="336dp" />
 
     <DatePicker
         android:id="@+id/calendarView_TrainingSessionOficialFragment"
@@ -59,7 +45,7 @@
         android:layout_gravity="center_horizontal"
         android:calendarViewShown="false"
         android:datePickerMode="calendar"
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="135dp"
         android:spinnersShown="true" />
 
     <RadioButton
@@ -67,7 +53,7 @@
         android:layout_width="wrap_content"
         android:textColorHighlight="@color/main"
         android:textColor="@color/main"
-        android:layout_marginTop="440dp"
+        android:layout_marginTop="430dp"
         android:layout_marginLeft="41dp"
         android:layout_height="wrap_content"
         android:text="Deportologo" />
@@ -78,7 +64,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/main"
         android:textColorHighlight="@color/main"
-        android:layout_marginTop="440dp"
+        android:layout_marginTop="430dp"
         android:layout_marginLeft="230dp"
         android:text="Entrenador" />
 
@@ -100,13 +86,13 @@
 
     <Button
         android:id="@+id/buttonAgregar_TrainingSessionOficialFragment"
-        android:layout_width="301dp"
+        android:layout_width="130dp"
         android:layout_height="38dp"
         android:text="@string/textBtnAddTrainginPlan"
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="750dp"/>
+        android:layout_marginLeft="295dp"
+        android:layout_marginTop="805dp"/>
 
 
 
