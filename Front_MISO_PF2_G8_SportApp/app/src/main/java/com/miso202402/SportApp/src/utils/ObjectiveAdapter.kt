@@ -3,6 +3,7 @@ package com.miso202402.SportApp.src.utils
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,13 +29,17 @@ class ObjectiveAdapter (
     lateinit var listener:ClicListener_Instruction
     private lateinit var instructionAdapter: InstructionAdapter
     lateinit var instructionList: MutableList<Instruction>
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val checkBoxDay: CheckBox = view.findViewById(R.id.checkBoxDay)
         val qtyText: TextView = view.findViewById(R.id.qtyText)
+        val qtyIText: TextView = view.findViewById(R.id.qtyIText)
         val btnMinusRepeticiones: ImageButton = view.findViewById(R.id.btnMinusRepeticiones)
         val btnPlusRepeticiones: ImageButton = view.findViewById(R.id.btnPlusRepeticiones)
         val btnPlusInstruction: ImageButton = view.findViewById(R.id.btnPlusInstruction)
         val recyclerViewInstructions: RecyclerView = view.findViewById(R.id.recyclerview_ListInstructions)
+        val LayoutRepLunes: LinearLayout = view.findViewById(R.id.LayoutRepLunes)
+        val LayoutInstLunes: LinearLayout = view.findViewById(R.id.LayoutInstLunes)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,8 +56,9 @@ class ObjectiveAdapter (
         }
         instructionList = objective.instructions?.toMutableList() ?: mutableListOf()
         holder.checkBoxDay.text = objective.day
-        holder.checkBoxDay.isChecked = false
+        holder.checkBoxDay.isChecked = objective.checked?:false
         holder.qtyText.text = objective.repeats.toString()
+        holder.qtyIText.text = objective.instructions?.size.toString()
         holder.btnMinusRepeticiones.isEnabled = objective.repeats!! > 0
 
         instructionAdapter = InstructionAdapter(objective.instructions ?: emptyList(), this)
@@ -60,6 +67,31 @@ class ObjectiveAdapter (
             adapter = instructionAdapter
             setHasFixedSize(true)
         }
+
+        if (holder.checkBoxDay.isChecked ) {
+            holder.LayoutRepLunes.visibility = View.VISIBLE
+            holder.LayoutInstLunes.visibility = View.VISIBLE
+            holder.recyclerViewInstructions.visibility = View.VISIBLE
+        } else {
+            holder.LayoutRepLunes.visibility = View.GONE
+            holder.LayoutInstLunes.visibility = View.GONE
+            holder.recyclerViewInstructions.visibility = View.GONE
+        }
+
+        holder.checkBoxDay.setOnCheckedChangeListener { buttonView, isChecked ->
+            Log.i("ObjectiveAdapter", "checkboxEnabled  $isChecked")
+            if (isChecked) {
+                holder.LayoutRepLunes.visibility = View.VISIBLE
+                holder.LayoutInstLunes.visibility = View.VISIBLE
+                holder.recyclerViewInstructions.visibility = View.VISIBLE
+            } else {
+                holder.LayoutRepLunes.visibility = View.GONE
+                holder.LayoutInstLunes.visibility = View.GONE
+                holder.recyclerViewInstructions.visibility = View.GONE
+            }
+            objective.checked = isChecked
+        }
+
 
         with(holder) {
             btnPlusInstruction.setOnClickListener {
@@ -76,10 +108,6 @@ class ObjectiveAdapter (
                 objective.repeats = objective.repeats!! + 1
                 qtyText.text = objective.repeats.toString()
                 btnMinusRepeticiones.isEnabled = true
-            }
-
-            checkBoxDay.setOnClickListener {
-                checkBoxDay.isChecked = !checkBoxDay.isChecked
             }
         }
     }
@@ -106,30 +134,6 @@ class ObjectiveAdapter (
             }
         }
     }
-    /*
-    override fun onRemoveItemClick(view: View, instruction: Instruction){
-        val objectiveID: String = instruction.id_objective.toString()
-        val objective = objectiveList.first() {item ->
-            item.day == objectiveID
-        }
-
-        instructionList = objective.instructions?.toMutableList() ?: mutableListOf()
-        Log.i("ObjectiveAdapter","onRemoveItemClick")
-        Log.i("ObjectiveAdapter","Objective Day ${objective.day}")
-        val position = instructionList.indexOf(instruction)
-        if (position != -1) {
-            //instructionList.removeAt(position)
-            objective.instructions?.toMutableList()?.apply {
-                removeAt(position)
-                objective.instructions = this
-            }
-            instructionAdapter.notifyDataSetChanged()
-            Log.i("ObjectiveAdapter","onRemoveItemClick removed")
-        } else {
-            Log.e("InstructionAdapter", "Instrucción no encontrada en la lista")
-        }
-    }
-    */
 
     private fun showAddInstructionDialog(instruction: Instruction) {
         val dialog = AlertDialog.Builder(context)

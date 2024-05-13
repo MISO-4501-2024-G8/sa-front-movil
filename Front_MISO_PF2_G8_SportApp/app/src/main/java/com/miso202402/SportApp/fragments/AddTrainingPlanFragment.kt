@@ -79,11 +79,13 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     private lateinit var numberPickerJueves: NumberPicker
     private lateinit var numberPickerViernes: NumberPicker
     */
+    /*
     private lateinit var checkBoxLunes: CheckBox
     private lateinit var checkBoxMartes: CheckBox
     private lateinit var checkBoxMiercoles: CheckBox
     private lateinit var checkBoxJueves: CheckBox
     private lateinit var checkBoxViernes: CheckBox
+     */
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -108,6 +110,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         binding.recyclerviewListObjetivos.setHasFixedSize(true)
         binding.recyclerviewListObjetivos.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewListObjetivos.adapter = objectiveAdapter
+
         val objectivoLunes = Objective("","","Lunes",0,"1", listOf())
         objectiveList.add(objectivoLunes)
         objectiveAdapter.notifyDataSetChanged()
