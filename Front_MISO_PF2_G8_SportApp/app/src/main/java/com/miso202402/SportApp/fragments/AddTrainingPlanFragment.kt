@@ -67,7 +67,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     private lateinit var weeksEditText: EditText
     private lateinit var descriptionEditText: EditText
     private lateinit var buttonAddPlan: Button
-    private lateinit var objectiveAdapter: ObjectiveAdapter
+    lateinit var objectiveAdapter: ObjectiveAdapter
     lateinit var listener: ClickListener_Objective
     private lateinit var objectiveList: MutableList<Objective>
 
@@ -125,25 +125,16 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         dialog.setView(dialogView)
             .setTitle("Agregar Instrucción")
             .setPositiveButton("Agregar") { dialogInterface, _ ->
-                // Obtener los valores ingresados por el usuario en el cuadro de diálogo
                 val description = editTextDescription.text.toString()
                 val time = editTextTime.text.toString().toIntOrNull() ?: 0
-
-                // Validar que se haya ingresado una descripción y un tiempo válido
                 if (description.isNotEmpty() && time > 0) {
-                    // Crear una nueva instrucción con los valores ingresados
                     val newInstruction = Instruction("",objective.day,description, time)
-
-                    // Agregar la nueva instrucción a la lista de instrucciones del objetivo
                     objective.instructions?.toMutableList()?.apply {
                         add(newInstruction)
                         objective.instructions = this
                     }
-
-                    // Notificar al adaptador que se agregó una nueva instrucción
                     notifyDataSetChanged()
                 } else {
-                    // Mostrar un mensaje de error si la descripción está vacía o el tiempo no es válido
                     Toast.makeText(requireContext(), "Por favor, ingrese una descripción y un tiempo válido.", Toast.LENGTH_SHORT).show()
                 }
                 dialogInterface.dismiss()
@@ -158,6 +149,14 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     fun notifyDataSetChanged(){
         objectiveAdapter.notifyDataSetChanged()
     }
+
+    override fun onRemoveItemClick(view: View, instruction: Instruction) {
+        Log.i("AddTrainingPlanFragment", "onRemoveItemClick")
+        // Aquí puedes implementar la lógica para eliminar la instrucción del adaptador de objetivos
+        objectiveAdapter.onRemoveItemClick(view, instruction)
+        objectiveAdapter.notifyDataSetChanged() // Notificar al adaptador del objetivo que los datos han cambiado
+    }
+
 
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
