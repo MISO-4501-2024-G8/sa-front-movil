@@ -54,6 +54,7 @@ import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Error
 import java.util.Vector
 
 
@@ -278,7 +279,6 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                 mostrarSnackbar("La descripcion del plan no debe ser vacio")
                 return@setOnClickListener
             }
-            var objectivesTemp : MutableList<Objective> = this.objectiveList
             for (objective in objectiveList) {
                 Log.i("ObjectiveList", "Day: ${objective.day}, Checked: ${objective.checked},Repeats: ${objective.repeats}, Qty Instrucciones: ${objective.instructions?.size.toString()}")
                 if(objective.checked == true){
@@ -292,6 +292,22 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                     }
                 }
             }
+            if(FoodRoutineId.toString() == ""){
+                mostrarSnackbar("Se debe seleccionar al menos una Rutina de Alimentacion")
+                return@setOnClickListener
+            }
+
+            if(RestRoutineId.toString() == ""){
+                mostrarSnackbar("Se debe seleccionar al menos una Rutina de Descanso")
+                return@setOnClickListener
+            }
+
+            if(typePlan != "basico" && (alertasE == "null" || alertasE == "")){
+                mostrarSnackbar("Se deben seleccionar las alertas")
+                return@setOnClickListener
+            }
+            var objectivesTemp : MutableList<Objective> = this.objectiveList
+            AddTrainingPlan(objectivesTemp)
             Log.i("ObjectiveList","Continuar Proceso de Creacion de Plan..")
             Log.i("ObjectiveList","Nombre: ${nameEditText.text} Semanas: ${weeksEditText.text} Descripcion: ${descriptionEditText.text} Deporte: $tipoDeporte")
         }
@@ -368,8 +384,13 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
             binding.recyclerviewListObjetivos.setHasFixedSize(true)
             binding.recyclerviewListObjetivos.layoutManager = LinearLayoutManager(context)
             binding.recyclerviewListObjetivos.adapter = objectiveAdapter
-            objectiveAdapter.notifyDataSetChanged()
 
+            var spinner = view?.findViewById<Spinner>(R.id.spinner_TrainingSessionFragment)
+            if (spinner != null) {
+                val posicion = vectorTipoDeporte.indexOf(tipoDeporte)
+                spinner.setSelection(posicion)
+            }
+            objectiveAdapter.notifyDataSetChanged()
         }
     }
 
@@ -379,8 +400,148 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         }
     }
 
-    /*
-    private fun AddTrainingPlan(){
+    private fun checkDayEnabled(planObjectives:MutableList<Objective>, day:String):Int{
+        val CheckedForDay: Boolean? = planObjectives
+            .firstOrNull { it.day == day }
+            ?.checked
+        var enabled = if (CheckedForDay == true) 1 else 0
+        return enabled
+    }
+
+    private fun AddTrainingPlan(objectivesTemp:MutableList<Objective>){
+
+        var planName:String = nameEditText.text.toString()
+        var planDescription:String = descriptionEditText.text.toString()
+        var planWeeks:String = weeksEditText.text.toString()
+        var lunes_enabled:Int = 0
+        var martes_enabled:Int = 0
+        var miercoles_enabled:Int = 0
+        var jueves_enabled:Int = 0
+        var viernes_enabled:Int = 0
+        var planType:String = typePlan.toString()
+        var planSport:String = tipoDeporte.toString()
+        var id_eating_routine:String = FoodRoutineId.toString()
+        var id_rest_routine:String = RestRoutineId.toString()
+        var planObjectives:MutableList<Objective> = mutableListOf<Objective>().apply {
+            addAll(objectivesTemp)
+        }
+        // Revisar los dias que estan checkeados
+        lunes_enabled = checkDayEnabled(planObjectives,"Lunes")
+        martes_enabled = checkDayEnabled(planObjectives,"Martes")
+        miercoles_enabled = checkDayEnabled(planObjectives,"Miercoles")
+        jueves_enabled = checkDayEnabled(planObjectives,"Jueves")
+        viernes_enabled = checkDayEnabled(planObjectives,"Viernes")
+        // Filtrar solo los dias que estan checkeados
+        planObjectives = planObjectives.filter { it.checked == true }.toMutableList()
+
+        var tempTrainingPlan:TrainingPlan = TrainingPlan(
+            "",
+            planName,
+            planDescription,
+            planWeeks,
+            lunes_enabled,
+            martes_enabled,
+            miercoles_enabled,
+            jueves_enabled,
+            viernes_enabled,
+            planType,
+            planSport,
+            id_eating_routine,
+            id_rest_routine,
+            planObjectives
+        )
+
+
+        var idTrainingPlan = ""
+        val utils = Utils()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.i("AddTrainingPlan", "Antes de creacion de plan")
+                val callCreateTrainingPlan = utils.getRetrofit(domain)
+                    .create(ApiService::class.java)
+                    .createTrainingPlan(TrainingPlanRequest(
+                        tempTrainingPlan.name.toString(),
+                        tempTrainingPlan.description.toString(),
+                        tempTrainingPlan.weeks.toString().toInt(),
+                        tempTrainingPlan.lunes_enabled.toString().toInt(),
+                        tempTrainingPlan.martes_enabled.toString().toInt(),
+                        tempTrainingPlan.miercoles_enabled.toString().toInt(),
+                        tempTrainingPlan.jueves_enabled.toString().toInt(),
+                        tempTrainingPlan.viernes_enabled.toString().toInt(),
+                        tempTrainingPlan.type_plan.toString(),
+                        tempTrainingPlan.sport.toString(),
+                        tempTrainingPlan.id_rest_routine.toString(),
+                        tempTrainingPlan.id_eating_routine.toString()
+                    )).execute()
+                val createTrainingPlanResponse = callCreateTrainingPlan.body() as TrainingPlansResponse?
+                Log.i("message createTrainingPlanResponse", createTrainingPlanResponse?.message.toString())
+                if (createTrainingPlanResponse?.code == 200) {
+                    idTrainingPlan = createTrainingPlanResponse.trainingPlan?.id.toString()
+                    Log.i("id_training_plan", idTrainingPlan)
+                    for (objective in planObjectives) {
+                        createObjective(idTrainingPlan, objective, utils)
+                    }
+                }else{
+                    var errorMessage = createTrainingPlanResponse?.message.toString()
+                    Log.e("AddTrainingPlan error",errorMessage)
+                    throw Exception("Error al crear el plan: $errorMessage")
+                }
+            }catch (e: Exception) {
+                Log.e("AddTrainingPlan $idTrainingPlan error: ",e.message.toString())
+                // revisar si existe un plan con el id creado, si si borrarlo, y enviar mensaje en pantalla del error
+            }
+        }
+
+    }
+
+    private fun createObjective(id_training_plan: String, objective: Objective, utils: Utils){
+        Log.i("createObjective","Antes de crear objetivo")
+        val callCreateObjetiveTrainingplan = utils.getRetrofit(domain)
+            .create(ApiService::class.java)
+            .createObjetiveTrainingPlan(ObjetiveTrainingPlanRequest(
+                objective.day,
+                objective.repeats,
+                objective.type_objective,
+                id_training_plan,
+            )).execute()
+        val callCreateObjetiveTrainingPlanResponse = callCreateObjetiveTrainingplan.body() as ObjetiveTrainingPlanResponse?
+        Log.i("createObjective",callCreateObjetiveTrainingPlanResponse?.code.toString())
+        if(callCreateObjetiveTrainingPlanResponse?.code == 200){
+            val idObjective = callCreateObjetiveTrainingPlanResponse?.objective?.id.toString()
+            for(instruction in objective.instructions!!){
+                createInstruction(idObjective, instruction,utils)
+            }
+        }else{
+            var errorMessage = callCreateObjetiveTrainingPlanResponse?.message.toString()
+            Log.e("createObjective error",errorMessage)
+            throw Exception("Error al crear el objetivo: $errorMessage")
+        }
+
+    }
+
+    private fun createInstruction(id_objective: String, instruction: Instruction, utils: Utils){
+        val callCreateInstructionTrainingplan =
+            utils.getRetrofit(domain)
+                .create(ApiService::class.java)
+                .createInstructionTrainingPlan( InstructionTrainingPlanRequest(
+                    instruction.instruction_description.toString(),
+                    instruction.instruction_time.toString(),
+                    id_objective
+                ))
+                .execute()
+        val callCreateInstructionTrainingPlanResponse = callCreateInstructionTrainingplan.body() as InstructionTrainingPlansResponse?
+        Log.i("createInstruction",callCreateInstructionTrainingPlanResponse?.code.toString())
+        if(callCreateInstructionTrainingPlanResponse?.code == 200){
+            val idInstruction = callCreateInstructionTrainingPlanResponse?.instruction?.id.toString()
+        }else{
+            var errorMessage = callCreateInstructionTrainingPlanResponse?.message.toString()
+            Log.e("createInstruction error", errorMessage)
+            throw Exception("Error al crear la instruccion: $errorMessage")
+        }
+    }
+
+/*
+    private fun AddTrainingPlan2(){
         Log.i("vector", instructions?.size.toString())
         Log.i("vector", instructions[0].toString())
         Log.i("Entre", "entre al boton")
@@ -468,7 +629,8 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
             }
         }
     }
-*/
+    */
+
 
     private fun makeObjetiveInstructions(
         dia: String,

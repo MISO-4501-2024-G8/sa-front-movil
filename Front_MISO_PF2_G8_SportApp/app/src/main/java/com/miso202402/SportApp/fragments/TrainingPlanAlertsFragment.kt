@@ -56,7 +56,7 @@ class TrainingPlanAlertsFragment : Fragment() {
         stop_training = arguments?.getBoolean("stop_training") == true
         notification_msg = arguments?.getBoolean("notification_msg") == true
         emergency_call = arguments?.getBoolean("emergency_call") == true
-        alertasE = arguments?.getString("alertasE").toString()
+        alertasE = "1"
         return binding.root
     }
 
