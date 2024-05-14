@@ -4,6 +4,7 @@ import com.miso202402.SportApp.src.models.request.EventsRequest
 import com.miso202402.SportApp.src.models.response.GetAllRutasResponse
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
+import com.miso202402.SportApp.src.models.request.RiskAlertsTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RoutsRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
@@ -15,6 +16,7 @@ import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansRespo
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
+import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
 import com.miso202402.SportApp.src.models.response.ValidateTokenResponse
@@ -51,6 +53,9 @@ interface ApiService {
 
     @POST("instruction_training_plan")
     fun createInstructionTrainingPlan(@Body request: InstructionTrainingPlanRequest?): Call<InstructionTrainingPlansResponse>
+
+    @POST("risk_alerts_training_plan")
+    fun createRiskAlertsTrainingPlan(@Body request: RiskAlertsTrainingPlanRequest?): Call<RiskTrainingPlanResponse>
 
     @GET("eventos")
     fun getAllEventos():Call<GetAllEventsResponse>

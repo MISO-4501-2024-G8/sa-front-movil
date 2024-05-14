@@ -30,12 +30,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Instruction
 import com.miso202402.SportApp.src.models.models.Objective
+import com.miso202402.SportApp.src.models.models.RiskAlert
 import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
+import com.miso202402.SportApp.src.models.request.RiskAlertsTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
+import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
 import com.miso202402.SportApp.src.utils.ClicListener_Instruction
 import com.miso202402.SportApp.src.utils.ClickListener_Objective
 import com.miso202402.SportApp.src.utils.ClickListener_routs
@@ -481,6 +484,13 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                     for (objective in planObjectives) {
                         createObjective(idTrainingPlan, objective, utils)
                     }
+                    if(typePlan != "basico"){
+                        createRiskAlerts(idTrainingPlan, stop_training, notification_msg, emergency_call, utils)
+                    }
+                    Log.i("createTrainingPlanResponse", "Finalizo creacion de Plan")
+                    mostrarSnackbar("El plan de entrenamiento fue creado satisfactoriamente")
+                    val mainActivity = requireActivity() as? MainActivity
+                    mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
                 }else{
                     var errorMessage = createTrainingPlanResponse?.message.toString()
                     Log.e("AddTrainingPlan error",errorMessage)
@@ -492,6 +502,34 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
             }
         }
 
+    }
+    private fun createRiskAlerts(id_training_plan: String, stop_training: Boolean, notification_msg: Boolean, emergency_call: Boolean, utils: Utils){
+        Log.i("createRiskAlerts","Antes de crear risk alerts")
+        var stop_training_enabled = if (stop_training == true) 1 else 0
+        var notification_msg_enabled = if (notification_msg == true) 1 else 0
+        var emergency_call_enabled = if (emergency_call == true) 1 else 0
+        val callCreateRiskAlertTrainingplan = utils.getRetrofit(domain)
+            .create(ApiService::class.java)
+            .createRiskAlertsTrainingPlan(
+                RiskAlertsTrainingPlanRequest(
+                    stop_training_enabled.toString(),
+                    notification_msg_enabled.toString(),
+                    emergency_call_enabled.toString(),
+                    id_training_plan,
+                )
+            ).execute()
+        val callCreateRiskAlertsTrainingPlanResponse = callCreateRiskAlertTrainingplan.body() as RiskTrainingPlanResponse?
+        Log.i("createRiskAlerts",callCreateRiskAlertsTrainingPlanResponse?.code.toString())
+        if(callCreateRiskAlertsTrainingPlanResponse?.code == 200){
+            val stop_training = callCreateRiskAlertsTrainingPlanResponse?.risk_alerts?.stop_training.toString()
+            val notifications = callCreateRiskAlertsTrainingPlanResponse?.risk_alerts?.notifications.toString()
+            val enable_phone = callCreateRiskAlertsTrainingPlanResponse?.risk_alerts?.enable_phone.toString()
+            Log.i("createRiskAlerts","Alerts stop_training $stop_training notifications $notifications enable_phone $enable_phone")
+        }else{
+            var errorMessage = callCreateRiskAlertsTrainingPlanResponse?.message.toString()
+            Log.e("createRiskAlerts error",errorMessage)
+            throw Exception("Error al crear las alertas: $errorMessage")
+        }
     }
 
     private fun createObjective(id_training_plan: String, objective: Objective, utils: Utils){
@@ -508,6 +546,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         Log.i("createObjective",callCreateObjetiveTrainingPlanResponse?.code.toString())
         if(callCreateObjetiveTrainingPlanResponse?.code == 200){
             val idObjective = callCreateObjetiveTrainingPlanResponse?.objective?.id.toString()
+            Log.i("createObjective",idObjective)
             for(instruction in objective.instructions!!){
                 createInstruction(idObjective, instruction,utils)
             }
