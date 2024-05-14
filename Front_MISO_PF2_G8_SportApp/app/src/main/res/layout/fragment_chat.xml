@@ -6,12 +6,81 @@
     android:layout_height="match_parent"
     tools:context="com.miso202402.SportApp.fragments.CalendarFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fragmento de Chat"
+        android:textColor="@color/black"
+        android:layout_marginTop="50dp"
         android:textSize="30sp"
-        android:layout_centerInParent="true"
-        />
+        android:layout_marginLeft="60dp"
+        android:text="Chat con Deportologo" />
+
+    <ProgressBar
+        android:id="@+id/progressBarDeportologo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="175dp"
+        android:layout_marginLeft="185dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewDeportologo_ListProgramSessionsConsultationsFragment"
+        android:layout_width="409dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="400dp"
+        android:textSize="30sp"
+        android:layout_marginLeft="60dp"
+        android:text="Chat con Entrenador" />
+
+    <ProgressBar
+        android:id="@+id/progressBarEntrenador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="520dp"
+        android:layout_marginLeft="185dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewEntrenador_ListProgramSessionsConsultationsFragment"
+        android:layout_width="409dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="450dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:visibility="visible" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCalendar_ListProgramSessionsConsultationsFragment"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/white"
+        android:scaleType="fitXY"
+        android:layout_marginTop="750dp"
+        android:layout_marginLeft="130dp"
+        android:src="@drawable/calendar_logo" />
+
+    <ImageButton
+        android:id="@+id/imageButtonRouts_ListProgramSessionsConsultationsFragment"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/white"
+        android:scaleType="fitXY"
+        android:layout_marginTop="750dp"
+        android:layout_marginLeft="250dp"
+        android:src="@drawable/world_vector" />
 </RelativeLayout>

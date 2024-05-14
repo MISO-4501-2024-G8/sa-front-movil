@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miso202402.SportApp.src.models.models.ConsultationsSessions
@@ -58,6 +59,10 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
         binding.buttonAgregarListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
             mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment)
+        }
+        binding.imageButtonRoutsListProgramSessionsConsultationsFragment.setOnClickListener {
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.ChatFragment)
         }
 
         return binding.root
@@ -126,13 +131,16 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
     private fun progressBarVisible(valueV:Boolean){
         if(valueV){
             binding.progressBar.visibility = View.VISIBLE
-
         }else{
             binding.progressBar.visibility = View.GONE
         }
     }
 
     override fun onCListItemClick(view: View, consultation: ConsultationsSessions) {
+       Log.i("consultation.id", consultation.id.toString())
+        val bundle = bundleOf("id" to  consultation.id )
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.navigateToFragment(R.id.InfoConsultationProgramFragment, bundle)
 
     }
 

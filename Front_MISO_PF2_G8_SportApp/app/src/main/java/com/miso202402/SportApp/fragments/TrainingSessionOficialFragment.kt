@@ -130,7 +130,8 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         return withContext(Dispatchers.IO) {
             try {
                 Log.i("user_id", user_id)
-                Log.i("doctor_id", doctor.id.toString() )
+                Log.i("doctor_id", doctor.id.toString())
+                Log.i("entrenador_id", entrenador.id.toString())
                 val createConsultation = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createConsultation(ConsultationRequest(
@@ -155,7 +156,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                     Log.e("Ok crear session depor", message)
 
                     val mainActivity = requireActivity() as? MainActivity
-                    mainActivity?.navigateToFragment(R.id.calendar)
+                    mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
 
                 } else {
                     val message: String = "La session no fue programada exitosamante"
@@ -240,11 +241,9 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         }
     }
 
-
     private fun progressBarVisible(valueV:Boolean){
         if(valueV){
             binding.progressBar.visibility = View.VISIBLE
-
         }else{
             binding.progressBar.visibility = View.GONE
         }
@@ -259,10 +258,6 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
             this.entrenador = trainer!!
             Log.i("entrenador", entrenador.id.toString())
         }
-
-
-
-
     }
 
 
