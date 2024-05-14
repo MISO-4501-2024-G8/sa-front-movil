@@ -100,7 +100,7 @@ interface ApiService {
     @GET("sportsSpecialist/trainers")
     fun getAllTrainers():Call<GetAllTrainersResponse>
 
-    @GET("sportsSpecialist/doctor/{id}")
+    @GET("sportsSpecialist/trainer/{id}")
     fun getTrainerssByID(@Path("id") id: String):Call<GetTrainersByIdResponse>
 
 

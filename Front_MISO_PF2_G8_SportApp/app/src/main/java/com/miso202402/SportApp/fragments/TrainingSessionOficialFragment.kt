@@ -164,10 +164,12 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                 Log.i("radioButtonVirtualSession", binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked.toString())
                 val tipoEvento = if(binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked) "Virtual" else "Presencial"
                 Log.i("tipoEvento", tipoEvento)
+                val idDeportolgo : String? =  if( doctor.id.toString() != "") doctor.id  else entrenador.id
+                Log.i("id deportologo", idDeportolgo.toString())
                 val createConsultation = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createConsultation(ConsultationRequest(
-                        if(doctor != null) doctor.id  else entrenador.id,
+                        idDeportolgo,
                         user_id,
                         tipoEvento,
                         date,
@@ -284,7 +286,6 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         val evento = if(tipo == "Virtual") "http://linkreu" + ".edu.co" else "Carrera 20 #-89-47 Bogota"
         Log.i("tipo de evento Eduardo ", evento)
         return evento
-
     }
 
     override fun onCListItemClick(view: View, doctor: Doctors?, trainer: Trainers?) {

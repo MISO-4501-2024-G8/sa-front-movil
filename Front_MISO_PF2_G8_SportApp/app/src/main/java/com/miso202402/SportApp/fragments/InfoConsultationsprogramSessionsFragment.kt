@@ -97,7 +97,6 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     }
 
     private fun getConsultationById(){
-
         try {
             val utils = Utils()
             CoroutineScope(Dispatchers.IO).launch {
@@ -166,15 +165,18 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
 
     private fun fetchgetDoctorAndEntrenadoprById(id: String?){
         CoroutineScope(Dispatchers.Main).launch {
-            Log.i("getDoctor yEntrneador", "Estoy Por aqui")
+            Log.i("getDoctor y Entrneador", "Estoy Por aqui")
             doctor = getDoctorById(id)
+            entrenador = getEntreneadorById(id!!)
+            Log.i("rest y doctor", doctor.id.toString())
+            Log.i("rest y entrenador", entrenador.id.toString())
             if(doctor != null && doctor.id != ""){
+                Log.i("rest y doctor", "Entre por doctor")
                 var numero = "+57 " + doctor.phone.toString()
                 openWhatsapp(numero)
             }
-            else{
-                entrenador = getEntreneadorById(id!!)
-                if(entrenador != null &&entrenador.id != ""){
+            else{ if(entrenador != null && entrenador.id != ""){
+                Log.i("rest y entrenador", "Entre por entrenador")
                     var numero = "+57 " + entrenador.phone.toString()
                     openWhatsapp(numero)
                 }
