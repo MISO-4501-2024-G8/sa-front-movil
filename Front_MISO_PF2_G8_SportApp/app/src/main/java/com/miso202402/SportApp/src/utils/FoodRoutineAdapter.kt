@@ -1,0 +1,52 @@
+package com.miso202402.SportApp.src.utils
+
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.miso202402.SportApp.src.models.models.FoodRoutine
+import com.miso202402.front_miso_pf2_g8_sportapp.R
+
+class FoodRoutineAdapter (
+    private val foodRoutineList:  List<FoodRoutine>,
+    val clickListener: ClickListener_foodroutines
+) : RecyclerView.Adapter<FoodRoutineAdapter.ViewHolder>() {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var textViewName: TextView
+        var textViewDescription: TextView
+        init {
+            textViewName = view.findViewById(R.id.textViewName_cardView)
+            textViewDescription = view.findViewById(R.id.textViewdescription_cardView)
+        }
+    }
+
+    @SuppressLint("ResourceType")
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.food_routine_item, viewGroup, false)
+
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        var realPosition: Int = position + 1
+
+        viewHolder.textViewName.text = "Rutina "+ realPosition.toString() +": " + foodRoutineList[position].name
+        viewHolder.textViewDescription.text = "Descripcion: "+ foodRoutineList[position].description
+        viewHolder.itemView.setOnClickListener() {
+            val event = foodRoutineList.get(position)
+            clickListener.onListItemClick(it, event, position)
+        }
+        viewHolder.itemView.setOnLongClickListener() {
+            val event = foodRoutineList.get(position)
+            clickListener.onListItemLongClick(it,event, position)
+            true
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return foodRoutineList.size
+    }
+}

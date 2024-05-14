@@ -22,6 +22,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.annotation.RequiresExtension
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -40,6 +41,7 @@ import com.miso202402.SportApp.src.utils.ClickListener_Objective
 import com.miso202402.SportApp.src.utils.ClickListener_routs
 import com.miso202402.SportApp.src.utils.InstructionAdapter
 import com.miso202402.SportApp.src.utils.ObjectiveAdapter
+import com.miso202402.SportApp.src.utils.PreferenceHelper
 import com.miso202402.SportApp.src.utils.RoutsAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
@@ -63,6 +65,8 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     var domain : String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
     private var user_id: String? = ""
     private var typePlan: String? = ""
+    private var FoodRoutineId: String? = ""
+    private var RestRoutineId: String? = ""
     private var instructions = arrayOf("","","","","")
     private lateinit var preferences: SharedPreferences
     private var tipoDeporte : String? = "Atletismo"
@@ -72,9 +76,14 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     private lateinit var descriptionEditText: EditText
     private lateinit var buttonAddPlan: Button
     private lateinit var buttonAtras: Button
+    private lateinit var buttonSeleccionarFoodR: Button
+    private lateinit var buttonSeleccionarRestR: Button
+    private lateinit var buttonSeleccionarAlerts: Button
+
     lateinit var objectiveAdapter: ObjectiveAdapter
     lateinit var listener: ClickListener_Objective
-    private lateinit var objectiveList: MutableList<Objective>
+    lateinit var objectiveList: MutableList<Objective>
+    lateinit var baseObjectiveList: MutableList<Objective>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -95,20 +104,26 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         Log.i("typePlan", typePlan!!)
         listener = this
         objectiveList =  mutableListOf()
+        baseObjectiveList = mutableListOf()
         objectiveAdapter = context?.let { ObjectiveAdapter(objectiveList, it, listener) }!!
         binding.recyclerviewListObjetivos.setHasFixedSize(true)
         binding.recyclerviewListObjetivos.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewListObjetivos.adapter = objectiveAdapter
 
         val objectivoLunes = Objective("","","Lunes",0,"1", listOf())
+        baseObjectiveList.add(objectivoLunes)
         objectiveList.add(objectivoLunes)
         val objectivoMartes = Objective("","","Martes",0,"1", listOf())
+        baseObjectiveList.add(objectivoMartes)
         objectiveList.add(objectivoMartes)
         val objectivoMiercoles = Objective("","","Miercoles",0,"1", listOf())
+        baseObjectiveList.add(objectivoMiercoles)
         objectiveList.add(objectivoMiercoles)
         val objectivoJueves = Objective("","","Jueves",0,"1", listOf())
+        baseObjectiveList.add(objectivoJueves)
         objectiveList.add(objectivoJueves)
         val objectivoViernes = Objective("","","Viernes",0,"1", listOf())
+        baseObjectiveList.add(objectivoViernes)
         objectiveList.add(objectivoViernes)
         objectiveAdapter.notifyDataSetChanged()
         return binding.root
@@ -198,10 +213,27 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         descriptionEditText = view.findViewById<EditText>(R.id.editTexDescription_FragmentAddTrainingPlan)
         buttonAddPlan = view.findViewById<Button>(R.id.buttonAgregar_FragmentAddTrainingPlan)
         buttonAtras = view.findViewById<Button>(R.id.buttonAtras_FragmentAddTrainingPlan)
+        buttonSeleccionarFoodR = view.findViewById<Button>(R.id.buttonAlimentacion_FragmentAddTrainingPlan)
+        buttonSeleccionarRestR = view.findViewById<Button>(R.id.buttonDescanso_FragmentAddTrainingPlan)
+        buttonSeleccionarAlerts = view.findViewById<Button>(R.id.buttonAlertas_FragmentAddTrainingPlan)
 
         buttonAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
             mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+        }
+
+        buttonSeleccionarFoodR.setOnClickListener(){
+            var objectivesTemp : MutableList<Objective> = this.objectiveList
+            saveTempTrainingPlan(objectivesTemp)
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion")
+        }
+
+        buttonSeleccionarRestR.setOnClickListener(){
+            var objectivesTemp : MutableList<Objective> = this.objectiveList
+            saveTempTrainingPlan(objectivesTemp)
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso")
         }
         buttonAddPlan.setOnClickListener(){
 
@@ -217,6 +249,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                 mostrarSnackbar("La descripcion del plan no debe ser vacio")
                 return@setOnClickListener
             }
+            var objectivesTemp : MutableList<Objective> = this.objectiveList
             for (objective in objectiveList) {
                 Log.i("ObjectiveList", "Day: ${objective.day}, Checked: ${objective.checked},Repeats: ${objective.repeats}, Qty Instrucciones: ${objective.instructions?.size.toString()}")
                 if(objective.checked == true){
@@ -233,7 +266,77 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
             Log.i("ObjectiveList","Continuar Proceso de Creacion de Plan..")
             Log.i("ObjectiveList","Nombre: ${nameEditText.text} Semanas: ${weeksEditText.text} Descripcion: ${descriptionEditText.text} Deporte: $tipoDeporte")
         }
+        createTempTrainingPlan(baseObjectiveList)
+    }
 
+    private fun saveTempTrainingPlan(objectivesTemp:MutableList<Objective>){
+        var planName:String = nameEditText.text.toString()
+        var planDescription:String = descriptionEditText.text.toString()
+        var planWeeks:String = weeksEditText.text.toString()
+        var lunes_enabled:Int = 0
+        var martes_enabled:Int = 0
+        var miercoles_enabled:Int = 0
+        var jueves_enabled:Int = 0
+        var viernes_enabled:Int = 0
+        var planType:String = typePlan.toString()
+        var planSport:String = tipoDeporte.toString()
+        var id_eating_routine:String = FoodRoutineId.toString()
+        var id_rest_routine:String = RestRoutineId.toString()
+        var planObjectives:MutableList<Objective> = mutableListOf<Objective>().apply {
+            addAll(objectivesTemp)
+        }
+        var tempTrainingPlan:TrainingPlan = TrainingPlan(
+            "",
+            planName,
+            planDescription,
+            planWeeks,
+            lunes_enabled,
+            martes_enabled,
+            miercoles_enabled,
+            jueves_enabled,
+            viernes_enabled,
+            planType,
+            planSport,
+            id_eating_routine,
+            id_rest_routine,
+            planObjectives
+        )
+        //context?.let { PreferenceHelper.saveTrainingPlan(it, tempTrainingPlan) }
+        preferences.saveData("tempTrainingPlan", tempTrainingPlan)
+    }
+
+    private fun createTempTrainingPlan(baseObjectives:MutableList<Objective>){
+        var tempTrainingPlan:TrainingPlan? = preferences.getData<TrainingPlan>("tempTrainingPlan")
+        if(tempTrainingPlan != null){
+            //var tempTrainingPlan_:TrainingPlan? = context?.let { PreferenceHelper.getTrainingPlan(it) }
+            nameEditText.setText(tempTrainingPlan.name)
+            descriptionEditText.setText(tempTrainingPlan.description)
+            weeksEditText.setText(tempTrainingPlan.weeks)
+            //objectiveList = tempTrainingPlan.objectives?.toMutableList() ?: baseObjectives
+            FoodRoutineId = tempTrainingPlan.id_eating_routine
+            if(FoodRoutineId != ""){
+                buttonSeleccionarFoodR.setText("Cambiar Rutina de Alimentacion")
+                context?.let { ContextCompat.getColor(it, R.color.correctBTN) }
+                    ?.let { buttonSeleccionarFoodR.setBackgroundColor(it) }
+            }
+            RestRoutineId = tempTrainingPlan.id_rest_routine
+            if(RestRoutineId != ""){
+                buttonSeleccionarRestR.setText("Cambiar Rutina de Descanso")
+                context?.let { ContextCompat.getColor(it, R.color.correctBTN) }
+                    ?.let { buttonSeleccionarRestR.setBackgroundColor(it) }
+            }
+            tipoDeporte = tempTrainingPlan.sport
+
+            objectiveList = mutableListOf<Objective>().apply {
+                addAll(tempTrainingPlan.objectives?.toMutableList() ?: baseObjectives)
+            }
+            objectiveAdapter = context?.let { ObjectiveAdapter(objectiveList, it, listener) }!!
+            binding.recyclerviewListObjetivos.setHasFixedSize(true)
+            binding.recyclerviewListObjetivos.layoutManager = LinearLayoutManager(context)
+            binding.recyclerviewListObjetivos.adapter = objectiveAdapter
+            objectiveAdapter.notifyDataSetChanged()
+
+        }
     }
 
     private fun mostrarSnackbar(mensaje: String) {

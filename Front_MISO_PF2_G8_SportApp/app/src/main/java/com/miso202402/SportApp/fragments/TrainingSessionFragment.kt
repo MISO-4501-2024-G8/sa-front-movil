@@ -24,6 +24,7 @@ import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
 import com.miso202402.SportApp.src.utils.ClicTPListener
 import com.miso202402.SportApp.src.utils.ClickListener
+import com.miso202402.SportApp.src.utils.PreferenceHelper
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
 import com.miso202402.SportApp.src.utils.TrainingSessionAdapter
@@ -78,6 +79,8 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
         listener = this
         //Llamar a lista de planes
         getAllTrainingPlans()
+        preferences.clearData("tempTrainingPlan")
+        context?.let { PreferenceHelper.clearTrainingPlan(it) }
         return binding.root
     }
 

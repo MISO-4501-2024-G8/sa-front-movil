@@ -195,6 +195,20 @@
         tools:layout="@layout/fragment_chat"
         />
 
+    <fragment
+        android:id="@+id/FoodRoutineListFragment"
+        android:name="com.miso202402.SportApp.fragments.ListFoodRoutineFragment"
+        android:label="FoodRoutineList"
+        tools:layout="@layout/fragment_list_food_routine"
+        />
+
+    <fragment
+        android:id="@+id/RestRoutineListFragment"
+        android:name="com.miso202402.SportApp.fragments.ListRestRoutineFragment"
+        android:label="RestRoutineList"
+        tools:layout="@layout/fragment_list_rest_routine"
+        />
+
 
 
 
