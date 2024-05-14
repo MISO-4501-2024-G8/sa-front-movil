@@ -209,6 +209,13 @@
         tools:layout="@layout/fragment_list_rest_routine"
         />
 
+    <fragment
+        android:id="@+id/TrainingPlanAlertsFragment"
+        android:name="com.miso202402.SportApp.fragments.TrainingPlanAlertsFragment"
+        android:label="TrainingPlanAlerts"
+        tools:layout="@layout/fragment_training_plan_alerts"
+        />
+
 
 
 

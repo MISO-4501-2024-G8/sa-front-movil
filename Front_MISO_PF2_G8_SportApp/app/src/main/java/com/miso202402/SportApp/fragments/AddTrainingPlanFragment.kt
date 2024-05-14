@@ -85,6 +85,11 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     lateinit var objectiveList: MutableList<Objective>
     lateinit var baseObjectiveList: MutableList<Objective>
 
+    private var stop_training: Boolean = false;
+    private var notification_msg: Boolean = false;
+    private var emergency_call: Boolean = false;
+    private var alertasE: String = ""
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         preferences = SharedPreferences(requireContext())
@@ -100,8 +105,10 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         _binding = FragmentAddTrainingPlanBinding.inflate(inflater, container, false)
         user_id = preferences.getData<String>("id").toString()
         typePlan = preferences.getData<String>("typePlan").toString()
+        alertasE = preferences.getData<String>("alertasE").toString()
         Log.i("user_id", user_id!!)
         Log.i("typePlan", typePlan!!)
+        Log.i("alertasE", alertasE!!)
         listener = this
         objectiveList =  mutableListOf()
         baseObjectiveList = mutableListOf()
@@ -126,6 +133,11 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         baseObjectiveList.add(objectivoViernes)
         objectiveList.add(objectivoViernes)
         objectiveAdapter.notifyDataSetChanged()
+
+        stop_training = arguments?.getBoolean("stop_training") == true
+        notification_msg = arguments?.getBoolean("notification_msg") == true
+        emergency_call = arguments?.getBoolean("emergency_call") == true
+
         return binding.root
     }
 
@@ -216,6 +228,23 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
         buttonSeleccionarFoodR = view.findViewById<Button>(R.id.buttonAlimentacion_FragmentAddTrainingPlan)
         buttonSeleccionarRestR = view.findViewById<Button>(R.id.buttonDescanso_FragmentAddTrainingPlan)
         buttonSeleccionarAlerts = view.findViewById<Button>(R.id.buttonAlertas_FragmentAddTrainingPlan)
+        if(typePlan != "basico"){
+            buttonSeleccionarAlerts.visibility = View.VISIBLE
+        }else{
+            buttonSeleccionarAlerts.visibility = View.GONE
+        }
+
+        buttonSeleccionarAlerts.setOnClickListener(){
+            var objectivesTemp : MutableList<Objective> = this.objectiveList
+            saveTempTrainingPlan(objectivesTemp)
+            val bundle = bundleOf(
+                "stop_training" to stop_training,
+                "notification_msg" to notification_msg,
+                "emergency_call" to emergency_call
+            )
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.TrainingPlanAlertsFragment, "Alertas", bundle)
+        }
 
         buttonAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
@@ -324,6 +353,11 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                 buttonSeleccionarRestR.setText("Cambiar Rutina de Descanso")
                 context?.let { ContextCompat.getColor(it, R.color.correctBTN) }
                     ?.let { buttonSeleccionarRestR.setBackgroundColor(it) }
+            }
+            if(alertasE != "null" && alertasE != ""){
+                buttonSeleccionarAlerts.setText("Cambiar Alertas")
+                context?.let { ContextCompat.getColor(it, R.color.correctBTN) }
+                    ?.let { buttonSeleccionarAlerts.setBackgroundColor(it) }
             }
             tipoDeporte = tempTrainingPlan.sport
 

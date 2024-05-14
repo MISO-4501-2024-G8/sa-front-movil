@@ -80,6 +80,7 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
         //Llamar a lista de planes
         getAllTrainingPlans()
         preferences.clearData("tempTrainingPlan")
+        preferences.clearData("alertasE")
         context?.let { PreferenceHelper.clearTrainingPlan(it) }
         return binding.root
     }
