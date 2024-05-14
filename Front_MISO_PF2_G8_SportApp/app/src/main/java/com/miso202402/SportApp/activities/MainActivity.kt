@@ -136,7 +136,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         for (i in 0 until menu.size()) {
             menu.getItem(i).isChecked = false
         }
-
         if (bundle != null) {
             navController.navigate(fragmentId, bundle)
         } else {

@@ -1,6 +1,7 @@
 package com.miso202402.SportApp.fragments
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.RadioButton
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miso202402.SportApp.src.models.models.ConsultationsSessions
@@ -38,6 +40,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 
 
 class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers {
@@ -54,7 +57,12 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
     private lateinit var  doctor : Doctors
     private lateinit var  entrenador : Trainers
     private lateinit var date: String
-    lateinit var listener: ClicListener_DoctorsTrainers
+    private lateinit var listener: ClicListener_DoctorsTrainers
+    private lateinit var calendar : Calendar
+    private var clic: Int = 0
+    private lateinit var fecha :String
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,12 +75,19 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         _binding = FragmentTrainingSessionOficialBinding.inflate(inflater, container, false)
         user_id = preferences.getData<String>("id").toString()
         listener = this
+        calendar = Calendar.getInstance()
+        binding.calendarViewTrainingSessionOficialFragment.setMinDate(calendar.getTimeInMillis() +(24*60*60*1000));
+        fecha = binding.calendarViewTrainingSessionOficialFragment.year.toString() + "-" +
+                binding.calendarViewTrainingSessionOficialFragment.month + "-" +
+                binding.calendarViewTrainingSessionOficialFragment.dayOfMonth
+
 
         binding.radioButtonVirtualSessionTrainingSessionOficialFragment.setOnClickListener{
             if(binding.radioButtonLocalSessionTrainingSessionOficialFragment.isChecked){
                 binding.radioButtonLocalSessionTrainingSessionOficialFragment.isChecked = false
             }
         }
+
         binding.radioButtonLocalSessionTrainingSessionOficialFragment.setOnClickListener{
             if(binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked){
                 binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked = false
@@ -83,35 +98,50 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
             if(binding.radioButtonEntrenadorTrainingSessionOficialFragment.isChecked){
                 binding.radioButtonEntrenadorTrainingSessionOficialFragment.isChecked = false
             }
+            binding.textView2.visibility = View.VISIBLE
             fetchGetAllDoctors()
         }
         binding.radioButtonEntrenadorTrainingSessionOficialFragment.setOnClickListener{
             if(binding.radioButtonDeportologoTrainingSessionOficialFragment.isChecked){
                 binding.radioButtonDeportologoTrainingSessionOficialFragment.isChecked = false
             }
+            binding.textView2.visibility = View.VISIBLE
             fetchGetAllEntrenadores()
         }
-        binding.buttonAgregarTrainingSessionOficialFragment.setOnClickListener {
-           /*if (binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked ||
-               binding.radioButtonLocalSessionTrainingSessionOficialFragment.isChecked ||
-               binding.editTexDescriptionTrainingSessionOficialFragment.text.toString() == ""){
-               lifecycleScope.launch {*/
-                  // val util = Utils()
-                   //val message = "Alguno de los campos estas vacios"
-                  // util.showMessageDialog(context, message)
-               //}
-          // } else{
-                date = binding.calendarViewTrainingSessionOficialFragment.year.toString() + "-" +
-                        binding.calendarViewTrainingSessionOficialFragment.month + "-" +
-                        binding.calendarViewTrainingSessionOficialFragment.dayOfMonth
-                Log.i("Info date", date)
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    createConsultation(date)
-                }
-
-            //}
+        binding.calendarViewTrainingSessionOficialFragment.setOnDateChangedListener { datePicker, i, i2, i3 ->
+           fecha = binding.calendarViewTrainingSessionOficialFragment.year.toString() + "-" +
+                    binding.calendarViewTrainingSessionOficialFragment.month + "-" +
+                    binding.calendarViewTrainingSessionOficialFragment.dayOfMonth
         }
+
+        binding.buttonAgregarTrainingSessionOficialFragment.setOnClickListener {
+
+          if ((binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked ||
+               binding.radioButtonLocalSessionTrainingSessionOficialFragment.isChecked)
+              &&
+              (binding.radioButtonDeportologoTrainingSessionOficialFragment.isChecked ||
+               binding.radioButtonEntrenadorTrainingSessionOficialFragment.isChecked )
+              &&
+              (clic == 1)){
+              Log.i("is checked ",binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked.toString())
+              Log.i("is checked2 ",binding.radioButtonLocalSessionTrainingSessionOficialFragment.isChecked.toString())
+               date = fecha
+               Log.i("Info date", date)
+               CoroutineScope(Dispatchers.Main).launch {
+                   createConsultation(date)
+               }
+           }
+           else{
+               val utils = Utils()
+               lifecycleScope.launch {
+                   val message: String = "Uno o multiples Campos no han sido seleccionados"
+                   activity?.let { utils.showMessageDialog(it, message)}
+               }
+
+           }
+        }
+
+
         return binding.root
     }
 
@@ -124,7 +154,6 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         preferences = SharedPreferences(requireContext())
     }
 
-
     private suspend fun createConsultation(date: String) {
         val utils = Utils()
         return withContext(Dispatchers.IO) {
@@ -132,14 +161,17 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                 Log.i("user_id", user_id)
                 Log.i("doctor_id", doctor.id.toString())
                 Log.i("entrenador_id", entrenador.id.toString())
+                Log.i("radioButtonVirtualSession", binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked.toString())
+                val tipoEvento = if(binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked) "Virtual" else "Presencial"
+                Log.i("tipoEvento", tipoEvento)
                 val createConsultation = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createConsultation(ConsultationRequest(
                         if(doctor != null) doctor.id  else entrenador.id,
                         user_id,
-                        if(binding.radioButtonVirtualSessionTrainingSessionOficialFragment.isChecked) "Virtual" else "Presencial",
+                        tipoEvento,
                         date,
-                        ""
+                        generateLinkOrDirection(tipoEvento)
 
                     ))
                     .execute()
@@ -149,20 +181,18 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                 Log.i("getAllConsultation Size: ",
                     getAllConsultationByUserIdResponse?.content?.id!!
                 )
-                if (getAllConsultationByUserIdResponse?.code == 201){
-
-                    val message: String = "La session fue programada exitosamante"
-                    activity?.let { utils.showMessageDialog(it, message)}
-                    Log.e("Ok crear session depor", message)
-
-                    val mainActivity = requireActivity() as? MainActivity
-                    mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
-
-                } else {
-                    val message: String = "La session no fue programada exitosamante"
-                    activity?.let { utils.showMessageDialog(it, message)}
-                    Log.e("Fallo al Crear la Sesion", message)
-
+                lifecycleScope.launch {
+                    if (getAllConsultationByUserIdResponse?.code == 201){
+                        val message: String = "La session fue programada exitosamante"
+                        activity?.let { utils.showMessageDialog(it, message)}
+                        Log.e("Ok crear session depor", message)
+                        val mainActivity = requireActivity() as? MainActivity
+                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
+                    } else {
+                        val message: String = "La session no fue programada exitosamante"
+                        activity?.let { utils.showMessageDialog(it, message)}
+                        Log.e("Fallo al Crear la Sesion", message)
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("error", e.message.toString())
@@ -249,14 +279,29 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         }
     }
 
+    private fun generateLinkOrDirection(tipo:String): String {
+        Log.i("tipo de evento Andres", tipo)
+        val evento = if(tipo == "Virtual") "http://linkreu" + ".edu.co" else "Carrera 20 #-89-47 Bogota"
+        Log.i("tipo de evento Eduardo ", evento)
+        return evento
+
+    }
+
     override fun onCListItemClick(view: View, doctor: Doctors?, trainer: Trainers?) {
-       if (doctor != null){
-           this.doctor = doctor!!
-           Log.i("doctor", doctor.id.toString())
-       }
+        val utils = Utils()
+        if (doctor != null){
+            this.doctor = doctor!!
+            Log.i("doctor", doctor.id.toString())
+        }
         if(trainer != null){
             this.entrenador = trainer!!
             Log.i("entrenador", entrenador.id.toString())
+        }
+        this.clic = 1
+        lifecycleScope.launch {
+
+            val message: String = "Selecciono al entrenador deportologo "
+            activity?.let { utils.showMessageDialog(it, message)}
         }
     }
 

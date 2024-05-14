@@ -68,11 +68,22 @@
         android:layout_marginLeft="230dp"
         android:text="Entrenador" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480dp"
+        android:textColor="@color/black"
+        android:textSize="11sp"
+        android:layout_marginLeft="110dp"
+        android:visibility="gone"
+        android:text="Haga clic en el Deportologo que guste" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_TrainingSessionOficialFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="475dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="495dp"
         android:layout_marginEnd="10dp"
         android:visibility="visible" />
 
@@ -91,8 +102,8 @@
         android:text="@string/textBtnAddTrainginPlan"
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
-        android:layout_marginLeft="295dp"
-        android:layout_marginTop="805dp"/>
+        android:layout_marginLeft="255dp"
+        android:layout_marginTop="740dp"/>
 
 
 

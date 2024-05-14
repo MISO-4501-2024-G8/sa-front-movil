@@ -38,12 +38,6 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private lateinit var consultation_id: String;
     private lateinit var consultation : ConsultationsSessions
-
-    private var vectorTipoDeporte  =  arrayOf("Atletismo", "Ciclismo")
-    private lateinit var event: Events
-    private var tipoDeporte : String? = null
-    private var event_date : String? = null
-
     private lateinit var doctor :Doctors
     private lateinit var entrenador :Trainers
 
@@ -61,15 +55,21 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
         Log.i("consultation.id entre", consultation_id)
         consultation = ConsultationsSessions("", "", "", "", "", "")
 
+        binding.editTexLocationInfoConsultationsprogramSessionsFragment
+            .setText("")
+        binding.editTexDateInfoConsultationsprogramSessionsFragment
+            .setText("")
+        binding.editTexDeportologoInfoConsultationsprogramSessionsFragment
+            .setText("")
         getConsultationById()
 
         binding.buttonLinkInfoConsultationsprogramSessionsFragment.setOnClickListener {
-            if(consultation.link != "" && consultation.id != ""){
+            if(consultation.link != "" && consultation.id != "" && consultation.link!!.startsWith("http")){
                 openWebURL(consultation.link.toString())
             }
             else{
                 val utils = Utils()
-                utils.showMessageDialog(context, "No Hay link con el cual navegar")
+                utils.showMessageDialog(context, "No Hay link con el cual dirigirse")
             }
         }
 
@@ -97,9 +97,11 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     }
 
     private fun getConsultationById(){
-        val utils = Utils()
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
+
+        try {
+            val utils = Utils()
+            CoroutineScope(Dispatchers.IO).launch {
+
                 Log.i("Entre por aqui", consultation_id)
                 val getConsultationById = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
@@ -109,18 +111,30 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
 
                 Log.i("getConsultationById code: ", getConsultationByIdResponse?.code.toString())
                 Log.i("getConsultationByIdResponse: ", getConsultationByIdResponse?.content?.id.toString())
-                if (getConsultationByIdResponse?.code == 200){
+                if (getConsultationByIdResponse?.code == 200) {
                     consultation = getConsultationByIdResponse.content!!
-                    Log.i("consultation", getConsultationByIdResponse.content!!.consultation_type.toString() )
-                    val title: String = if(getConsultationByIdResponse.content?.consultation_type == "Presencial")
-                        "Detalle de La Sesión Presencial:" else "Detalle de La Sesión Virtual:"
-                   // binding.titleFragmentInfoConsultationsprogramSessionsFragment.setText(title)
-                    binding.editTexLocationInfoConsultationsprogramSessionsFragment
-                        .setText(consultation.link.toString())
-                    binding.editTexDateInfoConsultationsprogramSessionsFragment
-                        .setText(consultation.consultation_date.toString())
-                    binding.editTexDeportologoInfoConsultationsprogramSessionsFragment
-                        .setText(consultation.id_service_worker.toString())
+                    Log.i("consultation Andres", getConsultationByIdResponse.content!!.consultation_type.toString())
+                    deleteEditText()
+                    lifecycleScope.launch {
+                        val title: String =
+                            if (getConsultationByIdResponse.content?.consultation_type == "Presencial")
+                                "Detalle de La Sesión Presencial" else "Detalle de La Sesión Virtual"
+                        binding.titleFragmentInfoConsultationsprogramSessionsFragment.text = title
+                        val location = if (consultation.link.toString() != "")
+                            consultation.link.toString() else ""
+                        val date = if (consultation.consultation_date.toString() != "")
+                            consultation.consultation_date.toString() else ""
+                        val id_deportologo = if (consultation.id_service_worker.toString() != "")
+                            consultation.id_service_worker.toString() else ""
+
+                        binding.editTexLocationInfoConsultationsprogramSessionsFragment
+                            .setText(location)
+                        binding.editTexDateInfoConsultationsprogramSessionsFragment
+                            .setText(date)
+                        binding.editTexDeportologoInfoConsultationsprogramSessionsFragment
+                            .setText(id_deportologo)
+                    }
+
                 } else {
                     lifecycleScope.launch {
                         showMessageDialog(context, "Fallo la consulta de La session Programada")
@@ -128,15 +142,16 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
                         mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
                     }
                 }
-            } catch (e: Exception) {
-                Log.e("error", e.message.toString())
-                showMessageDialog(context, "Fallo la consulta de La session Programada")
-                        val mainActivity = requireActivity() as? MainActivity
-                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
-
             }
+        } catch (e: Exception) {
+            Log.e("error", e.message.toString())
+            showMessageDialog(context, "Fallo la consulta de La session Programada")
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
+
         }
     }
+
     private fun openWebURL(inURL: String?) {
         val browse = Intent(Intent.ACTION_VIEW, Uri.parse(inURL))
         startActivity(browse)
@@ -223,6 +238,14 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
 
     private fun showMessageDialog(activity: Context?, message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
+    }
+    private fun deleteEditText(){
+        binding.editTexLocationInfoConsultationsprogramSessionsFragment
+            .setText("")
+        binding.editTexDateInfoConsultationsprogramSessionsFragment
+            .setText("")
+        binding.editTexDeportologoInfoConsultationsprogramSessionsFragment
+            .setText("")
     }
 
 

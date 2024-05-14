@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miso202402.SportApp.src.models.models.Doctors
 import com.miso202402.SportApp.src.models.models.Trainers
@@ -177,7 +178,25 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
     }
 
     override fun onCListItemClick(view: View, doctor: Doctors?, trainer: Trainers?) {
-        TODO("Not yet implemented")
+        CoroutineScope(Dispatchers.Main).launch {
+            Log.i("getDoctor yEntrneador", "Estoy Por aqui")
+            if(doctor != null && doctor.id != ""){
+                var numero = "+57 " + doctor.phone.toString()
+                openWhatsapp(numero)
+            }
+            else{
+                if(trainer != null && trainer.id != ""){
+                    var numero = "+57 " + trainer.phone.toString()
+                    openWhatsapp(numero)
+                }
+                else{
+                    lifecycleScope.launch {
+                        val message: String = "Error al traer el deportologo o el entrenador"
+                        showMessageDialog(context, message)
+                    }
+                }
+            }
+        }
     }
 
 
