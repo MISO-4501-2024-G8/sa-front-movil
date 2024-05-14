@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="25dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="60dp"
             android:text="Detalle de La Sesión:" />
 
         <EditText

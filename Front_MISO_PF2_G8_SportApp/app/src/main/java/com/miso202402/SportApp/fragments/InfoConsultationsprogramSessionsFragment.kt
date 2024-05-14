@@ -64,7 +64,6 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
         getConsultationById()
 
         binding.buttonLinkInfoConsultationsprogramSessionsFragment.setOnClickListener {
-
             if(consultation.link != "" && consultation.id != ""){
                 openWebURL(consultation.link.toString())
             }
@@ -100,7 +99,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     private fun getConsultationById(){
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
-           // try {
+            try {
                 Log.i("Entre por aqui", consultation_id)
                 val getConsultationById = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
@@ -128,16 +127,14 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
                         val mainActivity = requireActivity() as? MainActivity
                         mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
                     }
-
-
                 }
-          /*  } catch (e: Exception) {
+            } catch (e: Exception) {
                 Log.e("error", e.message.toString())
                 showMessageDialog(context, "Fallo la consulta de La session Programada")
                         val mainActivity = requireActivity() as? MainActivity
                         mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
 
-            }*/
+            }
         }
     }
     private fun openWebURL(inURL: String?) {
@@ -154,15 +151,24 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
 
     private fun fetchgetDoctorAndEntrenadoprById(id: String?){
         CoroutineScope(Dispatchers.Main).launch {
+            Log.i("getDoctor yEntrneador", "Estoy Por aqui")
             doctor = getDoctorById(id)
-            if(doctor != null){
+            if(doctor != null && doctor.id != ""){
                 var numero = "+57 " + doctor.phone.toString()
                 openWhatsapp(numero)
             }
             else{
                 entrenador = getEntreneadorById(id!!)
-                var numero = "+57 " + entrenador.phone.toString()
-                openWhatsapp(numero)
+                if(entrenador != null &&entrenador.id != ""){
+                    var numero = "+57 " + entrenador.phone.toString()
+                    openWhatsapp(numero)
+                }
+                else{
+                    lifecycleScope.launch {
+                        val message: String = "Error al traer el deportologo o el entrenador"
+                        showMessageDialog(context, message)
+                    }
+                }
             }
         }
     }
@@ -170,7 +176,9 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     private suspend fun getDoctorById(id: String?): Doctors {
         val utils = Utils()
         return withContext(Dispatchers.IO) {
+            val doctor = Doctors("", "", "", "")
             try {
+                Log.i("Voy a traer el doctor", id.toString())
                 val callGetDoctorsById = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .getDoctorsByID(id!!)
@@ -180,11 +188,11 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
                 if (getDoctor?.code == 200) {
                     return@withContext (getDoctor?.content ?: null)!!
                 } else {
-                    return@withContext null!!
+                    return@withContext doctor
                 }
             } catch (e: Exception) {
                 Log.e("error", e.message.toString())
-                return@withContext null!!
+                return@withContext doctor
             }
         }
     }
@@ -192,7 +200,9 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     private suspend fun getEntreneadorById(id: String): Trainers {
         val utils = Utils()
         return withContext(Dispatchers.IO) {
+            val entrenador = Trainers("", "", "")
             try {
+                Log.i("Voy a traer el entrenador", id.toString())
                 val callGetEntrenadorById = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .getTrainerssByID(id)
@@ -202,11 +212,11 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
                 if (getEntrenenador?.code == 200) {
                     return@withContext getEntrenenador?.content ?: null!!
                 } else {
-                    return@withContext null!!
+                    return@withContext entrenador
                 }
             } catch (e: Exception) {
                 Log.e("error", e.message.toString())
-                return@withContext null!!
+                return@withContext entrenador
             }
         }
     }
