@@ -76,25 +76,63 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/buttonAgregar_FragmentAddTrainingPlan"
+            android:id="@+id/buttonAlimentacion_FragmentAddTrainingPlan"
             android:layout_below="@id/recyclerview_ListObjetivos"
             android:layout_width="301dp"
             android:layout_height="38dp"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:backgroundTint="@color/main"
-            android:text="Continuar proceso de creacion"
+            android:text="Escoger Rutina de Alimentacion"
             android:textFontWeight="14" />
         <Button
-            android:id="@+id/buttonAtras_FragmentAddTrainingPlan"
-            android:layout_below="@id/buttonAgregar_FragmentAddTrainingPlan"
+            android:id="@+id/buttonDescanso_FragmentAddTrainingPlan"
+            android:layout_below="@id/buttonAlimentacion_FragmentAddTrainingPlan"
             android:layout_width="301dp"
             android:layout_height="38dp"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:backgroundTint="@color/main"
-            android:text="Atras"
+            android:text="Escoger Rutina de Descanso"
             android:textFontWeight="14" />
+        <Button
+            android:id="@+id/buttonAlertas_FragmentAddTrainingPlan"
+            android:layout_below="@id/buttonDescanso_FragmentAddTrainingPlan"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/main"
+            android:text="Escoger Alertas"
+            android:textFontWeight="14" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center|center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/buttonAlertas_FragmentAddTrainingPlan"
+            >
+            <Button
+                android:id="@+id/buttonAgregar_FragmentAddTrainingPlan"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/main"
+                android:text="Realizar proceso de creacion"
+                android:textFontWeight="14" />
+            <Button
+                android:id="@+id/buttonAtras_FragmentAddTrainingPlan"
+                android:layout_below="@id/buttonAgregar_FragmentAddTrainingPlan"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/main"
+                android:text="Atras"
+                android:textFontWeight="14" />
+        </LinearLayout>
+
         <!--
         <LinearLayout
             android:layout_width="wrap_content"
