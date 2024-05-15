@@ -471,7 +471,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                         tempTrainingPlan.miercoles_enabled.toString().toInt(),
                         tempTrainingPlan.jueves_enabled.toString().toInt(),
                         tempTrainingPlan.viernes_enabled.toString().toInt(),
-                        tempTrainingPlan.type_plan.toString(),
+                        tempTrainingPlan.typePlan.toString(),
                         tempTrainingPlan.sport.toString(),
                         tempTrainingPlan.id_rest_routine.toString(),
                         tempTrainingPlan.id_eating_routine.toString()

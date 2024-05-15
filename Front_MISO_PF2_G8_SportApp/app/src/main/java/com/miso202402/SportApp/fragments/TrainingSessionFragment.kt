@@ -184,11 +184,12 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
     override fun onCListItemClick(view: View, trainingPlan: TrainingPlan) {
         Log.i("TPlan Item: ", trainingPlan.name.toString())
         val bundle = bundleOf("training_plan_id" to trainingPlan.id )
+        /*
         view?.let {
             Snackbar.make(it, "Funcionalidad en construccion...", Snackbar.LENGTH_SHORT).show()
-        }
-        //val mainActivity = requireActivity() as? MainActivity
-        //mainActivity?.navigateToFragment(R.id.action_ListEventsFragment_to_EditEventsFragment, "Evento",bundle)
+        }*/
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
     }
 
 }

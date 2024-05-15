@@ -19,6 +19,7 @@ import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
+import com.miso202402.SportApp.src.models.response.TrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.ValidateTokenResponse
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
 import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.TrainingPlansResponse
@@ -41,6 +42,9 @@ interface ApiService {
 
     @GET("training_plan")
     fun getTrainingPlans(): Call<TrainingListPlansResponse>
+
+    @GET("training_plan/{training_plan_id}")
+    fun getTrainingPlan(@Path("training_plan_id") training_plan_id: String): Call<TrainingPlanResponse>
 
     @GET("eating_routing_training_plan")
     fun getAllEatingRoutines():Call<GetAllEatingRoutineResponse>
