@@ -1,7 +1,6 @@
 package com.miso202402.SportApp.fragments
 
-import android.content.Intent
-import android.net.Uri
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,27 +15,34 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Objective
-import com.miso202402.SportApp.src.models.response.GetRoutsResponse
+import com.miso202402.SportApp.src.models.response.GetRestRoutineResponse
 import com.miso202402.SportApp.src.models.response.TrainingPlanResponse
 import com.miso202402.SportApp.src.utils.ObjectiveDetailTrainingPlanAdapter
-import com.miso202402.SportApp.src.utils.RoutsAdapter
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoTrainingPlanBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoRestRoutineBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Collections.addAll
 
-class InfoTrainingPlan : Fragment() {
-    private var _binding:FragmentInfoTrainingPlanBinding? = null
+class InfoRestRoutine : Fragment() {
+    private var _binding:FragmentInfoRestRoutineBinding? = null
     private val binding get() = _binding!!
     private lateinit var listObjectives: List<Objective>
-    //private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private var domain : String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
     private lateinit var id_training_plan: String;
+    private lateinit var id_rest_routine: String;
+    private lateinit var preferences: SharedPreferences
+    private var typePlan: String? = ""
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,17 +53,27 @@ class InfoTrainingPlan : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentInfoTrainingPlanBinding.inflate(inflater, container, false)
+        _binding = FragmentInfoRestRoutineBinding.inflate(inflater, container, false)
         listObjectives = listOf()
         id_training_plan = arguments?.getString("training_plan_id").toString()
+        id_rest_routine = arguments?.getString("id_rest_routine").toString()
         Log.i("id_training_plan", id_training_plan)
-        getTrainingPlanDetailById(id_training_plan)
+        Log.i("id_rest_routine", id_rest_routine)
+        typePlan = preferences.getData<String>("typePlan").toString()
+        getRestRoutineDetailById(id_rest_routine)
         binding.recyclerviewListObjectives .setHasFixedSize(true)
         binding.recyclerviewListObjectives.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewListObjectives.adapter = ObjectiveDetailTrainingPlanAdapter(listObjectives)
         binding.buttonAtras.setOnClickListener(){
-            val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+            // revisar si id_training_plan es diferente de null o vacio devolver a info de training plan de lo contrario a lista de rest services
+            if(id_training_plan != null && id_training_plan != "null" && id_training_plan  != "" ){
+                val bundle = bundleOf("training_plan_id" to id_training_plan )
+                val mainActivity = requireActivity() as? MainActivity
+                mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
+            }else {
+                val mainActivity = requireActivity() as? MainActivity
+                mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso")
+            }
         }
         return binding.root
     }
@@ -81,62 +97,43 @@ class InfoTrainingPlan : Fragment() {
         }
     }
 
-    private fun getTrainingPlanDetailById(training_plan_id: String){
+    private fun getRestRoutineDetailById(id_rest_routine: String){
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val callGetTrainingPlanById = utils.getRetrofit(domain)
+                val callGetRestRoutineById = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
-                    .getTrainingPlan(training_plan_id)
+                    .getRestRoutine(id_rest_routine)
                     .execute()
-                val getTrainingPlan = callGetTrainingPlanById.body() as TrainingPlanResponse?
-                Log.i("getTrainingPlan", getTrainingPlan?.code.toString())
+                val getRestRoutine = callGetRestRoutineById.body() as GetRestRoutineResponse?
+                Log.i("getRestRoutine", getRestRoutine?.code.toString())
                 lifecycleScope.launch {
-                    if (getTrainingPlan?.code == 200) {
-                        var content = getTrainingPlan.training_plan!!
-                        binding.namePlan.text = "Nombre: " + content.name
-                        binding.descPlan.text = "Descripcion: " + content.description
-                        binding.weeksPlan.text = "Semanas: " + content.weeks
-                        binding.sportPlan.text = "Deporte: " + content.sport
+                    if (getRestRoutine?.code == 200) {
+                        var content = getRestRoutine.rest_routine!!
+                        binding.nameRRoutine.text = "Nombre: " + content.name
+                        binding.descRRoutine.text = "Descripcion: " + content.description
 
-                        if(content.typePlan != "basico"){
-                            var alerts: String = "Alertas: "
-                            binding.riskAlertsPlan.visibility = View.VISIBLE
-                            if(content.risk_alerts?.stop_training == 1){
-                                alerts += "Parar Entrenamiento,"
+                        if(typePlan != "basico"){
+                            binding.buttonRestServices.visibility = View.VISIBLE
+                            binding.buttonRestServices.setOnClickListener(){
+                                mostrarSnackbar("En Construccion")
                             }
-                            if(content.risk_alerts?.notifications == 1){
-                                alerts += "Notificaciones,"
-                            }
-                            if(content.risk_alerts?.enable_phone == 1){
-                                alerts += "Habilitar llamadas de emergencia"
-                            }
-                            binding.riskAlertsPlan.text = alerts
-                        }
-
-                        binding.buttonFood.setOnClickListener(){
-                            mostrarSnackbar("En Construccion")
-                        }
-
-                        binding.buttonRest.setOnClickListener(){
-                            //mostrarSnackbar("En Construccion")
-                            val bundle = bundleOf(
-                                "training_plan_id" to id_training_plan,
-                                "id_rest_routine" to content.id_rest_routine
-                                )
-                            val mainActivity = requireActivity() as? MainActivity
-                            mainActivity?.navigateToFragment(R.id.InfoRestRoutineFragment, "Detalle Rutina Descanso",bundle)
                         }
 
                         listObjectives = content.objectives?.toList() ?: listOf()
                         val filteredObjectives = listObjectives
-                            .filter { it.day in listOf("Lunes", "Martes", "Miercoles", "Jueves", "Viernes") } // Filtrar por los días deseados
+                            .filter { it.day in listOf("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "lunes", "martes", "miercoles", "jueves", "viernes") } // Filtrar por los días deseados
                             .sortedBy { when(it.day) { // Ordenar los objetivos según el orden de los días
                                 "Lunes" -> 1
                                 "Martes" -> 2
                                 "Miercoles" -> 3
                                 "Jueves" -> 4
                                 "Viernes" -> 5
+                                "lunes" -> 1
+                                "martes" -> 2
+                                "miercoles" -> 3
+                                "jueves" -> 4
+                                "viernes" -> 5
                                 else -> 6
                             }}
                         binding.recyclerviewListObjectives.setHasFixedSize(true)
@@ -146,7 +143,7 @@ class InfoTrainingPlan : Fragment() {
                         activity?.let {
                             utils.showMessageDialog(
                                 it,
-                                "Error Al traer el plan de entrenamiento, intente mas tarde"
+                                "Error Al traer el rutina de descanso, intente mas tarde"
                             )
                         }
                     }
@@ -156,7 +153,5 @@ class InfoTrainingPlan : Fragment() {
             }
         }
     }
-
-
 
 }

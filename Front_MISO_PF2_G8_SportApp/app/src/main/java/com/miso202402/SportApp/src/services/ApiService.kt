@@ -15,6 +15,7 @@ import com.miso202402.SportApp.src.models.response.GetAllUserTrainingSessionsRes
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
+import com.miso202402.SportApp.src.models.response.GetRestRoutineResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
@@ -51,6 +52,9 @@ interface ApiService {
 
     @GET("rest_routine_training_plan")
     fun getAllRestRoutineResponse():Call<GetAllRestRoutineResponse>
+
+    @GET("rest_routine_training_plan/{id_rest_routine}")
+    fun getRestRoutine(@Path("id_rest_routine") id_rest_routine: String):Call<GetRestRoutineResponse>
 
     @POST("objetive_training_plan")
     fun createObjetiveTrainingPlan(@Body request: ObjetiveTrainingPlanRequest): Call<ObjetiveTrainingPlanResponse>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.FoodRoutine
@@ -151,7 +152,13 @@ class ListRestRoutineFragment : Fragment(), ClickListener_restroutines {
     }
 
     override fun onListItemLongClick(view: View, restRoutine: RestRoutine, position: Int) {
-        mostrarSnackbar("onListItemLongClick En Construccion")
+        //mostrarSnackbar("onListItemLongClick En Construccion")
+        rest_routine_id = restRoutine.id.toString()
+        val bundle = bundleOf(
+            "id_rest_routine" to rest_routine_id
+        )
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.navigateToFragment(R.id.InfoRestRoutineFragment, "Detalle Rutina Descanso",bundle)
     }
 
 

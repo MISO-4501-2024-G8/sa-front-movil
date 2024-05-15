@@ -5,6 +5,6 @@ class RestRoutine(
     @SerializedName("id") var id:String?,
     @SerializedName("name") var name:String?,
     @SerializedName("description") var description:String?,
-    @SerializedName("objectives") var objectives: Array<Objective>? = null,
-    @SerializedName("rest_devices") var rest_devices: Array<RestDevice>? = null
+    @SerializedName("objectives") var objectives: List<Objective>? = null,
+    @SerializedName("rest_devices") var rest_devices: List<RestDevice>? = null
 ) {}

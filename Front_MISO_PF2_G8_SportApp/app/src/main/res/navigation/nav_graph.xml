@@ -223,6 +223,13 @@
         tools:layout="@layout/fragment_info_training_plan"
         />
 
+    <fragment
+        android:id="@+id/InfoRestRoutineFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoRestRoutine"
+        android:label="InfoRestRoutine"
+        tools:layout="@layout/fragment_info_rest_routine"
+        />
+
 
 
 
