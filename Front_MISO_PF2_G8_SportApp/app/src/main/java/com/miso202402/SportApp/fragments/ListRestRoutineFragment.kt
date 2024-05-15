@@ -153,9 +153,9 @@ class ListRestRoutineFragment : Fragment(), ClickListener_restroutines {
 
     override fun onListItemLongClick(view: View, restRoutine: RestRoutine, position: Int) {
         //mostrarSnackbar("onListItemLongClick En Construccion")
-        rest_routine_id = restRoutine.id.toString()
+        var id_rest_routine = restRoutine.id.toString()
         val bundle = bundleOf(
-            "id_rest_routine" to rest_routine_id
+            "id_rest_routine" to id_rest_routine
         )
         val mainActivity = requireActivity() as? MainActivity
         mainActivity?.navigateToFragment(R.id.InfoRestRoutineFragment, "Detalle Rutina Descanso",bundle)

@@ -115,7 +115,13 @@ class InfoTrainingPlan : Fragment() {
                         }
 
                         binding.buttonFood.setOnClickListener(){
-                            mostrarSnackbar("En Construccion")
+                            //mostrarSnackbar("En Construccion")
+                            val bundle = bundleOf(
+                                "training_plan_id" to id_training_plan,
+                                "id_food_routine" to content.id_eating_routine
+                            )
+                            val mainActivity = requireActivity() as? MainActivity
+                            mainActivity?.navigateToFragment(R.id.InfoFoodRoutineFragment, "Detalle Rutina Alimentacion",bundle)
                         }
 
                         binding.buttonRest.setOnClickListener(){

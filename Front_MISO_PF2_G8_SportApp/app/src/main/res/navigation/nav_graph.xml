@@ -230,6 +230,13 @@
         tools:layout="@layout/fragment_info_rest_routine"
         />
 
+    <fragment
+        android:id="@+id/InfoFoodRoutineFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoFoodRoutineFragment"
+        android:label="InfoFoodRoutine"
+        tools:layout="@layout/fragment_info_food_routine"
+        />
+
 
 
 

@@ -14,37 +14,36 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.miso202402.SportApp.src.models.models.FoodObjective
 import com.miso202402.SportApp.src.models.models.Objective
+import com.miso202402.SportApp.src.models.response.GetFoodRoutineResponse
 import com.miso202402.SportApp.src.models.response.GetRestRoutineResponse
-import com.miso202402.SportApp.src.models.response.TrainingPlanResponse
-import com.miso202402.SportApp.src.utils.ObjectiveDetailTrainingPlanAdapter
+import com.miso202402.SportApp.src.utils.FoodRoutineDetailAdapter
 import com.miso202402.SportApp.src.utils.RestDetailAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoRestRoutineBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoFoodRoutineBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class InfoRestRoutine : Fragment() {
-    private var _binding:FragmentInfoRestRoutineBinding? = null
+class InfoFoodRoutineFragment : Fragment() {
+    private var _binding:FragmentInfoFoodRoutineBinding? = null
     private val binding get() = _binding!!
-    private lateinit var listObjectives: List<Objective>
+    private lateinit var listFoodObjectives: MutableList<FoodObjective>
     private var domain : String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
     private lateinit var id_training_plan: String;
-    private lateinit var id_rest_routine: String;
+    private lateinit var id_food_routine: String;
     private lateinit var preferences: SharedPreferences
     private var typePlan: String? = ""
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         preferences = SharedPreferences(requireContext())
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -54,17 +53,17 @@ class InfoRestRoutine : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentInfoRestRoutineBinding.inflate(inflater, container, false)
-        listObjectives = listOf()
+        _binding = FragmentInfoFoodRoutineBinding.inflate(inflater, container, false)
+        listFoodObjectives = mutableListOf()
         id_training_plan = arguments?.getString("training_plan_id").toString()
-        id_rest_routine = arguments?.getString("id_rest_routine").toString()
+        id_food_routine = arguments?.getString("id_food_routine").toString()
         Log.i("id_training_plan", id_training_plan)
-        Log.i("id_rest_routine", id_rest_routine)
+        Log.i("id_food_routine", id_food_routine)
         typePlan = preferences.getData<String>("typePlan").toString()
-        getRestRoutineDetailById(id_rest_routine)
+        getFoodRoutineDetailById(id_food_routine)
         binding.recyclerviewListObjectives .setHasFixedSize(true)
         binding.recyclerviewListObjectives.layoutManager = LinearLayoutManager(context)
-        binding.recyclerviewListObjectives.adapter = RestDetailAdapter(listObjectives)
+        binding.recyclerviewListObjectives.adapter = FoodRoutineDetailAdapter(listFoodObjectives)
         binding.buttonAtras.setOnClickListener(){
             // revisar si id_training_plan es diferente de null o vacio devolver a info de training plan de lo contrario a lista de rest services
             if(id_training_plan != null && id_training_plan != "null" && id_training_plan  != "" ){
@@ -73,7 +72,7 @@ class InfoRestRoutine : Fragment() {
                 mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
             }else {
                 val mainActivity = requireActivity() as? MainActivity
-                mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso")
+                mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion")
             }
         }
         return binding.root
@@ -98,30 +97,40 @@ class InfoRestRoutine : Fragment() {
         }
     }
 
-    private fun getRestRoutineDetailById(id_rest_routine: String){
+    private fun getFoodRoutineDetailById(id_food_routine: String){
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val callGetRestRoutineById = utils.getRetrofit(domain)
+                val callGetFoodRoutineById = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
-                    .getRestRoutine(id_rest_routine)
+                    .getFoodRoutine(id_food_routine)
                     .execute()
-                val getRestRoutine = callGetRestRoutineById.body() as GetRestRoutineResponse?
-                Log.i("getRestRoutine", getRestRoutine?.code.toString())
+                val getFoodRoutine = callGetFoodRoutineById.body() as GetFoodRoutineResponse?
+                Log.i("getFoodRoutine", getFoodRoutine?.code.toString())
                 lifecycleScope.launch {
-                    if (getRestRoutine?.code == 200) {
-                        var content = getRestRoutine.rest_routine!!
-                        binding.nameRRoutine.text = "Nombre: " + content.name
-                        binding.descRRoutine.text = "Descripcion: " + content.description
+                    if (getFoodRoutine?.code == 200) {
+                        var content = getFoodRoutine.eating_routine!!
+                        binding.nameFRoutine.text = "Nombre: " + content.name
+                        binding.descFRoutine.text = "Descripcion: " + content.description
 
                         if(typePlan != "basico"){
-                            binding.buttonRestServices.visibility = View.VISIBLE
-                            binding.buttonRestServices.setOnClickListener(){
+                            binding.buttonFoodServices.visibility = View.VISIBLE
+                            binding.buttonFoodServices.setOnClickListener(){
                                 mostrarSnackbar("En Construccion")
                             }
                         }
+                        val daysOfWeek = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "lunes", "martes", "miercoles", "jueves", "viernes")
+                        for (day in daysOfWeek) {
+                            val listDay = content.day_food_plans?.filter {
+                                it.day == day
+                            }
+                            if (listDay != null && listDay.isNotEmpty()) {
+                                val foodObjective = FoodObjective(day, listDay)
+                                listFoodObjectives.add(foodObjective)
+                            }
+                        }
 
-                        listObjectives = content.objectives?.toList() ?: listOf()
+                        var listObjectives = listFoodObjectives?.toList() ?: listOf()
                         val filteredObjectives = listObjectives
                             .filter { it.day in listOf("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "lunes", "martes", "miercoles", "jueves", "viernes") } // Filtrar por los días deseados
                             .sortedBy { when(it.day) { // Ordenar los objetivos según el orden de los días
@@ -139,7 +148,7 @@ class InfoRestRoutine : Fragment() {
                             }}
                         binding.recyclerviewListObjectives.setHasFixedSize(true)
                         binding.recyclerviewListObjectives.layoutManager = LinearLayoutManager(context)
-                        binding.recyclerviewListObjectives.adapter = RestDetailAdapter(filteredObjectives)
+                        binding.recyclerviewListObjectives.adapter = FoodRoutineDetailAdapter(filteredObjectives)
                     } else {
                         activity?.let {
                             utils.showMessageDialog(
