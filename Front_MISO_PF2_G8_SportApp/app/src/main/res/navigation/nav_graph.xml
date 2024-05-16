@@ -16,8 +16,20 @@
             app:destination="@id/SecondFragment" />
 
         <action
-            android:id="@+id/action_FirstFragment_to_RegisterFragment"
-            app:destination="@id/registerFragment" />
+            android:id="@+id/action_FirstFragment_to_TrainingSessionFragment"
+            app:destination="@id/trainingSessionFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_AddTrainingPlanFragment"
+            app:destination="@id/addTrainingPlanFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_ListEventsFragment"
+            app:destination="@id/ListEventsFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_ListRoutsFragment"
+            app:destination="@id/ListRoutsFragment" />
     </fragment>
 
     <fragment
@@ -31,17 +43,221 @@
             app:destination="@id/FirstFragment" />
 
         <action
-            android:id="@+id/action_SecondFragment_to_RegisterFragment"
-            app:destination="@id/registerFragment" />
+            android:id="@+id/action_Login_to_Calendar"
+            app:destination="@id/CalendarFragment" />
+
+
     </fragment>
 
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.miso202402.front_miso_pf2_g8_sportapp.fragments.RegisterFragment"
-        android:label="@string/register_fragment_label"
-        tools:layout="@layout/fragment_register">
+        android:id="@+id/trainingSessionFragment"
+        android:name="com.miso202402.SportApp.fragments.TrainingSessionFragment"
+        android:label="@string/training_sesion"
+        tools:layout="@layout/fragment_training_session">
+
+        <action
+            android:id="@+id/action_trainingSessionFragment_to_addTrainingPlanFragment"
+            app:destination="@id/addTrainingPlanFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addTrainingPlanFragment"
+        android:name="com.miso202402.SportApp.fragments.AddTrainingPlanFragment"
+        android:label="@string/add_training_sesion"
+        tools:layout="@layout/fragment_add_training_plan">
+        <action
+            android:id="@+id/action_addTrainingPlanFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ListEventsFragment"
+        android:name="com.miso202402.SportApp.fragments.ListEventsFragment"
+        android:label="@string/List_events"
+        tools:layout="@layout/fragment_list_events">
+
+        <action
+            android:id="@+id/action_ListEventsFragment_to_AddEventFragment"
+            app:destination="@id/AddEventFragment" />
+
+        <action
+            android:id="@+id/action_ListEventsFragment_to_EditEventsFragment"
+            app:destination="@id/EditEventsFragment" />
+
+        <action
+            android:id="@+id/action_ListEventsFragment_to_ListRoutsFragment"
+            app:destination="@id/ListRoutsFragment" />
 
 
     </fragment>
+
+    <fragment
+        android:id="@+id/AddEventFragment"
+        android:name="com.miso202402.SportApp.fragments.AddEventFragment"
+        android:label="@string/List_events"
+        tools:layout="@layout/fragment_add_event">
+        <action
+            android:id="@+id/action_AddEventFragment_to_ListEventsFragment"
+            app:destination="@id/ListEventsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/EditEventsFragment"
+        android:name="com.miso202402.SportApp.fragments.EditEventsFragment"
+        android:label="@string/edit_events"
+        tools:layout="@layout/fragment_edit_events">
+        <action
+            android:id="@+id/action_EditEventsFragment_to_ListEventsFragment"
+            app:destination="@id/ListEventsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ListRoutsFragment"
+        android:name="com.miso202402.SportApp.fragments.ListRoutsFragment"
+        android:label="@string/List_routs"
+        tools:layout="@layout/fragment_list_routs">
+
+        <action
+            android:id="@+id/action_ListRoutsFragment_to_AddRoutsFragment"
+            app:destination="@id/AddRoutsFragment" />
+
+        <action
+            android:id="@+id/action_ListRoutsFragment_to_EditRoutsFragment"
+            app:destination="@id/EditRoutsFragment" />
+
+        <action
+            android:id="@+id/action_ListRoutsFragment_to_ListEventsFragment"
+            app:destination="@id/ListEventsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddRoutsFragment"
+        android:name="com.miso202402.SportApp.fragments.AddRoutsFragment"
+        android:label="@string/Add_routs"
+        tools:layout="@layout/fragment_add_routs">
+        <action
+            android:id="@+id/action_AddRoutsFragment_to_ListRoutsFragment"
+            app:destination="@id/ListRoutsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/EditRoutsFragment"
+        android:name="com.miso202402.SportApp.fragments.EditRoutsFragment"
+        android:label="@string/edit_routs"
+        tools:layout="@layout/fragment_edit_routs">
+        <action
+            android:id="@+id/action_EditRoutsFragment_to_ListRoutsFragment"
+            app:destination="@id/ListRoutsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/InfoEventFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoEventFragment"
+        android:label="InfoEventFragment"
+        tools:layout="@layout/fragment_info_event"
+        />
+
+    <fragment
+        android:id="@+id/InfoRoutFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoRoutFragment"
+        android:label="InfoRoutFragment"
+        tools:layout="@layout/fragment_info_rout"
+        />
+
+    <fragment
+        android:id="@+id/CalendarFragment"
+        android:name="com.miso202402.SportApp.fragments.CalendarFragment"
+        android:label="Calendario"
+        tools:layout="@layout/fragment_calendar"
+        />
+
+    <fragment
+        android:id="@+id/SportFragment"
+        android:name="com.miso202402.SportApp.fragments.SportFragment"
+        android:label="Sport"
+        tools:layout="@layout/fragment_sport"
+        />
+
+    <fragment
+        android:id="@+id/GoalFragment"
+        android:name="com.miso202402.SportApp.fragments.GoalFragment"
+        android:label="Goal"
+        tools:layout="@layout/fragment_goal"
+        />
+
+    <fragment
+        android:id="@+id/ChatFragment"
+        android:name="com.miso202402.SportApp.fragments.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat"
+        />
+
+    <fragment
+        android:id="@+id/FoodRoutineListFragment"
+        android:name="com.miso202402.SportApp.fragments.ListFoodRoutineFragment"
+        android:label="FoodRoutineList"
+        tools:layout="@layout/fragment_list_food_routine"
+        />
+
+    <fragment
+        android:id="@+id/RestRoutineListFragment"
+        android:name="com.miso202402.SportApp.fragments.ListRestRoutineFragment"
+        android:label="RestRoutineList"
+        tools:layout="@layout/fragment_list_rest_routine"
+        />
+
+    <fragment
+        android:id="@+id/TrainingPlanAlertsFragment"
+        android:name="com.miso202402.SportApp.fragments.TrainingPlanAlertsFragment"
+        android:label="TrainingPlanAlerts"
+        tools:layout="@layout/fragment_training_plan_alerts"
+        />
+
+    <fragment
+        android:id="@+id/InfoTrainingPlanFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoTrainingPlan"
+        android:label="InfoTrainingPlan"
+        tools:layout="@layout/fragment_info_training_plan"
+        />
+
+    <fragment
+        android:id="@+id/InfoRestRoutineFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoRestRoutine"
+        android:label="InfoRestRoutine"
+        tools:layout="@layout/fragment_info_rest_routine"
+        />
+
+    <fragment
+        android:id="@+id/InfoFoodRoutineFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoFoodRoutineFragment"
+        android:label="InfoFoodRoutine"
+        tools:layout="@layout/fragment_info_food_routine"
+        />
+    <fragment
+        android:id="@+id/ListProgramSessionsConsultationsFragment"
+        android:name="com.miso202402.SportApp.fragments.ListProgramSessionsConsultationsFragment"
+        android:label="Sessiones Programadas "
+        tools:layout="@layout/fragment_list_program_sessions_consultations"
+        />
+
+    <fragment
+        android:id="@+id/TrainingSessionOficialFragment"
+        android:name="com.miso202402.SportApp.fragments.TrainingSessionOficialFragment"
+        android:label="Agendar Sesión"
+        tools:layout="@layout/fragment_training_session_oficial"
+        />
+
+    <fragment
+        android:id="@+id/InfoConsultationProgramFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoConsultationsprogramSessionsFragment"
+        android:label="Detalles de la Sesión"
+        tools:layout="@layout/fragment_info_consultationsprogram_sessions"
+        />
+
+
+
 
 </navigation>

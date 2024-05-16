@@ -1,0 +1,83 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.miso202402.SportApp.fragments.AddEventFragment">
+
+    <EditText
+        android:id="@+id/editTexName_AddEventFragment"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="60dp"
+        android:textFontWeight="14"
+        android:ems="12"
+        android:hint="Nombre"
+        android:inputType="text"
+        android:tooltipText="Nombre del Evento"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <EditText
+        android:id="@+id/editTexDescription_AddEventFragment"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="130dp"
+        android:textFontWeight="14"
+        android:ems="12"
+        android:hint="Descripcíón"
+        android:inputType="textLongMessage"
+        android:tooltipText="Descripcíón del Evento"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <EditText
+        android:id="@+id/editTexLocation_AddEventFragment"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="200dp"
+        android:ems="12"
+        android:hint="Ubicación"
+        android:inputType="textLongMessage"
+        android:tooltipText="Ubicación del Evento"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="336dp" />
+
+    <EditText
+        android:id="@+id/editLink_AddEventFragment"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="270dp"
+        android:ems="12"
+        android:hint="Link"
+        android:inputType="textLongMessage"
+        android:tooltipText="Link del Evento"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="336dp" />
+
+    <Spinner
+        android:id="@+id/spinner_AddEventFragment"
+        android:layout_width="301dp"
+        android:layout_height="56dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="57dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="330dp"
+        />
+
+    <Button
+        android:id="@+id/buttonAgregar_AddEventFragment"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:text="@string/textBtnAddTrainginPlan"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="400dp"/>
+
+</FrameLayout>

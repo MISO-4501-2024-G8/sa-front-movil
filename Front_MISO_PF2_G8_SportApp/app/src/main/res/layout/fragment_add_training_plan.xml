@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="70dp"
+    tools:context="com.miso202402.SportApp.fragments.AddTrainingPlanFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/spinner_TrainingSessionFragment"
+            android:layout_width="326dp"
+            android:layout_height="56dp"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:id="@+id/editTexName_FragmentAddTrainingPlan"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/spinner_TrainingSessionFragment"
+            android:layout_marginTop="10dp"
+            android:ems="12"
+            android:hint="Nombre"
+            android:inputType="text"
+            android:textFontWeight="14"
+            android:tooltipText="Nombre"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp"
+            />
+
+        <EditText
+            android:id="@+id/editTexWeeks_FragmentAddTrainingPlan"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/editTexName_FragmentAddTrainingPlan"
+            android:layout_marginTop="10dp"
+            android:ems="12"
+            android:hint="Semanas"
+            android:inputType="number"
+            android:textFontWeight="14"
+            android:tooltipText="Semanas"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp" />
+
+        <EditText
+            android:id="@+id/editTexDescription_FragmentAddTrainingPlan"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/editTexWeeks_FragmentAddTrainingPlan"
+            android:layout_marginTop="10dp"
+            android:ems="12"
+            android:hint="Descripción"
+            android:inputType="textLongMessage"
+            android:tooltipText="Descripcíon"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_ListObjetivos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_below="@+id/editTexDescription_FragmentAddTrainingPlan"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonAlimentacion_FragmentAddTrainingPlan"
+            android:layout_below="@id/recyclerview_ListObjetivos"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/main"
+            android:text="Escoger Rutina de Alimentacion"
+            android:textFontWeight="14" />
+        <Button
+            android:id="@+id/buttonDescanso_FragmentAddTrainingPlan"
+            android:layout_below="@id/buttonAlimentacion_FragmentAddTrainingPlan"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/main"
+            android:text="Escoger Rutina de Descanso"
+            android:textFontWeight="14" />
+        <Button
+            android:id="@+id/buttonAlertas_FragmentAddTrainingPlan"
+            android:layout_below="@id/buttonDescanso_FragmentAddTrainingPlan"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/main"
+            android:text="Escoger Alertas"
+            android:textFontWeight="14" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center|center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/buttonAlertas_FragmentAddTrainingPlan"
+            >
+            <Button
+                android:id="@+id/buttonAgregar_FragmentAddTrainingPlan"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/main"
+                android:text="Realizar proceso de creacion"
+                android:textFontWeight="14" />
+            <Button
+                android:id="@+id/buttonAtras_FragmentAddTrainingPlan"
+                android:layout_below="@id/buttonAgregar_FragmentAddTrainingPlan"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/main"
+                android:text="Atras"
+                android:textFontWeight="14" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
