@@ -412,7 +412,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     }
 
     private fun AddTrainingPlan(objectivesTemp:MutableList<Objective>){
-
+        mostrarSnackbar("Creando Plan de entrenamiento...")
         var planName:String = nameEditText.text.toString()
         var planDescription:String = descriptionEditText.text.toString()
         var planWeeks:String = weeksEditText.text.toString()
@@ -488,9 +488,15 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                         createRiskAlerts(idTrainingPlan, stop_training, notification_msg, emergency_call, utils)
                     }
                     Log.i("createTrainingPlanResponse", "Finalizo creacion de Plan")
-                    mostrarSnackbar("El plan de entrenamiento fue creado satisfactoriamente")
+                    //mostrarSnackbar("El plan de entrenamiento fue creado satisfactoriamente")
+                    //val mainActivity = requireActivity() as? MainActivity
+                    //mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
                     val mainActivity = requireActivity() as? MainActivity
-                    mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+                    mainActivity?.runOnUiThread {
+                        mostrarSnackbar("El plan de entrenamiento fue creado satisfactoriamente")
+                        mainActivity.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+                    }
+
                 }else{
                     var errorMessage = createTrainingPlanResponse?.message.toString()
                     Log.e("AddTrainingPlan error",errorMessage)

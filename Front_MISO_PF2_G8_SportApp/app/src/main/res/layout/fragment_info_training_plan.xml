@@ -78,7 +78,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_ListObjectives"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="400dp"
         android:layout_marginTop="20dp"
         android:visibility="visible"
         />
