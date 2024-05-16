@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.miso202402.SportApp.fragments.TrainingPlanAlertsFragment">
+    <TextView
+        android:id="@+id/textViewTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:text="Plan de situcion critica" />
+
+    <!-- Primer toggle -->
+    <Switch
+        android:id="@+id/switchStopTraining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detener Entrenamiento por emergencia"
+        android:layout_below="@id/textViewTitulo"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layoutDirection="rtl"
+        />
+
+    <!-- Segundo toggle -->
+    <Switch
+        android:id="@+id/switchNotificationMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enviar Mensajes de notificación"
+        android:layout_below="@id/switchStopTraining"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layoutDirection="rtl"
+        />
+
+    <!-- Tercer toggle -->
+    <Switch
+        android:id="@+id/switchEmergencyCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disponibilizar telefono para llamar a contacto de emrgencia"
+        android:layout_below="@id/switchNotificationMsg"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layoutDirection="rtl"
+        />
+
+
+    <Button
+        android:id="@+id/buttonContinuar_AlertsFragment"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="20dp"
+        android:text="Continuar"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_below="@id/switchEmergencyCall"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:id="@+id/buttonAtras_AlertsFragment"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="20dp"
+        android:text="Atras"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_below="@id/buttonContinuar_AlertsFragment"
+        android:layout_centerHorizontal="true"
+        />
+
+
+</RelativeLayout>

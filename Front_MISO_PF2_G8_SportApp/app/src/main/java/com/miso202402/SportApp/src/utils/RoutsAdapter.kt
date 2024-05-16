@@ -1,7 +1,6 @@
 package com.miso202402.SportApp.src.utils
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
-class RoutsAdapter (private val routsList:  List<Routs>, val clickListener: ClickListener_routs ) : RecyclerView.Adapter<RoutsAdapter.ViewHolder>() {
+class RoutsAdapter (private val routsList:  List<Routs>, val clickListener: ClicListener_routs ) : RecyclerView.Adapter<RoutsAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var textViewName: TextView
         var textViewDescription: TextView

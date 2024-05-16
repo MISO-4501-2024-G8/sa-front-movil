@@ -8,6 +8,7 @@ class Objective (
     @SerializedName("day") var day:String?,
     @SerializedName("repeats") var repeats:Int?,
     @SerializedName("type_objective") var type_objective:String?,
-    @SerializedName("instructions") var instructions:List<Instruction>?
+    @SerializedName("instructions") var instructions:List<Instruction>?,
+    @SerializedName("checked") var checked:Boolean?=false,
     ){
 }

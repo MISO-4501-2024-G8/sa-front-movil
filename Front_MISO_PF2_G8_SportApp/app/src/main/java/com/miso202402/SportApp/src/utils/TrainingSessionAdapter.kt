@@ -15,7 +15,8 @@ import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.models.TrainingSession
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
-class TrainingSessionAdapter (
+class
+TrainingSessionAdapter (
     private val listTrainingSessions:  List<TrainingSession>,
     private val listEventos: List<Events>,
     private val listRutas: List<Routs>,

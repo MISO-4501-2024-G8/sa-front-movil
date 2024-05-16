@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.miso202402.SportApp.src.models.response.ValidateTokenResponse
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
@@ -29,14 +30,16 @@ import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     private var errorTimesLoginRejected: Int = 0
     private val domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
-    private val binding get() = _binding!!
     private lateinit var preferences: SharedPreferences
     private lateinit var forgotP: TextView
     private lateinit var signUp:TextView
@@ -109,17 +112,47 @@ class LoginFragment : Fragment() {
                lifecycleScope.launch {
                    if(errorTimesLoginRejected < 3 ) {
                        if (loginResponse?.message == "Usuario logueado correctamante") {
-                           activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
+                           //activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
                            //Log.i("mesnaje al loguearse", loginResponse?.message.toString())
                            errorTimesLoginRejected = 0
 
                            preferences.saveData("token", loginResponse?.token)
                            preferences.saveData("id", loginResponse?.id)
 
-                           val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
-                           //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
-                           val mainActivity = requireActivity() as? MainActivity
-                           mainActivity?.navigateToFragment(R.id.CalendarFragment, bundle)
+                           CoroutineScope(Dispatchers.IO).launch {
+                               try {
+                                   Log.i("ValidateToken","Antes de Validate Token")
+                                   val callValidateToken = utils
+                                       .getRetrofitBearer(domain, loginResponse?.token.toString())
+                                       .create(ApiService::class.java)
+                                       .validateSession().execute()
+                                   Log.i("ValidateToken","Despues de Validate Token")
+                                   val validateToken = callValidateToken.body() as ValidateTokenResponse?
+                                   if(validateToken?.message == "Token is valid"){
+                                       val userType = validateToken?.userType
+                                       val typePlan = validateToken?.typePlan
+                                       if(userType == 1){
+                                           withContext(Dispatchers.Main) {
+                                                activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
+                                           }
+                                           preferences.saveData("userType", userType)
+                                           preferences.saveData("typePlan", typePlan)
+                                           val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
+                                           //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
+                                           val mainActivity = requireActivity() as? MainActivity
+                                           mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", bundle)
+                                       }else{
+                                           withContext(Dispatchers.Main) {
+                                               val errorUser: String = "El usuario no es de tipo deportista"
+                                               activity?.let { showMessageDialog(it, errorUser) }
+                                               Log.e("ValidateToken error: ",errorUser)
+                                           }
+                                       }
+                                   }
+                               } catch (e: Exception) {
+                                   Log.e("ValidateToken error: ", e.message.toString())
+                               }
+                           }
                        }
                        else {
                            errorTimesLoginRejected++
@@ -136,7 +169,7 @@ class LoginFragment : Fragment() {
                }
 
            } catch (e: Exception) {
-               Log.e("error",e.message.toString())
+               Log.e("Login error: ",e.message.toString())
            }
         }
    }

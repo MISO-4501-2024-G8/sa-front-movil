@@ -67,27 +67,6 @@ class EditEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*var spinner = view.findViewById<Spinner>(R.id.spinner_EditEventsFragment)
-        activity?.let {
-            ArrayAdapter.createFromResource(
-                it,
-                R.array.Sport,
-                android.R.layout.simple_spinner_item
-            ).also { arrayAdapter ->
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinner.adapter = arrayAdapter
-            }
-        }
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                tipoDeporte = vectorTipoDeporte[p2]
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }*/
-
         binding.buttonEditarEditEventsFragment.setOnClickListener {
            //updateEventoById(event_id)
             createTrainigSession(event_id, user_id)
@@ -133,14 +112,9 @@ class EditEventsFragment : Fragment() {
                     binding.editTexLocationEditEventsFragment.setText(event.event_location.toString())
                     binding.editLinkEditEventsFragment.setText(event.link.toString())
                     binding.editTexDateEditEventsFragment.setText(event.event_date.toString())
+                    tipoDeporte = event.sport.toString()
                     event_date = event.event_date.toString()
-                   /* if (event.sport == "Atletismo"){
-                        binding.spinnerEditEventsFragment.setSelection(0)
-                        tipoDeporte = "Atletismo"
-                    } else {
-                        binding.spinnerEditEventsFragment.setSelection(1)
-                        tipoDeporte = "Ciclismo"
-                    }*/
+                    tipoDeporte = if (event.sport == "Atletismo") "Atletismo" else "Ciclismo"
                 } else {
                     activity?.let {
                         utils.showMessageDialog(
@@ -179,7 +153,7 @@ class EditEventsFragment : Fragment() {
                 Log.i("Sali se la peticion updateEventoById", "Rest")
                 Log.i("Sali a la peticion code ", updateEvento?.code.toString())
                 lifecycleScope.launch {
-                    if (updateEvento?.code == 200) {
+                    if (updateEvento?.code == 200 || updateEvento?.code == 201) {
                         val messageSucces = updateEvento.message
                         utils.showMessageDialog(context, messageSucces.toString())
                         findNavController().navigate(R.id.action_EditEventsFragment_to_ListEventsFragment)
@@ -204,7 +178,7 @@ class EditEventsFragment : Fragment() {
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.i("Entre", "create training$event_id $user_id")
+                Log.i("Entre", "create training $event_id $user_id $tipoDeporte $event_date")
                 val callCreateTrainigSession = utils.getRetrofit(domain)
                     .create(ApiService::class.java)
                     .createTrainigSession(
@@ -232,10 +206,9 @@ class EditEventsFragment : Fragment() {
                                 "Error No se pudo asocciar correctmente"
                             )
                         }
-
                     }
                 }
-            } catch (e: Exception) {
+           } catch (e: Exception) {
                 Log.e("error",e.message.toString())
             }
         }

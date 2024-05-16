@@ -1,19 +1,15 @@
 package com.miso202402.SportApp.src.utils
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.miso202402.SportApp.fragments.ListEventsFragment
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 
-class WeeksAdapter (private val listEvents:  List<Events>, val clickListener: ClickListener ) : RecyclerView.Adapter<WeeksAdapter.ViewHolder>() {
+class WeeksAdapter (private val listEvents:  List<Events>, val clicListener: ClicListener ) : RecyclerView.Adapter<WeeksAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var textViewName: TextView
         var textViewDescription: TextView
@@ -38,7 +34,7 @@ class WeeksAdapter (private val listEvents:  List<Events>, val clickListener: Cl
         viewHolder.textViewDescription.text = "Descripcion: "+ listEvents[position].event_description.toString()
         viewHolder.itemView.setOnClickListener() {
             val event = listEvents.get(position)
-            clickListener.onCListItemClick(it, event)
+            clicListener.onCListItemClick(it, event)
         }
     }
 

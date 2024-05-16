@@ -13,17 +13,12 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Routs
-import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.models.response.GetAllRutasResponse
-import com.miso202402.SportApp.src.utils.ClickListener
-import com.miso202402.SportApp.src.utils.ClickListener_routs
+import com.miso202402.SportApp.src.utils.ClicListener_routs
 import com.miso202402.SportApp.src.utils.RoutsAdapter
-import com.miso202402.SportApp.src.utils.WeeksAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListEventsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
@@ -32,12 +27,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class ListRoutsFragment : Fragment(), ClickListener_routs {
+class ListRoutsFragment : Fragment(), ClicListener_routs {
     private var _binding: FragmentListRoutsBinding? = null
     private val binding get() = _binding!!
     private lateinit var routsList : List<Routs>
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
-    lateinit var listener: ClickListener_routs
+    lateinit var listener: ClicListener_routs
     private lateinit var token: String
     private lateinit var user_id : String
 
@@ -59,7 +54,7 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
         binding.recyclerviewListRoutsFragment.adapter = RoutsAdapter(routsList, listener)
         binding.imageButtonCalendarListRoutsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListEventsFragment)
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos")
         }
 
     return binding.root
@@ -133,7 +128,9 @@ class ListRoutsFragment : Fragment(), ClickListener_routs {
             "rout_id" to rout.id,
             "user_id" to user_id
         )
-        findNavController().navigate(R.id.action_ListRoutsFragment_to_EditRoutsFragment, bundle)
+        //findNavController().navigate(R.id.action_ListRoutsFragment_to_EditRoutsFragment, bundle)
+        val mainActivity = requireActivity() as? MainActivity
+        mainActivity?.navigateToFragment(R.id.action_ListRoutsFragment_to_EditRoutsFragment, "Ruta",bundle)
     }
 
 

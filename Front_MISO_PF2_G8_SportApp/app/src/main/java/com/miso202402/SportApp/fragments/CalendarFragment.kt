@@ -40,11 +40,7 @@ import java.util.Date
 import java.util.Locale
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CalendarFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class CalendarFragment : Fragment(), ClicTSListener {
     private var _binding: FragmentCalendarBinding? = null
     private lateinit var user_id: String;
@@ -126,11 +122,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
 
         btnEventos.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListEventsFragment)
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos")
         }
         btnRutas.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListRoutsFragment)
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas")
         }
         btnLimpiar.setOnClickListener {
             progressBarVisible(true)
@@ -156,7 +152,6 @@ class CalendarFragment : Fragment(), ClicTSListener {
     fun progressBarVisible(valueV:Boolean){
         if(valueV){
             binding.progressBar.visibility = View.VISIBLE
-
         }else{
             binding.progressBar.visibility = View.GONE
         }
@@ -262,10 +257,14 @@ class CalendarFragment : Fragment(), ClicTSListener {
             Log.i("GetAllUserTrainingSessionsResponse: ", trainingSessions.size.toString())
             Log.i("GetAllEventsResponse: ", events.size.toString())
             Log.i("GetAllRutasResponse: ", routes.size.toString())
-            binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
-            binding.recyclerviewListTrainingSessionsFragment.layoutManager = LinearLayoutManager(context)
-            binding.recyclerviewListTrainingSessionsFragment.adapter = TrainingSessionAdapter(filterTrainingSessions, events, routes, listener)
-            progressBarVisible(false)
+            if(_binding != null) {
+                binding.recyclerviewListTrainingSessionsFragment.setHasFixedSize(true)
+                binding.recyclerviewListTrainingSessionsFragment.layoutManager =
+                    LinearLayoutManager(context)
+                binding.recyclerviewListTrainingSessionsFragment.adapter =
+                    TrainingSessionAdapter(filterTrainingSessions, events, routes, listener)
+                progressBarVisible(false)
+            }
         }
     }
 
@@ -281,11 +280,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
         if(trainingSession.event_category == "evento") {
             val bundle = bundleOf("event_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.InfoEventFragment, bundle)
+            mainActivity?.navigateToFragment(R.id.InfoEventFragment, "Detalle Evento", bundle)
         }else if(trainingSession.event_category == "ruta"){
             val bundle = bundleOf("rout_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.InfoRoutFragment, bundle)
+            mainActivity?.navigateToFragment(R.id.InfoRoutFragment, "Detalle Ruta", bundle)
         }
     }
 

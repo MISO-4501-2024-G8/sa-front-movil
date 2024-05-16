@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.miso202402.SportApp.fragments.InfoConsultationsprogramSessionsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        >
+        <TextView
+            android:id="@+id/titleFragment_InfoConsultationsprogramSessionsFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:layout_marginLeft="40dp"
+            android:text="Detalle de La Sesión:" />
+
+        <EditText
+            android:id="@+id/editTexLocation_InfoConsultationsprogramSessionsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:ems="12"
+            android:hint="Ubicación"
+            android:inputType="textLongMessage"
+            android:tooltipText="Ubicación del Evento"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <EditText
+            android:id="@+id/editTexDate_InfoConsultationsprogramSessionsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexLocation_InfoConsultationsprogramSessionsFragment"
+            android:ems="12"
+            android:hint="Fecha"
+            android:inputType="textLongMessage"
+            android:tooltipText="Fecha de la Consulta"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <EditText
+            android:id="@+id/editTexDeportologo__InfoConsultationsprogramSessionsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexDate_InfoConsultationsprogramSessionsFragment"
+            android:ems="12"
+            android:hint="Entrenador"
+            android:inputType="textLongMessage"
+            android:tooltipText="Identificacion del Entrenador o eportologo"
+            tools:ignore="MissingConstraints"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <Button
+            android:id="@+id/buttonLink_InfoConsultationsprogramSessionsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexDeportologo__InfoConsultationsprogramSessionsFragment"
+            android:text="Link"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+
+        <Button
+            android:id="@+id/buttonChat_InfoConsultationsprogramSessionsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/buttonLink_InfoConsultationsprogramSessionsFragment"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/main"
+            android:text="Chat con el Entrenador o el Doctor"
+            android:textFontWeight="14" />
+            />
+        <Button
+            android:id="@+id/buttonAtras_InfoConsultationsprogramSessionsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/buttonChat_InfoConsultationsprogramSessionsFragment"
+            android:text="Atras"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -8,5 +8,5 @@ class EatingRoutine (
     @SerializedName("weeks") var weeks:Int?,
     @SerializedName("max_weight") var max_weight:Float?,
     @SerializedName("min_weight") var min_weight:Float?,
-    @SerializedName("day_food_plans") var day_food_plans: Array<DayFood>? = null,
+    @SerializedName("day_food_plans") var day_food_plans: List<DayFood>? = null,
 ) {}

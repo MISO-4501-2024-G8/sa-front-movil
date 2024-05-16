@@ -57,26 +57,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.visibility = View.GONE
     }
 
-    /*
-    fun enableBack(){
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
-    }
 
-    fun disableBack(){
-        actionBar?.setDisplayHomeAsUpEnabled(false)
-        toolbar.setNavigationIcon(null)
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //binding = ActivityMainBinding.inflate(layoutInflater)
-        //setContentView(binding.root)
-        //setSupportActionBar(binding.toolbar)
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         fab = findViewById<FloatingActionButton>(R.id.fab)
+        toolbar.setTitle("SPORT APP")
         setSupportActionBar(toolbar)
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
@@ -86,56 +75,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        //val navController = findNavController(R.id.nav_host_fragment_content_main)
-        //appBarConfiguration = AppBarConfiguration(navController.graph)
-        //setupActionBarWithNavController(navController, appBarConfiguration)
         fab.setOnClickListener {}
 
-       /* if(savedInstanceState == null){
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, LoginFragment()).commit()
-        }*/
     }
 
-    /*
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.calendar -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, CalendarFragment()).commit()
-            R.id.plans -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, TrainingSessionFragment()).commit()
-            R.id.events -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, ListEventsFragment()).commit()
-            R.id.sport -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, SportFragment()).commit()
-            R.id.goals -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, GoalFragment()).commit()
-            R.id.chat -> supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, ChatFragment()).commit()
-        }
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
-    }*/
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.calendar -> navigateToFragment(R.id.CalendarFragment)
-            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment)
-            R.id.events -> navigateToFragment(R.id.ListEventsFragment)
-            R.id.sport -> navigateToFragment(R.id.SportFragment)
-            R.id.goals -> navigateToFragment(R.id.GoalFragment)
-            R.id.chat -> navigateToFragment(R.id.ChatFragment)
+            R.id.calendar -> navigateToFragment(R.id.CalendarFragment, "Calendario")
+            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+            R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos")
+            R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva")
+            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo")
+            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats")
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    fun navigateToFragment(fragmentId: Int, bundle: Bundle? = null) {
+    fun navigateToFragment(fragmentId: Int, toolbarTitle: String? = "SPORT APP",bundle: Bundle? = null) {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         val menu = findViewById<NavigationView>(R.id.nav_view).menu
         for (i in 0 until menu.size()) {
             menu.getItem(i).isChecked = false
         }
+        toolbar.setTitle(toolbarTitle)
 
         if (bundle != null) {
             navController.navigate(fragmentId, bundle)
@@ -146,8 +109,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed(){
         super.onBackPressed()
+        Log.i("MainActivity", "onBackPressed")
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START)
+        }else{
+            mostrarMensaje("Utiliza los botones de navegación en la aplicación.")
+        }
+    }
+
+    private fun mostrarMensaje(mensaje: String) {
+        findViewById<View>(android.R.id.content)?.let { contentView ->
+            Snackbar.make(contentView, mensaje, Snackbar.LENGTH_SHORT).show()
         }
     }
 
