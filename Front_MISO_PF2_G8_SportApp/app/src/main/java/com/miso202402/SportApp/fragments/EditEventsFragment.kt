@@ -67,27 +67,6 @@ class EditEventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*var spinner = view.findViewById<Spinner>(R.id.spinner_EditEventsFragment)
-        activity?.let {
-            ArrayAdapter.createFromResource(
-                it,
-                R.array.Sport,
-                android.R.layout.simple_spinner_item
-            ).also { arrayAdapter ->
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinner.adapter = arrayAdapter
-            }
-        }
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                tipoDeporte = vectorTipoDeporte[p2]
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }*/
-
         binding.buttonEditarEditEventsFragment.setOnClickListener {
            //updateEventoById(event_id)
             createTrainigSession(event_id, user_id)
@@ -135,13 +114,7 @@ class EditEventsFragment : Fragment() {
                     binding.editTexDateEditEventsFragment.setText(event.event_date.toString())
                     tipoDeporte = event.sport.toString()
                     event_date = event.event_date.toString()
-                   /* if (event.sport == "Atletismo"){
-                        binding.spinnerEditEventsFragment.setSelection(0)
-                        tipoDeporte = "Atletismo"
-                    } else {
-                        binding.spinnerEditEventsFragment.setSelection(1)
-                        tipoDeporte = "Ciclismo"
-                    }*/
+                    tipoDeporte = if (event.sport == "Atletismo") "Atletismo" else "Ciclismo"
                 } else {
                     activity?.let {
                         utils.showMessageDialog(
@@ -233,10 +206,9 @@ class EditEventsFragment : Fragment() {
                                 "Error No se pudo asocciar correctmente"
                             )
                         }
-
                     }
                 }
-            } catch (e: Exception) {
+           } catch (e: Exception) {
                 Log.e("error",e.message.toString())
             }
         }

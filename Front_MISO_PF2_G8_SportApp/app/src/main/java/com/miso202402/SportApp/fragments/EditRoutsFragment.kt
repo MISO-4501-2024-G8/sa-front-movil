@@ -33,7 +33,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class EditRoutsFragment : Fragment() {
+class
+EditRoutsFragment : Fragment() {
     private var _binding: FragmentEditRoutsBinding? = null
     private lateinit var preferences: SharedPreferences
     private val binding get() = _binding!!
@@ -67,27 +68,6 @@ class EditRoutsFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-       /* var spinner = view.findViewById<Spinner>(R.id.spinner_EditRoutsFragment)
-        activity?.let {
-            ArrayAdapter.createFromResource(
-                it,
-                R.array.Sport,
-                android.R.layout.simple_spinner_item
-            ).also { arrayAdapter ->
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinner.adapter = arrayAdapter
-            }
-        }
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                tipoDeporte = vectorTipoDeporte[p2]
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }*/
         binding.buttonAgregarEditRoutsFragment.setOnClickListener {
             createTrainigSession(route_id, user_id)
 
@@ -136,16 +116,7 @@ class EditRoutsFragment : Fragment() {
                         binding.editLinkEditRoutsFragment.setText(rout.link.toString())
                         binding.editTexDateEditRoutsFragment.setText(rout.route_date.toString())
                         route_date = rout.route_date.toString()
-                        tipoDeporte = rout.sport.toString()
-                      /* if (rout.sport == "Atletismo") {
-                           binding.spinnerEditRoutsFragment.setSelection(0)
-                           tipoDeporte = "Atletismo"
-
-                       } else {
-                           binding.spinnerEditRoutsFragment.setSelection(1)
-                           tipoDeporte = "Ciclismo"
-
-                       }*/
+                        tipoDeporte = if (rout.sport == "Atletismo") "Atletismo" else "Ciclismo"
                     } else {
                         activity?.let {
                             utils.showMessageDialog(
@@ -176,6 +147,7 @@ class EditRoutsFragment : Fragment() {
                             "ruta",
                             tipoDeporte,
                             route_date.toString().replace("T"," ")
+
                         )
                     )
                     .execute()

@@ -236,6 +236,26 @@
         android:label="InfoFoodRoutine"
         tools:layout="@layout/fragment_info_food_routine"
         />
+    <fragment
+        android:id="@+id/ListProgramSessionsConsultationsFragment"
+        android:name="com.miso202402.SportApp.fragments.ListProgramSessionsConsultationsFragment"
+        android:label="Sessiones Programadas "
+        tools:layout="@layout/fragment_list_program_sessions_consultations"
+        />
+
+    <fragment
+        android:id="@+id/TrainingSessionOficialFragment"
+        android:name="com.miso202402.SportApp.fragments.TrainingSessionOficialFragment"
+        android:label="Agendar Sesión"
+        tools:layout="@layout/fragment_training_session_oficial"
+        />
+
+    <fragment
+        android:id="@+id/InfoConsultationProgramFragment"
+        android:name="com.miso202402.SportApp.fragments.InfoConsultationsprogramSessionsFragment"
+        android:label="Detalles de la Sesión"
+        tools:layout="@layout/fragment_info_consultationsprogram_sessions"
+        />
 
 
 
