@@ -15,9 +15,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.NumberPicker
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -25,7 +23,6 @@ import androidx.annotation.RequiresExtension
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Instruction
@@ -39,15 +36,9 @@ import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansResponse
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
-import com.miso202402.SportApp.src.utils.ClicListener_Instruction
 import com.miso202402.SportApp.src.utils.ClickListener_Objective
-import com.miso202402.SportApp.src.utils.ClickListener_routs
-import com.miso202402.SportApp.src.utils.InstructionAdapter
 import com.miso202402.SportApp.src.utils.ObjectiveAdapter
-import com.miso202402.SportApp.src.utils.PreferenceHelper
-import com.miso202402.SportApp.src.utils.RoutsAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
-import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddTrainingPlanBinding
@@ -57,8 +48,6 @@ import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Error
-import java.util.Vector
 
 
 class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {

@@ -23,7 +23,6 @@ import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
 import com.miso202402.SportApp.src.utils.ClicTPListener
-import com.miso202402.SportApp.src.utils.ClickListener
 import com.miso202402.SportApp.src.utils.PreferenceHelper
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter

@@ -40,7 +40,7 @@
     <DatePicker
         android:id="@+id/calendarView_TrainingSessionOficialFragment"
         android:layout_width="wrap_content"
-        android:layout_height="290dp"
+        android:layout_height="270dp"
         android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         android:calendarViewShown="false"
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:textColorHighlight="@color/main"
         android:textColor="@color/main"
-        android:layout_marginTop="430dp"
+        android:layout_marginTop="405dp"
         android:layout_marginLeft="41dp"
         android:layout_height="wrap_content"
         android:text="Deportologo" />
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/main"
         android:textColorHighlight="@color/main"
-        android:layout_marginTop="430dp"
+        android:layout_marginTop="405dp"
         android:layout_marginLeft="230dp"
         android:text="Entrenador" />
 
@@ -82,8 +82,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_TrainingSessionOficialFragment"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="495dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="460dp"
         android:layout_marginEnd="10dp"
         android:visibility="visible" />
 
@@ -103,7 +103,7 @@
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
         android:layout_marginLeft="255dp"
-        android:layout_marginTop="740dp"/>
+        android:layout_marginTop="660dp"/>
 
 
 

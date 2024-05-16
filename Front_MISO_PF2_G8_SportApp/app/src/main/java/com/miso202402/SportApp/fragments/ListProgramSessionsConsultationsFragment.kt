@@ -140,7 +140,7 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
        Log.i("consultation.id", consultation.id.toString())
         val bundle = bundleOf("id" to  consultation.id )
         val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.InfoConsultationProgramFragment, bundle)
+        mainActivity?.navigateToFragment(R.id.InfoConsultationProgramFragment, "Consultas", bundle)
 
     }
 
