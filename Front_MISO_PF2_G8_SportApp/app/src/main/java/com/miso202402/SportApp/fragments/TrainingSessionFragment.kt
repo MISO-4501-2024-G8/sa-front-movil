@@ -14,20 +14,14 @@ import android.widget.Spinner
 import androidx.annotation.RequiresExtension
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.TrainingPlan
-import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
 import com.miso202402.SportApp.src.utils.ClicTPListener
 import com.miso202402.SportApp.src.utils.PreferenceHelper
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
-import com.miso202402.SportApp.src.utils.TrainingSessionAdapter
-import com.miso202402.SportApp.src.utils.WeeksAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.R.*
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
@@ -128,7 +122,7 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
         }
         binding.buttonAgregarFragmentTrainingSession.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null , typePlan)
         }
     }
 
@@ -188,7 +182,7 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
             Snackbar.make(it, "Funcionalidad en construccion...", Snackbar.LENGTH_SHORT).show()
         }*/
         val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
+        mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle, typePlan)
     }
 
 }

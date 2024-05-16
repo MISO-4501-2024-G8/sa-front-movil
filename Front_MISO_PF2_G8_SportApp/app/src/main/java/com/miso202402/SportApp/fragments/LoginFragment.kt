@@ -14,12 +14,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.response.ValidateTokenResponse
 import com.miso202402.SportApp.src.utils.SharedPreferences
+import com.miso202402.SportApp.src.utils.TransferInfo
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentLoginBinding
@@ -43,6 +41,7 @@ class LoginFragment : Fragment() {
     private lateinit var preferences: SharedPreferences
     private lateinit var forgotP: TextView
     private lateinit var signUp:TextView
+    private lateinit var trasferIfo: TransferInfo
 
 
 
@@ -53,6 +52,7 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         forgotP = binding.textViewForgotPasswordFragmentLogin
         signUp = binding.textViewSingUpFragmentLogin
+
 
         forgotP.setOnClickListener{
             view?.let {
@@ -65,6 +65,7 @@ class LoginFragment : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             startActivity(intent)
         }
+
         return binding.root
     }
 
@@ -119,6 +120,7 @@ class LoginFragment : Fragment() {
                            preferences.saveData("token", loginResponse?.token)
                            preferences.saveData("id", loginResponse?.id)
 
+
                            CoroutineScope(Dispatchers.IO).launch {
                                try {
                                    Log.i("ValidateToken","Antes de Validate Token")
@@ -137,10 +139,15 @@ class LoginFragment : Fragment() {
                                            }
                                            preferences.saveData("userType", userType)
                                            preferences.saveData("typePlan", typePlan)
+                                           trasferIfo = activity as TransferInfo
+                                           if (typePlan != null) {
+                                               trasferIfo.transferInfo(typePlan)
+                                           }
+
                                            val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
                                            //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
                                            val mainActivity = requireActivity() as? MainActivity
-                                           mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", bundle)
+                                           mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", bundle, typePlan)
                                        }else{
                                            withContext(Dispatchers.Main) {
                                                val errorUser: String = "El usuario no es de tipo deportista"

@@ -60,6 +60,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
     lateinit var btnLimpiar: Button
     lateinit var btnEventos : Button
     lateinit var btnRutas : Button
+    lateinit var typePlan : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -86,6 +87,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
         filterTrainingSessions = listOf()
         events = listOf()
         routes = listOf()
+        typePlan = preferences.getData<String>("typePlan").toString()
         listener = this
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
@@ -122,11 +124,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
 
         btnEventos.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos")
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos", null, typePlan)
         }
         btnRutas.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas")
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas", null, typePlan)
         }
         btnLimpiar.setOnClickListener {
             progressBarVisible(true)
@@ -280,11 +282,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
         if(trainingSession.event_category == "evento") {
             val bundle = bundleOf("event_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.InfoEventFragment, "Detalle Evento", bundle)
+            mainActivity?.navigateToFragment(R.id.InfoEventFragment, "Detalle Evento", bundle, typePlan)
         }else if(trainingSession.event_category == "ruta"){
             val bundle = bundleOf("rout_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.InfoRoutFragment, "Detalle Ruta", bundle)
+            mainActivity?.navigateToFragment(R.id.InfoRoutFragment, "Detalle Ruta", bundle, typePlan)
         }
     }
 

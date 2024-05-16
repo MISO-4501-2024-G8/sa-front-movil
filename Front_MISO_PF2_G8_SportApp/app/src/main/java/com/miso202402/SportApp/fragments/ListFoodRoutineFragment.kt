@@ -12,16 +12,12 @@ import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.FoodRoutine
 import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.models.response.GetAllEatingRoutineResponse
-import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
-import com.miso202402.SportApp.src.utils.ClicTSListener
 import com.miso202402.SportApp.src.utils.ClickListener_foodroutines
 import com.miso202402.SportApp.src.utils.FoodRoutineAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
-import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListFoodRoutineBinding
@@ -44,6 +40,7 @@ class ListFoodRoutineFragment : Fragment(), ClickListener_foodroutines {
     lateinit var btnSeleccionar: Button
     lateinit var btnAtras: Button
     private var food_routine_id: String = "";
+    private var typePlan: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +59,7 @@ class ListFoodRoutineFragment : Fragment(), ClickListener_foodroutines {
         foodRoutines = listOf()
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
+        typePlan = preferences.getData<String>("typePlan").toString()
         tempTrainingPlan = preferences.getData<TrainingPlan>("tempTrainingPlan")!!
         if(tempTrainingPlan != null){
             food_routine_id = tempTrainingPlan.id_eating_routine.toString()
@@ -92,11 +90,11 @@ class ListFoodRoutineFragment : Fragment(), ClickListener_foodroutines {
             tempTrainingPlan.id_eating_routine = food_routine_id
             preferences.saveData("tempTrainingPlan", tempTrainingPlan)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null, typePlan)
         }
         btnAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null, typePlan)
         }
     }
 
@@ -158,6 +156,6 @@ class ListFoodRoutineFragment : Fragment(), ClickListener_foodroutines {
             "id_food_routine" to id_food_routine
         )
         val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.InfoFoodRoutineFragment, "Detalle Rutina Alimentacion",bundle)
+        mainActivity?.navigateToFragment(R.id.InfoFoodRoutineFragment, "Detalle Rutina Alimentacion",bundle, typePlan)
     }
 }
