@@ -47,8 +47,8 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="600dp"
-        android:layout_marginLeft="130dp"
+        android:layout_marginTop="630dp"
+        android:layout_marginLeft="120dp"
         android:src="@drawable/calendar_logo" />
 
     <ImageButton
@@ -57,8 +57,8 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="600dp"
-        android:layout_marginLeft="250dp"
+        android:layout_marginTop="630dp"
+        android:layout_marginLeft="220dp"
         android:src="@drawable/world_vector" />
 
 
