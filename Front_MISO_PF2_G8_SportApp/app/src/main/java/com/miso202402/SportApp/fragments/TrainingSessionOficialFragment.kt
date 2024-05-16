@@ -98,7 +98,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
             if(binding.radioButtonEntrenadorTrainingSessionOficialFragment.isChecked){
                 binding.radioButtonEntrenadorTrainingSessionOficialFragment.isChecked = false
             }
-            binding.textView2.visibility = View.VISIBLE
+            //binding.textView2.visibility = View.VISIBLE
             fetchGetAllDoctors()
         }
         binding.radioButtonEntrenadorTrainingSessionOficialFragment.setOnClickListener{
