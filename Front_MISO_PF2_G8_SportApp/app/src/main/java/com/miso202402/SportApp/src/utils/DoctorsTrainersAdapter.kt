@@ -31,16 +31,16 @@ class DoctorsTrainersAdapter  (private val listDoctors:  List<Doctors>, private 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         var realPosition: Int = position + 1
         if(listDoctors.size > 1)  {
-            viewHolder.textViewName.text = "Doctor "+ realPosition.toString() +": " + listDoctors[position].id
+            viewHolder.textViewName.text = "Doctor "+ realPosition.toString() +":"
             viewHolder.textViewDescription.text = "Telefono: "+ listDoctors[position].phone.toString()
 
-            viewHolder.itemView.setOnClickListener() {
+            viewHolder.itemView.setOnClickListener(){
                 val event = listDoctors.get(position)
                 clicListener.onCListItemClick(it, event, null)
             }
             //se debe consultar tambien la hora de disponibilidad del doctor
         } else {
-            viewHolder.textViewName.text = "Entrenador "+ realPosition.toString() +": " + listTrainers[position].id
+            viewHolder.textViewName.text = "Entrenador "+ realPosition.toString() +":"
             viewHolder.textViewDescription.text = "Telefono: "+ listTrainers[position].phone.toString()
 
             viewHolder.itemView.setOnClickListener() {
@@ -53,11 +53,6 @@ class DoctorsTrainersAdapter  (private val listDoctors:  List<Doctors>, private 
     }
 
     override fun getItemCount(): Int {
-        if(listDoctors.size > 1)  {
-            return listDoctors.size
-        }
-        else{
-            return listTrainers.size
-        }
+        return if(listDoctors.size > 1) listDoctors.size else listTrainers.size
     }
 }

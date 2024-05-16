@@ -158,7 +158,6 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
         if(valueV){
             binding.progressBarDeportologo.visibility = View.VISIBLE
             binding.progressBarEntrenador.visibility = View.VISIBLE
-
         }else{
             binding.progressBarDeportologo.visibility = View.GONE
             binding.progressBarEntrenador.visibility = View.VISIBLE
