@@ -16,7 +16,6 @@ import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentAddTrainingPlanBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentTrainingPlanAlertsBinding
 
 class TrainingPlanAlertsFragment : Fragment() {
@@ -36,6 +35,7 @@ class TrainingPlanAlertsFragment : Fragment() {
     private var notification_msg: Boolean = false;
     private var emergency_call: Boolean = false;
     private var alertasE: String = "1"
+    private var typePlan: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +56,7 @@ class TrainingPlanAlertsFragment : Fragment() {
         stop_training = arguments?.getBoolean("stop_training") == true
         notification_msg = arguments?.getBoolean("notification_msg") == true
         emergency_call = arguments?.getBoolean("emergency_call") == true
+        typePlan = preferences.getData<String>("typePlan").toString()
         alertasE = "1"
         return binding.root
     }
@@ -134,7 +135,7 @@ class TrainingPlanAlertsFragment : Fragment() {
         }
         btnAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
         }
     }
 

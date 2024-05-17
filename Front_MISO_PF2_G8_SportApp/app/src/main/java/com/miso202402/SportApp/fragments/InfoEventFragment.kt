@@ -10,17 +10,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
-import com.miso202402.SportApp.src.models.request.EventsRequest
-import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetEventResponse
-import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
@@ -43,6 +36,7 @@ class InfoEventFragment : Fragment() {
     private lateinit var event: Events
     private var tipoDeporte : String? = null
     private var event_date : String? = null
+    lateinit var typePlan : String
 
     private val binding get() = _binding!!
 
@@ -59,12 +53,13 @@ class InfoEventFragment : Fragment() {
         //user_id = arguments?.getString("user_id").toString()
         Log.i("event_id", event_id)
         user_id = preferences.getData<String>("id").toString()
+        typePlan = preferences.getData<String>("typePlan").toString()
         Log.i("user_id", user_id)
         event = Events("", "","","","", "","", "")
         getEventById(event_id)
         binding.buttonAtrasEventsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario")
+            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", null)
         }
         return binding.root
     }

@@ -11,21 +11,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.annotation.RequiresExtension
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Routs
-import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
-import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentEditRoutsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoRoutBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
@@ -44,6 +37,7 @@ class InfoRoutFragment : Fragment() {
     private lateinit var route_id: String;
     private lateinit var user_id: String
     private var route_date : String? = null
+    private var typePlan: String? = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,11 +54,12 @@ class InfoRoutFragment : Fragment() {
         Log.i("rout_id", route_id)
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)
+        typePlan = preferences.getData<String>("typePlan").toString()
         rout = Routs("", "","","","",
             "", "", "", "","","")
         binding.buttonAtrasRoutsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Detalle Ruta")
+            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Detalle Ruta", null)
         }
         getRoutById(route_id)
         return binding.root

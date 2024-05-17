@@ -8,31 +8,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.EditText
-import android.widget.RadioButton
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.miso202402.SportApp.src.models.models.ConsultationsSessions
 import com.miso202402.SportApp.src.models.models.Doctors
 import com.miso202402.SportApp.src.models.models.Trainers
-import com.miso202402.SportApp.src.models.models.TrainingSession
 import com.miso202402.SportApp.src.models.request.ConsultationRequest
-import com.miso202402.SportApp.src.models.response.GetAllConsultationSessionsResponse
 import com.miso202402.SportApp.src.models.response.GetAllDoctorsResponse
 import com.miso202402.SportApp.src.models.response.GetAllTrainersResponse
-import com.miso202402.SportApp.src.models.response.GetAllUserTrainingSessionsResponse
 import com.miso202402.SportApp.src.models.response.GetConsultationByIdResponse
 import com.miso202402.SportApp.src.utils.ClicListener_DoctorsTrainers
-import com.miso202402.SportApp.src.utils.ClicListener_ProgramConsultation
 import com.miso202402.SportApp.src.utils.DoctorsTrainersAdapter
-import com.miso202402.SportApp.src.utils.ProgramConsultationsAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentTrainingSessionBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentTrainingSessionOficialBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
@@ -61,6 +50,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
     private lateinit var calendar : Calendar
     private var clic: Int = 0
     private lateinit var fecha :String
+    private var typePlan: String? = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -75,6 +65,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         _binding = FragmentTrainingSessionOficialBinding.inflate(inflater, container, false)
         user_id = preferences.getData<String>("id").toString()
         listener = this
+        typePlan = preferences.getData<String>("typePlan").toString()
         calendar = Calendar.getInstance()
         binding.calendarViewTrainingSessionOficialFragment.setMinDate(calendar.getTimeInMillis() +(24*60*60*1000));
         fecha = binding.calendarViewTrainingSessionOficialFragment.year.toString() + "-" +
@@ -189,7 +180,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                         activity?.let { utils.showMessageDialog(it, message)}
                         Log.e("Ok crear session depor", message)
                         val mainActivity = requireActivity() as? MainActivity
-                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
+                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment,"", null)
                     } else {
                         val message: String = "La session no fue programada exitosamante"
                         activity?.let { utils.showMessageDialog(it, message)}

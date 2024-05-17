@@ -1,7 +1,6 @@
 package com.miso202402.SportApp.fragments
 
-import android.content.Intent
-import android.net.Uri
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,10 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Objective
-import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.TrainingPlanResponse
 import com.miso202402.SportApp.src.utils.ObjectiveDetailTrainingPlanAdapter
-import com.miso202402.SportApp.src.utils.RoutsAdapter
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoTrainingPlanBinding
@@ -28,7 +26,6 @@ import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Collections.addAll
 
 class InfoTrainingPlan : Fragment() {
     private var _binding:FragmentInfoTrainingPlanBinding? = null
@@ -37,6 +34,13 @@ class InfoTrainingPlan : Fragment() {
     //private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private var domain : String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
     private lateinit var id_training_plan: String;
+    private var typePlan: String? = ""
+    private lateinit var preferences: SharedPreferences
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +55,14 @@ class InfoTrainingPlan : Fragment() {
         listObjectives = listOf()
         id_training_plan = arguments?.getString("training_plan_id").toString()
         Log.i("id_training_plan", id_training_plan)
+        typePlan = preferences.getData<String>("typePlan").toString()
         getTrainingPlanDetailById(id_training_plan)
         binding.recyclerviewListObjectives .setHasFixedSize(true)
         binding.recyclerviewListObjectives.layoutManager = LinearLayoutManager(context)
         binding.recyclerviewListObjectives.adapter = ObjectiveDetailTrainingPlanAdapter(listObjectives)
         binding.buttonAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
         }
         return binding.root
     }

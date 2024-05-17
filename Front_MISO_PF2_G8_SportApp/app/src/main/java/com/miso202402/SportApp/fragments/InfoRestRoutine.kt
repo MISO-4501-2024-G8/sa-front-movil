@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Objective
 import com.miso202402.SportApp.src.models.response.GetRestRoutineResponse
-import com.miso202402.SportApp.src.models.response.TrainingPlanResponse
-import com.miso202402.SportApp.src.utils.ObjectiveDetailTrainingPlanAdapter
 import com.miso202402.SportApp.src.utils.RestDetailAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
@@ -73,7 +71,7 @@ class InfoRestRoutine : Fragment() {
                 mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
             }else {
                 val mainActivity = requireActivity() as? MainActivity
-                mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso")
+                mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso", null)
             }
         }
         return binding.root

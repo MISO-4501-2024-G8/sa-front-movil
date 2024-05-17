@@ -1,5 +1,6 @@
 package com.miso202402.SportApp.fragments
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.response.GetAllEventsResponse
 import com.miso202402.SportApp.src.utils.ClicListener
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.WeeksAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
@@ -36,6 +38,8 @@ class ListEventsFragment : Fragment(), ClicListener {
 
     private lateinit var token: String
     private lateinit var user_id : String
+    private var typePlan: String? = ""
+    private lateinit var preferences: SharedPreferences
 
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
@@ -46,6 +50,7 @@ class ListEventsFragment : Fragment(), ClicListener {
         token = arguments?.getString("token").toString()
         user_id = arguments?.getString("user_id").toString()
         _binding = FragmentListEventsBinding.inflate(inflater, container, false)
+        typePlan = preferences.getData<String>("typePlan").toString()
         eventList = listOf()
         listener = this
         getAllEvents()
@@ -54,7 +59,7 @@ class ListEventsFragment : Fragment(), ClicListener {
         binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
         binding.imageButtonRoutsListEventsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas")
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas", null)
         }
         return binding.root
     }
@@ -97,6 +102,10 @@ class ListEventsFragment : Fragment(), ClicListener {
         view?.let {
             Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show()
         }
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
     }
 
     override fun onDestroyView() {
