@@ -90,11 +90,11 @@ class ListFoodRoutineFragment : Fragment(), ClickListener_foodroutines {
             tempTrainingPlan.id_eating_routine = food_routine_id
             preferences.saveData("tempTrainingPlan", tempTrainingPlan)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
         }
         btnAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
         }
     }
 
@@ -156,6 +156,6 @@ class ListFoodRoutineFragment : Fragment(), ClickListener_foodroutines {
             "id_food_routine" to id_food_routine
         )
         val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.InfoFoodRoutineFragment, "Detalle Rutina Alimentacion",bundle, typePlan)
+        mainActivity?.navigateToFragment(R.id.InfoFoodRoutineFragment, "Detalle Rutina Alimentacion",bundle)
     }
 }

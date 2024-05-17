@@ -66,10 +66,10 @@ class InfoFoodRoutineFragment : Fragment() {
             if(id_training_plan != null && id_training_plan != "null" && id_training_plan  != "" ){
                 val bundle = bundleOf("training_plan_id" to id_training_plan )
                 val mainActivity = requireActivity() as? MainActivity
-                mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle, typePlan)
+                mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
             }else {
                 val mainActivity = requireActivity() as? MainActivity
-                mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion", null , typePlan)
+                mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion", null)
             }
         }
         return binding.root

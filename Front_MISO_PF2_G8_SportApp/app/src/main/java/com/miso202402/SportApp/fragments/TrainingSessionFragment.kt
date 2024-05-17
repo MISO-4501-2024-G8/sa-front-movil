@@ -122,7 +122,7 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
         }
         binding.buttonAgregarFragmentTrainingSession.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null , typePlan)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
         }
     }
 
@@ -182,7 +182,7 @@ class TrainingSessionFragment : Fragment(), ClicTPListener {
             Snackbar.make(it, "Funcionalidad en construccion...", Snackbar.LENGTH_SHORT).show()
         }*/
         val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle, typePlan)
+        mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
     }
 
 }

@@ -54,11 +54,11 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
 
         binding.buttonAgregarListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment, "",null, typePlan)
+            mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment, "",null)
         }
         binding.imageButtonRoutsListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ChatFragment, "",null ,typePlan)
+            mainActivity?.navigateToFragment(R.id.ChatFragment, "",null)
         }
 
         return binding.root
@@ -136,7 +136,7 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
        Log.i("consultation.id", consultation.id.toString())
         val bundle = bundleOf("id" to  consultation.id )
         val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.InfoConsultationProgramFragment, "Consultas", bundle, typePlan)
+        mainActivity?.navigateToFragment(R.id.InfoConsultationProgramFragment, "Consultas", bundle)
 
     }
 

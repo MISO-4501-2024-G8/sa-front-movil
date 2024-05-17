@@ -213,7 +213,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        var typePlan: String = if(preferences.getData<String>("typePlan").toString() == "premium") "premium" else "basico"
+        var typePlan: String = preferences.getData<String>("typePlan").toString()
         nameEditText = view.findViewById<EditText>(R.id.editTexName_FragmentAddTrainingPlan)
         weeksEditText = view.findViewById<EditText>(R.id.editTexWeeks_FragmentAddTrainingPlan)
         descriptionEditText = view.findViewById<EditText>(R.id.editTexDescription_FragmentAddTrainingPlan)
@@ -237,26 +237,26 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                 "emergency_call" to emergency_call
             )
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.TrainingPlanAlertsFragment, "Alertas", bundle, typePlan)
+            mainActivity?.navigateToFragment(R.id.TrainingPlanAlertsFragment, "Alertas", bundle)
         }
 
         buttonAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
         }
 
         buttonSeleccionarFoodR.setOnClickListener(){
             var objectivesTemp : MutableList<Objective> = this.objectiveList
             saveTempTrainingPlan(objectivesTemp)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion", null)
         }
 
         buttonSeleccionarRestR.setOnClickListener(){
             var objectivesTemp : MutableList<Objective> = this.objectiveList
             saveTempTrainingPlan(objectivesTemp)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso", null)
         }
         buttonAddPlan.setOnClickListener(){
 
@@ -484,7 +484,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                     val mainActivity = requireActivity() as? MainActivity
                     mainActivity?.runOnUiThread {
                         mostrarSnackbar("El plan de entrenamiento fue creado satisfactoriamente")
-                        mainActivity.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null ,typePlan)
+                        mainActivity.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
                     }
 
                 }else{

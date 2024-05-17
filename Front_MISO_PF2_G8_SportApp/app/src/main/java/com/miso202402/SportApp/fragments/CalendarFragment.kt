@@ -124,11 +124,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
 
         btnEventos.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos", null)
         }
         btnRutas.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas", null)
         }
         btnLimpiar.setOnClickListener {
             progressBarVisible(true)
@@ -282,11 +282,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
         if(trainingSession.event_category == "evento") {
             val bundle = bundleOf("event_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.InfoEventFragment, "Detalle Evento", bundle, typePlan)
+            mainActivity?.navigateToFragment(R.id.InfoEventFragment, "Detalle Evento", bundle)
         }else if(trainingSession.event_category == "ruta"){
             val bundle = bundleOf("rout_id" to trainingSession.id_event)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.InfoRoutFragment, "Detalle Ruta", bundle, typePlan)
+            mainActivity?.navigateToFragment(R.id.InfoRoutFragment, "Detalle Ruta", bundle)
         }
     }
 

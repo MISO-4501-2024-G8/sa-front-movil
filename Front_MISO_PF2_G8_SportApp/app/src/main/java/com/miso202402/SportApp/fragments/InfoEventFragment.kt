@@ -59,7 +59,7 @@ class InfoEventFragment : Fragment() {
         getEventById(event_id)
         binding.buttonAtrasEventsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", null)
         }
         return binding.root
     }

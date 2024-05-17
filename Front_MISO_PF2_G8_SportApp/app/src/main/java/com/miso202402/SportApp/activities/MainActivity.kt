@@ -53,6 +53,8 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         fab = findViewById<FloatingActionButton>(R.id.fab)
         toolbar.setTitle("SPORT APP")
         setSupportActionBar(toolbar)
+        preferences = SharedPreferences(this)
+        typePlan = preferences.getData<String>("typePlan").toString()
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
@@ -69,12 +71,12 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.calendar -> navigateToFragment(R.id.CalendarFragment, "Calendario", null, typePlan)
-            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null, typePlan)
-            R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos", null, typePlan)
-            R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva", null, typePlan)
-            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo",null, typePlan)
-            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats",null, typePlan)
+            R.id.calendar -> navigateToFragment(R.id.CalendarFragment, "Calendario", null)
+            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
+            R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos", null)
+            R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva", null)
+            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo",null)
+            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats",null)
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -83,8 +85,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     fun navigateToFragment(
         fragmentId: Int,
         toolbarTitle: String? = "SPORT APP",
-        bundle: Bundle? = null,
-        typePlan: String?
+        bundle: Bundle? = null
     ) {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         val menu = findViewById<NavigationView>(R.id.nav_view).menu
@@ -92,16 +93,15 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             menu.getItem(i).isChecked = false
         }
         toolbar.setTitle(toolbarTitle)
-           /* if (bundle != null) {
-                navController.navigate(fragmentId, bundle)
-            } else {
-                navController.navigate(fragmentId)
-            }*/
         if(typePlan != "premium" && (fragmentId == R.id.ChatFragment) ){
             mostrarMensaje("Esta opción solo está disponible para el  plan premiun.")
         }
         else{
-            navController.navigate(fragmentId)
+            if (bundle != null) {
+                navController.navigate(fragmentId, bundle)
+            } else {
+                navController.navigate(fragmentId)
+            }
         }
 
     }

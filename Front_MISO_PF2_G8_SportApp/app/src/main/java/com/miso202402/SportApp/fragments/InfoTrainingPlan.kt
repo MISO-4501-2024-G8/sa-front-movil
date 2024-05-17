@@ -1,5 +1,6 @@
 package com.miso202402.SportApp.fragments
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -36,6 +37,11 @@ class InfoTrainingPlan : Fragment() {
     private var typePlan: String? = ""
     private lateinit var preferences: SharedPreferences
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -56,7 +62,7 @@ class InfoTrainingPlan : Fragment() {
         binding.recyclerviewListObjectives.adapter = ObjectiveDetailTrainingPlanAdapter(listObjectives)
         binding.buttonAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null , typePlan)
+            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
         }
         return binding.root
     }
@@ -120,7 +126,7 @@ class InfoTrainingPlan : Fragment() {
                                 "id_food_routine" to content.id_eating_routine
                             )
                             val mainActivity = requireActivity() as? MainActivity
-                            mainActivity?.navigateToFragment(R.id.InfoFoodRoutineFragment, "Detalle Rutina Alimentacion",bundle, typePlan)
+                            mainActivity?.navigateToFragment(R.id.InfoFoodRoutineFragment, "Detalle Rutina Alimentacion",bundle)
                         }
 
                         binding.buttonRest.setOnClickListener(){
@@ -130,7 +136,7 @@ class InfoTrainingPlan : Fragment() {
                                 "id_rest_routine" to content.id_rest_routine
                                 )
                             val mainActivity = requireActivity() as? MainActivity
-                            mainActivity?.navigateToFragment(R.id.InfoRestRoutineFragment, "Detalle Rutina Descanso",bundle, typePlan)
+                            mainActivity?.navigateToFragment(R.id.InfoRestRoutineFragment, "Detalle Rutina Descanso",bundle)
                         }
 
                         listObjectives = content.objectives?.toList() ?: listOf()

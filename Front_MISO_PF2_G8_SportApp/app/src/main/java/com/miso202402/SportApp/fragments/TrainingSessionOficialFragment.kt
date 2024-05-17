@@ -180,7 +180,7 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
                         activity?.let { utils.showMessageDialog(it, message)}
                         Log.e("Ok crear session depor", message)
                         val mainActivity = requireActivity() as? MainActivity
-                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment,"", null, typePlan)
+                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment,"", null)
                     } else {
                         val message: String = "La session no fue programada exitosamante"
                         activity?.let { utils.showMessageDialog(it, message)}

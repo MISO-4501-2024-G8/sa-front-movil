@@ -147,7 +147,7 @@ class LoginFragment : Fragment() {
                                            val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
                                            //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
                                            val mainActivity = requireActivity() as? MainActivity
-                                           mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", bundle, typePlan)
+                                           mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", bundle)
                                        }else{
                                            withContext(Dispatchers.Main) {
                                                val errorUser: String = "El usuario no es de tipo deportista"
