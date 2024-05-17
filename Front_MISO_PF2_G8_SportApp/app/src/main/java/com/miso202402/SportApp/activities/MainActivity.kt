@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
         toolbar.setTitle(toolbarTitle)
         if(typePlan != "premium" && (fragmentId == R.id.ChatFragment) ){
-            mostrarMensaje("Esta opción solo está disponible para el  plan premiun.")
+            mostrarMensaje("Esta opción solo está disponible para el  plan premium.")
         }
         else{
             if (bundle != null) {
