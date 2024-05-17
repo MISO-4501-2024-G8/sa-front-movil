@@ -4,14 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.miso202402.SportApp.fragments.CalendarFragment">
+    tools:context="com.miso202402.SportApp.fragments.GoalFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fragmento de Objetivos"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"
-        />
+        android:layout_marginTop="275dp"
+        android:layout_marginLeft="170dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_ListProgramSessionsConsultationsFragment"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/buttonAgregar_ListProgramSessionsConsultationsFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:text="Visualizar Indicadores de Salud"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="670dp"/>
 </RelativeLayout>

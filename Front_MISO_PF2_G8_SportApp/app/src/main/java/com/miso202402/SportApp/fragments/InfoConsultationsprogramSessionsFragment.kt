@@ -80,7 +80,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
 
         binding.buttonAtrasInfoConsultationsprogramSessionsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "", null, typePlan)
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "Sessiones Progrmadas", null, typePlan)
         }
 
 
@@ -119,7 +119,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
                         val title: String =
                             if (getConsultationByIdResponse.content?.consultation_type == "Presencial")
                                 "Detalle de La Sesión Presencial" else "Detalle de La Sesión Virtual"
-                        binding.titleFragmentInfoConsultationsprogramSessionsFragment.text = title
+                       // binding.titleFragmentInfoConsultationsprogramSessionsFragment.text = title
                         val location = if (consultation.link.toString() != "")
                             consultation.link.toString() else ""
                         val date = if (consultation.consultation_date.toString() != "")

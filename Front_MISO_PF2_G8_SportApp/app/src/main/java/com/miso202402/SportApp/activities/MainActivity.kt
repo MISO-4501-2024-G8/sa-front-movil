@@ -1,6 +1,8 @@
 package com.miso202402.front_miso_pf2_g8_sportapp.activities
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +25,8 @@ import com.miso202402.SportApp.src.utils.TransferInfo
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener, TransferInfo{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    TransferInfo {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private lateinit var fab: FloatingActionButton
     private lateinit var drawerLayout: DrawerLayout
     private var typePlan: String? = ""
-    private lateinit var preferences: SharedPreferences
+
 
     fun showToolbarAndFab() {
         toolbar.visibility = View.VISIBLE
@@ -42,8 +45,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         toolbar.visibility = View.GONE
         fab.visibility = View.GONE
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,13 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.open_msg,R.string.close_msg)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.open_msg,
+            R.string.close_msg
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -68,13 +75,19 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.calendar -> navigateToFragment(R.id.CalendarFragment, "Calendario", null, typePlan)
-            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null, typePlan)
+            R.id.plans -> navigateToFragment(
+                R.id.trainingSessionFragment,
+                "Plan de Entrenamiento",
+                null,
+                typePlan
+            )
             R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos", null, typePlan)
             R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva", null, typePlan)
-            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo",null, typePlan)
-            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats",null, typePlan)
+            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo", null, typePlan)
+            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats", null, typePlan)
+            R.id.nav_logout ->closeApp()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -92,26 +105,30 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             menu.getItem(i).isChecked = false
         }
         toolbar.setTitle(toolbarTitle)
-           /* if (bundle != null) {
-                navController.navigate(fragmentId, bundle)
-            } else {
-                navController.navigate(fragmentId)
-            }*/
-        if(typePlan != "premium" && (fragmentId == R.id.ChatFragment) ){
+        /* if (bundle != null) {
+             navController.navigate(fragmentId, bundle)
+         } else {
+             navController.navigate(fragmentId)
+         }*/
+        if (typePlan != "premium" && (fragmentId == R.id.ChatFragment)) {
             mostrarMensaje("Esta opción solo está disponible para el  plan premiun.")
-        }
-        else{
+        } else {
             navController.navigate(fragmentId)
         }
 
     }
 
-    override fun onBackPressed(){
+    fun closeApp(){
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController.navigate(R.id.SecondFragment)
+    }
+
+    override fun onBackPressed() {
         super.onBackPressed()
         Log.i("MainActivity", "onBackPressed")
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
-        }else{
+        } else {
             mostrarMensaje("Utiliza los botones de navegación en la aplicación.")
         }
     }
@@ -121,7 +138,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             Snackbar.make(contentView, mensaje, Snackbar.LENGTH_SHORT).show()
         }
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

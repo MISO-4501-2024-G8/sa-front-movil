@@ -1,5 +1,6 @@
 package com.miso202402.SportApp.fragments
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -33,7 +34,7 @@ class InfoTrainingPlan : Fragment() {
     //private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
     private var domain : String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
     private lateinit var id_training_plan: String;
-    private var typePlan: String? = ""
+    private lateinit var typePlan: String
     private lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,11 @@ class InfoTrainingPlan : Fragment() {
             mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null , typePlan)
         }
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

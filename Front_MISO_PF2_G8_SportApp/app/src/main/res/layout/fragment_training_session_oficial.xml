@@ -7,22 +7,12 @@
 
     >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:layout_marginLeft="120dp"
-        android:text="Agendar Sesíon" />
-
     <RadioButton
         android:id="@+id/radioButton_VirtualSession_TrainingSessionOficialFragment"
         android:layout_width="wrap_content"
         android:textColorHighlight="@color/main"
         android:textColor="@color/main"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="45dp"
         android:layout_marginLeft="41dp"
         android:layout_height="wrap_content"
         android:text="Sesión Virtual" />
@@ -33,7 +23,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/main"
         android:textColorHighlight="@color/main"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="45dp"
         android:layout_marginLeft="230dp"
         android:text="Sesión Presencial" />
 
@@ -45,7 +35,7 @@
         android:layout_gravity="center_horizontal"
         android:calendarViewShown="false"
         android:datePickerMode="calendar"
-        android:layout_marginTop="135dp"
+        android:layout_marginTop="110dp"
         android:spinnersShown="true" />
 
     <RadioButton
@@ -53,7 +43,7 @@
         android:layout_width="wrap_content"
         android:textColorHighlight="@color/main"
         android:textColor="@color/main"
-        android:layout_marginTop="405dp"
+        android:layout_marginTop="395dp"
         android:layout_marginLeft="41dp"
         android:layout_height="wrap_content"
         android:text="Deportologo" />
@@ -64,7 +54,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/main"
         android:textColorHighlight="@color/main"
-        android:layout_marginTop="405dp"
+        android:layout_marginTop="395dp"
         android:layout_marginLeft="230dp"
         android:text="Entrenador" />
 
@@ -82,8 +72,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_TrainingSessionOficialFragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="460dp"
+        android:layout_height="215dp"
+        android:layout_marginTop="450dp"
         android:layout_marginEnd="10dp"
         android:visibility="visible" />
 
@@ -103,7 +93,7 @@
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
         android:layout_marginLeft="255dp"
-        android:layout_marginTop="660dp"/>
+        android:layout_marginTop="665dp"/>
 
 
 

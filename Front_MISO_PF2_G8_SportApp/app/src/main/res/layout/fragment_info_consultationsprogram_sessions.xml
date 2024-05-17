@@ -8,23 +8,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         >
-        <TextView
-            android:id="@+id/titleFragment_InfoConsultationsprogramSessionsFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginLeft="40dp"
-            android:text="Detalle de La Sesión:" />
-
         <EditText
             android:id="@+id/editTexLocation_InfoConsultationsprogramSessionsFragment"
             android:layout_width="326dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
             android:ems="12"
             android:hint="Ubicación"
             android:inputType="textLongMessage"
@@ -38,7 +29,7 @@
             android:layout_width="326dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_below="@id/editTexLocation_InfoConsultationsprogramSessionsFragment"
             android:ems="12"
             android:hint="Fecha"
@@ -53,7 +44,7 @@
             android:layout_width="326dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_below="@id/editTexDate_InfoConsultationsprogramSessionsFragment"
             android:ems="12"
             android:hint="Entrenador"
@@ -69,7 +60,7 @@
             android:layout_width="301dp"
             android:layout_height="38dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:layout_below="@id/editTexDeportologo__InfoConsultationsprogramSessionsFragment"
             android:text="Link"
             android:textFontWeight="14"

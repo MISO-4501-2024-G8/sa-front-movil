@@ -57,12 +57,13 @@ class TrainingSessionOficialFragment : Fragment(), ClicListener_DoctorsTrainers 
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentTrainingSessionOficialBinding.inflate(inflater, container, false)
         doctorList = emptyList()
         entrenadorList = emptyList()
         doctor = Doctors("", "", "", "")
         entrenador = Trainers("", "", "")
 
-        _binding = FragmentTrainingSessionOficialBinding.inflate(inflater, container, false)
+
         user_id = preferences.getData<String>("id").toString()
         listener = this
         typePlan = preferences.getData<String>("typePlan").toString()

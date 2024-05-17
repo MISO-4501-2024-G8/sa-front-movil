@@ -120,7 +120,6 @@ class LoginFragment : Fragment() {
                            preferences.saveData("token", loginResponse?.token)
                            preferences.saveData("id", loginResponse?.id)
 
-
                            CoroutineScope(Dispatchers.IO).launch {
                                try {
                                    Log.i("ValidateToken","Antes de Validate Token")
