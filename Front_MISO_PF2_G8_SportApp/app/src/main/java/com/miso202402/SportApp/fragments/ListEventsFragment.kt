@@ -59,7 +59,7 @@ class ListEventsFragment : Fragment(), ClicListener {
         binding.recyclerviewListEventsFragment.adapter = WeeksAdapter(eventList, listener)
         binding.imageButtonRoutsListEventsFragment.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas", null)
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas")
         }
         return binding.root
     }

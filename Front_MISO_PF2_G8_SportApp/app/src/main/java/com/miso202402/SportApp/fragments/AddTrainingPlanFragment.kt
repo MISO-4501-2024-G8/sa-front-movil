@@ -242,21 +242,21 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
 
         buttonAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
+            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
         }
 
         buttonSeleccionarFoodR.setOnClickListener(){
             var objectivesTemp : MutableList<Objective> = this.objectiveList
             saveTempTrainingPlan(objectivesTemp)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion", null)
+            mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion")
         }
 
         buttonSeleccionarRestR.setOnClickListener(){
             var objectivesTemp : MutableList<Objective> = this.objectiveList
             saveTempTrainingPlan(objectivesTemp)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso", null)
+            mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso")
         }
         buttonAddPlan.setOnClickListener(){
 
@@ -484,7 +484,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
                     val mainActivity = requireActivity() as? MainActivity
                     mainActivity?.runOnUiThread {
                         mostrarSnackbar("El plan de entrenamiento fue creado satisfactoriamente")
-                        mainActivity.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
+                        mainActivity.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
                     }
 
                 }else{

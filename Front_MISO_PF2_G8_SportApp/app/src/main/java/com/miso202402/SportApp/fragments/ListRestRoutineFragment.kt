@@ -92,11 +92,11 @@ class ListRestRoutineFragment : Fragment(), ClickListener_restroutines {
             tempTrainingPlan.id_rest_routine = rest_routine_id
             preferences.saveData("tempTrainingPlan", tempTrainingPlan)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
         }
         btnAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan",null)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
         }
     }
 

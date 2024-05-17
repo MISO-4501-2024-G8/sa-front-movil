@@ -135,7 +135,7 @@ class TrainingPlanAlertsFragment : Fragment() {
         }
         btnAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
         }
     }
 
