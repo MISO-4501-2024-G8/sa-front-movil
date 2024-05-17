@@ -13,19 +13,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miso202402.SportApp.src.models.models.ConsultationsSessions
-import com.miso202402.SportApp.src.models.models.TrainingSession
 import com.miso202402.SportApp.src.models.response.GetAllConsultationSessionsResponse
-import com.miso202402.SportApp.src.models.response.GetAllUserTrainingSessionsResponse
 import com.miso202402.SportApp.src.utils.ClicListener_ProgramConsultation
-import com.miso202402.SportApp.src.utils.ClicTSListener
 import com.miso202402.SportApp.src.utils.ProgramConsultationsAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
-import com.miso202402.SportApp.src.utils.TrainingSessionAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentCalendarBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListProgramSessionsConsultationsBinding
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentLoginBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +37,7 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
     private lateinit var user_id: String;
     private lateinit var consultationsSessionsList : List<ConsultationsSessions>
     lateinit var listener: ClicListener_ProgramConsultation
+    private var typePlan: String? = ""
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -53,16 +48,17 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
     ): View {
         _binding = FragmentListProgramSessionsConsultationsBinding.inflate(inflater, container, false)
         user_id = preferences.getData<String>("id").toString()
+        typePlan = preferences.getData<String>("typePlan").toString()
         consultationsSessionsList = emptyList<ConsultationsSessions>()
         listener = this
 
         binding.buttonAgregarListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment)
+            mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment, "")
         }
         binding.imageButtonRoutsListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ChatFragment)
+            mainActivity?.navigateToFragment(R.id.ChatFragment, "")
         }
 
         return binding.root

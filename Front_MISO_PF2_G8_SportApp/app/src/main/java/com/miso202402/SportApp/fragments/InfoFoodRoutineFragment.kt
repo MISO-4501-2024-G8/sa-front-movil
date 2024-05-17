@@ -15,11 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.FoodObjective
-import com.miso202402.SportApp.src.models.models.Objective
 import com.miso202402.SportApp.src.models.response.GetFoodRoutineResponse
-import com.miso202402.SportApp.src.models.response.GetRestRoutineResponse
 import com.miso202402.SportApp.src.utils.FoodRoutineDetailAdapter
-import com.miso202402.SportApp.src.utils.RestDetailAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity

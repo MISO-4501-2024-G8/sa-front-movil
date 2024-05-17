@@ -1,51 +1,37 @@
 package com.miso202402.front_miso_pf2_g8_sportapp.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CalendarView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.miso202402.SportApp.fragments.CalendarFragment
-import com.miso202402.SportApp.fragments.ChatFragment
-import com.miso202402.SportApp.fragments.EditEventsFragment
-import com.miso202402.SportApp.fragments.GoalFragment
-import com.miso202402.SportApp.fragments.ListEventsFragment
-import com.miso202402.SportApp.fragments.SportFragment
-import com.miso202402.SportApp.fragments.TrainingSessionFragment
+import com.miso202402.SportApp.src.utils.SharedPreferences
+import com.miso202402.SportApp.src.utils.TransferInfo
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.ActivityMainBinding
-import com.miso202402.front_miso_pf2_g8_sportapp.fragments.LoginFragment
-import com.miso202402.front_miso_pf2_g8_sportapp.src.models.request.LoginRequest
-import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginResponse
-import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
-import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener, TransferInfo{
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var toolbar: MaterialToolbar
     private lateinit var fab: FloatingActionButton
     private lateinit var drawerLayout: DrawerLayout
-
+    private var typePlan: String? = ""
+    private lateinit var preferences: SharedPreferences
 
     fun showToolbarAndFab() {
         toolbar.visibility = View.VISIBLE
@@ -67,6 +53,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab = findViewById<FloatingActionButton>(R.id.fab)
         toolbar.setTitle("SPORT APP")
         setSupportActionBar(toolbar)
+        preferences = SharedPreferences(this)
+        typePlan = preferences.getData<String>("typePlan").toString()
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
@@ -75,7 +63,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        fab.setOnClickListener {}
+        fab.setOnClickListener {
+
+        }
 
     }
 
@@ -92,19 +82,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun navigateToFragment(fragmentId: Int, toolbarTitle: String? = "SPORT APP",bundle: Bundle? = null) {
+    fun navigateToFragment(
+        fragmentId: Int,
+        toolbarTitle: String? = "SPORT APP",
+        bundle: Bundle? = null
+    ) {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         val menu = findViewById<NavigationView>(R.id.nav_view).menu
         for (i in 0 until menu.size()) {
             menu.getItem(i).isChecked = false
         }
         toolbar.setTitle(toolbarTitle)
-
-        if (bundle != null) {
-            navController.navigate(fragmentId, bundle)
-        } else {
-            navController.navigate(fragmentId)
+        if(typePlan != "premium" && (fragmentId == R.id.ChatFragment) ){
+            mostrarMensaje("Esta opción solo está disponible para el  plan premium.")
         }
+        else{
+            if (bundle != null) {
+                navController.navigate(fragmentId, bundle)
+            } else {
+                navController.navigate(fragmentId)
+            }
+        }
+
     }
 
     override fun onBackPressed(){
@@ -145,6 +144,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override fun transferInfo(ms: String) {
+        typePlan = ms
     }
 
 

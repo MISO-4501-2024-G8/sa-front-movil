@@ -60,6 +60,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
     lateinit var btnLimpiar: Button
     lateinit var btnEventos : Button
     lateinit var btnRutas : Button
+    lateinit var typePlan : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -86,6 +87,7 @@ class CalendarFragment : Fragment(), ClicTSListener {
         filterTrainingSessions = listOf()
         events = listOf()
         routes = listOf()
+        typePlan = preferences.getData<String>("typePlan").toString()
         listener = this
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)

@@ -18,12 +18,10 @@ import com.miso202402.SportApp.src.models.response.GetAllDoctorsResponse
 import com.miso202402.SportApp.src.models.response.GetAllTrainersResponse
 import com.miso202402.SportApp.src.utils.ClicListener_DoctorsTrainers
 import com.miso202402.SportApp.src.utils.DoctorsTrainersAdapter
-import com.miso202402.SportApp.src.utils.ProgramConsultationsAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentChatBinding
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentInfoConsultationsprogramSessionsBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +39,7 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
     private lateinit var doctorList : List<Doctors>
     private lateinit var entrenadorList : List<Trainers>
     lateinit var listener: ClicListener_DoctorsTrainers
-
+    lateinit var typePlan : String
 
     private val binding get() = _binding!!
 
@@ -58,10 +56,11 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
         doctorList = emptyList()
         entrenadorList = emptyList()
         listener = this
+        typePlan = preferences.getData<String>("typePlan").toString()
 
         binding.imageButtonCalendarListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "Sesion y Chats")
         }
 
         return binding.root

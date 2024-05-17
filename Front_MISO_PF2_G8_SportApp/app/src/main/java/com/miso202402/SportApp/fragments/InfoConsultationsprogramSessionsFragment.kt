@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.miso202402.SportApp.src.models.models.ConsultationsSessions
 import com.miso202402.SportApp.src.models.models.Doctors
-import com.miso202402.SportApp.src.models.models.Events
 import com.miso202402.SportApp.src.models.models.Trainers
 import com.miso202402.SportApp.src.models.response.GetConsultationByIdResponse
 import com.miso202402.SportApp.src.models.response.GetDoctor
@@ -40,6 +39,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     private lateinit var consultation : ConsultationsSessions
     private lateinit var doctor :Doctors
     private lateinit var entrenador :Trainers
+    lateinit var typePlan : String
 
     private val binding get() = _binding!!
     override fun onAttach(context: Context) {
@@ -52,6 +52,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
     ): View {
         _binding = FragmentInfoConsultationsprogramSessionsBinding.inflate(inflater, container, false)
         consultation_id = arguments?.getString("id").toString()
+        typePlan = preferences.getData<String>("typePlan").toString()
         Log.i("consultation.id entre", consultation_id)
         consultation = ConsultationsSessions("", "", "", "", "", "")
 
@@ -79,7 +80,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
 
         binding.buttonAtrasInfoConsultationsprogramSessionsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "")
         }
 
 
@@ -138,7 +139,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
                     lifecycleScope.launch {
                         showMessageDialog(context, "Fallo la consulta de La session Programada")
                         val mainActivity = requireActivity() as? MainActivity
-                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
+                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "")
                     }
                 }
             }
@@ -146,7 +147,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
             Log.e("error", e.message.toString())
             showMessageDialog(context, "Fallo la consulta de La session Programada")
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment)
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment,"")
 
         }
     }

@@ -1,5 +1,6 @@
 package com.miso202402.SportApp.fragments
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.miso202402.SportApp.src.models.models.Routs
 import com.miso202402.SportApp.src.models.response.GetAllRutasResponse
 import com.miso202402.SportApp.src.utils.ClicListener_routs
 import com.miso202402.SportApp.src.utils.RoutsAdapter
+import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.front_miso_pf2_g8_sportapp.R
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentListRoutsBinding
@@ -35,6 +37,9 @@ class ListRoutsFragment : Fragment(), ClicListener_routs {
     lateinit var listener: ClicListener_routs
     private lateinit var token: String
     private lateinit var user_id : String
+    private var typePlan: String? = ""
+    private lateinit var preferences: SharedPreferences
+
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 
@@ -48,6 +53,7 @@ class ListRoutsFragment : Fragment(), ClicListener_routs {
         user_id = arguments?.getString("user_id").toString()
         routsList = listOf()
         listener = this
+        typePlan = preferences.getData<String>("typePlan").toString()
         getAllRouts()
         binding.recyclerviewListRoutsFragment .setHasFixedSize(true)
         binding.recyclerviewListRoutsFragment.layoutManager = LinearLayoutManager(context)
@@ -58,6 +64,11 @@ class ListRoutsFragment : Fragment(), ClicListener_routs {
         }
 
     return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preferences = SharedPreferences(requireContext())
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

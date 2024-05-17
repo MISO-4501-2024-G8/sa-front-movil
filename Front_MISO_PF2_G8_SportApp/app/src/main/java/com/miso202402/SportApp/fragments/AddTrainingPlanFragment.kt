@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.Instruction
 import com.miso202402.SportApp.src.models.models.Objective
-import com.miso202402.SportApp.src.models.models.RiskAlert
 import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
@@ -82,6 +81,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
     private var notification_msg: Boolean = false;
     private var emergency_call: Boolean = false;
     private var alertasE: String = ""
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -213,6 +213,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
+        var typePlan: String = preferences.getData<String>("typePlan").toString()
         nameEditText = view.findViewById<EditText>(R.id.editTexName_FragmentAddTrainingPlan)
         weeksEditText = view.findViewById<EditText>(R.id.editTexWeeks_FragmentAddTrainingPlan)
         descriptionEditText = view.findViewById<EditText>(R.id.editTexDescription_FragmentAddTrainingPlan)
