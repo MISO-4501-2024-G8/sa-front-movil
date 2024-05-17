@@ -124,11 +124,11 @@ class CalendarFragment : Fragment(), ClicTSListener {
 
         btnEventos.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos", null)
+            mainActivity?.navigateToFragment(R.id.ListEventsFragment, "Eventos")
         }
         btnRutas.setOnClickListener{
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas", null)
+            mainActivity?.navigateToFragment(R.id.ListRoutsFragment, "Rutas")
         }
         btnLimpiar.setOnClickListener {
             progressBarVisible(true)

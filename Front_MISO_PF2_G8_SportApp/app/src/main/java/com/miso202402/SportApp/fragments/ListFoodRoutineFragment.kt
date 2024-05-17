@@ -90,11 +90,11 @@ class ListFoodRoutineFragment : Fragment(), ClickListener_foodroutines {
             tempTrainingPlan.id_eating_routine = food_routine_id
             preferences.saveData("tempTrainingPlan", tempTrainingPlan)
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
         }
         btnAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan", null)
+            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
         }
     }
 

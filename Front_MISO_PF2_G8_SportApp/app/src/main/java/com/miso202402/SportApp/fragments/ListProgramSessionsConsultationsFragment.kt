@@ -54,11 +54,11 @@ class ListProgramSessionsConsultationsFragment : Fragment(), ClicListener_Progra
 
         binding.buttonAgregarListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment, "",null)
+            mainActivity?.navigateToFragment(R.id.TrainingSessionOficialFragment, "")
         }
         binding.imageButtonRoutsListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ChatFragment, "",null)
+            mainActivity?.navigateToFragment(R.id.ChatFragment, "")
         }
 
         return binding.root

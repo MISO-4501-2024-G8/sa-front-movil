@@ -69,7 +69,7 @@ class InfoFoodRoutineFragment : Fragment() {
                 mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
             }else {
                 val mainActivity = requireActivity() as? MainActivity
-                mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion", null)
+                mainActivity?.navigateToFragment(R.id.FoodRoutineListFragment, "Rutina de Alimentacion")
             }
         }
         return binding.root

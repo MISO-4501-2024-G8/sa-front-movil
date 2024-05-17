@@ -71,12 +71,12 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.calendar -> navigateToFragment(R.id.CalendarFragment, "Calendario", null)
-            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
-            R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos", null)
-            R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva", null)
-            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo",null)
-            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats",null)
+            R.id.calendar -> navigateToFragment(R.id.CalendarFragment, "Calendario")
+            R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
+            R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos")
+            R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva")
+            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo")
+            R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats")
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

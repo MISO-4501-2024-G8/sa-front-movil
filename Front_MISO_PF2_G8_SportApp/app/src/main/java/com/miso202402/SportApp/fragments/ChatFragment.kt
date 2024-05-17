@@ -60,7 +60,7 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
 
         binding.imageButtonCalendarListProgramSessionsConsultationsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "Sesion y Chats",null)
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "Sesion y Chats")
         }
 
         return binding.root

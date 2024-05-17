@@ -80,7 +80,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
 
         binding.buttonAtrasInfoConsultationsprogramSessionsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "", null)
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "")
         }
 
 
@@ -139,7 +139,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
                     lifecycleScope.launch {
                         showMessageDialog(context, "Fallo la consulta de La session Programada")
                         val mainActivity = requireActivity() as? MainActivity
-                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "", null)
+                        mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "")
                     }
                 }
             }
@@ -147,7 +147,7 @@ class InfoConsultationsprogramSessionsFragment : Fragment() {
             Log.e("error", e.message.toString())
             showMessageDialog(context, "Fallo la consulta de La session Programada")
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment,"", null)
+            mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment,"")
 
         }
     }

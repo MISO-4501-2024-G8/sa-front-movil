@@ -71,7 +71,7 @@ class InfoRestRoutine : Fragment() {
                 mainActivity?.navigateToFragment(R.id.InfoTrainingPlanFragment, "Detalle Plan de Entrenamiento",bundle)
             }else {
                 val mainActivity = requireActivity() as? MainActivity
-                mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso", null)
+                mainActivity?.navigateToFragment(R.id.RestRoutineListFragment, "Rutina de Descanso")
             }
         }
         return binding.root

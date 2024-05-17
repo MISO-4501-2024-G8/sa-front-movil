@@ -62,7 +62,7 @@ class InfoTrainingPlan : Fragment() {
         binding.recyclerviewListObjectives.adapter = ObjectiveDetailTrainingPlanAdapter(listObjectives)
         binding.buttonAtras.setOnClickListener(){
             val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento", null)
+            mainActivity?.navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
         }
         return binding.root
     }
