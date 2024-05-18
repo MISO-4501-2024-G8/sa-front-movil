@@ -80,13 +80,14 @@ class SportFragment : Fragment(), ClickListener_SportSession {
             false
         }
         binding.BtnIniciar.setOnClickListener {
+            /*
             view?.let {
                 Snackbar.make(it, "Funcionalidad en construccion...", Snackbar.LENGTH_SHORT).show()
             }
-            /*
-            val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.addTrainingPlanFragment, "Nuevo Plan")
             */
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(R.id.SportSessionRegister, "Configurar Sesion Deportiva")
+
         }
     }
 

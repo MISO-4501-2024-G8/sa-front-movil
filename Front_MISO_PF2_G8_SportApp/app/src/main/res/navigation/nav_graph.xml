@@ -181,6 +181,13 @@
         tools:layout="@layout/fragment_sport"
         />
 
+    <fragment
+        android:id="@+id/SportSessionRegister"
+        android:name="com.miso202402.SportApp.fragments.SportSessionRegister"
+        android:label="SportSessionRegister"
+        tools:layout="@layout/fragment_sport_session_register"
+        />
+
 
     <fragment
         android:id="@+id/SportInfoSessionFragment"
