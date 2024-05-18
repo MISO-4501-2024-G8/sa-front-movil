@@ -12,6 +12,6 @@ class SportSession (
     @SerializedName("total_time") var total_time:Int?,
     @SerializedName("session_event") var session_event:String?,
     @SerializedName("qty_objectives_achived") var qty_objectives_achived:Int?,
-    @SerializedName("objective_instructions") var objective_instructions: List<SportObjectiveSession>? = null,
+    @SerializedName("objecive_instructions") var objective_instructions: List<SportObjectiveSession>? = null,
 ){
 }

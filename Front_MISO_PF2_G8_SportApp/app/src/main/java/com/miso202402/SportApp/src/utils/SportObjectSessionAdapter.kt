@@ -2,10 +2,12 @@ package com.miso202402.SportApp.src.utils
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.miso202402.SportApp.src.models.models.SportObjectiveSession
 import com.miso202402.front_miso_pf2_g8_sportapp.R
@@ -21,7 +23,7 @@ class SportObjectSessionAdapter (
         init {
             tvName = view.findViewById(R.id.textViewName_cardView)
             tvDescription = view.findViewById(R.id.textViewdescription_cardView)
-            cardViewObjective = view.findViewById(R.id.CardViewObjective)
+            cardViewObjective = view.findViewById(R.id.cardViewObjective)
         }
     }
 
@@ -36,17 +38,20 @@ class SportObjectSessionAdapter (
         val id_sport_objective_session = listSportObjectiveSession[position].id
         val objective_item = listSportObjectiveSession[position]
         val realPosition = position + 1
+        val backgroundColorA = ContextCompat.getColor(viewHolder.itemView.context, R.color.objA)
+        val backgroundColor = ContextCompat.getColor(viewHolder.itemView.context, R.color.white)
+
         viewHolder.tvName.text = "Objetivo $realPosition"
         viewHolder.tvDescription.text = "Realizar " + objective_item.instruction_time + "' " + objective_item.instruction_description
-
+        Log.i("SportObjectSessionAdapter","Target achived: " + objective_item.target_achieved.toString())
         if(objective_item.target_achieved == 0){
             viewHolder.tvName.setTextColor(Color.BLACK)
             viewHolder.tvDescription.setTextColor(Color.BLACK)
-            viewHolder.cardViewObjective.setBackgroundColor(Color.WHITE)
+            viewHolder.cardViewObjective.setCardBackgroundColor(backgroundColor)
         } else if(objective_item.target_achieved == 1){
             viewHolder.tvName.setTextColor(Color.WHITE)
             viewHolder.tvDescription.setTextColor(Color.WHITE)
-            viewHolder.cardViewObjective.setBackgroundColor(Color.parseColor("#24D440"))
+            viewHolder.cardViewObjective.setCardBackgroundColor(backgroundColorA)
         }
         viewHolder.itemView.setOnClickListener() {
             val sportObjectiveSession = listSportObjectiveSession.get(position)

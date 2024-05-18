@@ -9,13 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.SportSession
 import com.miso202402.SportApp.src.models.models.TrainingPlan
 import com.miso202402.SportApp.src.models.response.GetAllSportSessionResponse
 import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
+import com.miso202402.SportApp.src.models.response.TrainingPlanResponse
 import com.miso202402.SportApp.src.utils.ClickListener_SportSession
+import com.miso202402.SportApp.src.utils.ObjectiveDetailTrainingPlanAdapter
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.SportSessionAdapter
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
@@ -39,6 +42,7 @@ class SportFragment : Fragment(), ClickListener_SportSession {
     private lateinit var preferences: SharedPreferences
     private lateinit var sportSessionList : List<SportSession>
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
+    private var domain_trainning : String = "http://lb-ms-py-training-mngr-157212315.us-east-1.elb.amazonaws.com/"
     lateinit var listener:ClickListener_SportSession
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -124,12 +128,44 @@ class SportFragment : Fragment(), ClickListener_SportSession {
 
     override fun onCListItemClick(view: View, sportSession: SportSession){
         Log.i("sportSession Item: ", sportSession.id.toString())
-        val bundle = bundleOf("sport_session_id" to sportSession.id )
-        view?.let {
-            Snackbar.make(it, "Funcionalidad en construccion...", Snackbar.LENGTH_SHORT).show()
+
+        var training_plan_id = ""
+        var training_name = ""
+        if(sportSession.name.toString().contains("-")){
+            training_plan_id = sportSession.name.toString().split("-")[0]
         }
-        val mainActivity = requireActivity() as? MainActivity
-        mainActivity?.navigateToFragment(R.id.SportInfoSessionFragment, "Detalle Sesion Deportiva",bundle)
+        val utils = Utils()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val callGetTrainingPlanById = utils.getRetrofit(domain_trainning)
+                    .create(ApiService::class.java)
+                    .getTrainingPlan(training_plan_id)
+                    .execute()
+                val getTrainingPlan = callGetTrainingPlanById.body() as TrainingPlanResponse?
+                Log.i("getTrainingPlan", getTrainingPlan?.code.toString())
+                lifecycleScope.launch {
+                    if (getTrainingPlan?.code == 200) {
+                        var content = getTrainingPlan.training_plan!!
+                        training_name = content.name.toString()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("error",e.message.toString())
+            }
+
+            withContext(Dispatchers.Main) {
+                val bundle = bundleOf(
+                    "sport_session_id" to sportSession.id,
+                    "training_name" to training_name
+                )
+                val mainActivity = requireActivity() as? MainActivity
+                mainActivity?.navigateToFragment(
+                    R.id.SportInfoSessionFragment,
+                    "Detalle Sesion Deportiva",
+                    bundle
+                )
+            }
+        }
     }
 
 
