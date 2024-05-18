@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -27,6 +28,7 @@ import com.miso202402.SportApp.src.utils.SportSessionAdapter
 import com.miso202402.SportApp.src.utils.TrainingPlanAdapter
 import com.miso202402.SportApp.src.utils.TrainingSessionAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.R
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentSportSessionRegisterBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
@@ -49,9 +51,11 @@ class SportSessionRegister : Fragment() {
     private lateinit var user_id: String;
     lateinit var typePlan: String
     private lateinit var trainingSessions: List<TrainingSession>
+    lateinit var baseTrainingSession: TrainingSession
     var trainingSessionSelected = ""
     var weekSelected = 0
     var daySelected = ""
+    var planName = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -287,9 +291,11 @@ class SportSessionRegister : Fragment() {
                         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                             val selectedDay = daysForWeek[position]
                             val planId = selectedPlan.split("-")[0]
+                            planName = selectedPlan.substringAfter("-")
                             val trainingSession = filteredSessions.find { it.id_event == planId}
                             trainingSession?.let {
                                 val idTrainingSession = it.id
+                                baseTrainingSession = it
                                 // Aquí puedes manejar el idTrainingSession, week y day como necesites
                                 Log.i("SelectedTrainingSession", "id_training_session: $idTrainingSession, week: $selectedWeek, day: $selectedDay")
                                 setData(idTrainingSession.toString(),selectedWeek,selectedDay)
@@ -334,10 +340,17 @@ class SportSessionRegister : Fragment() {
                 Log.i("Sali a la peticion code ", createSportSession?.code.toString())
                 lifecycleScope.launch {
                     if (createSportSession?.code == 201) {
-                        var sportSession = createSportSession.content!!
+                        var sportSessions = createSportSession.content!!
+                        var sportSession = sportSessions[0]
                         //ir a la siguiente pantalla
                         activity?.let {
                             mostrarSnackbar("Sesion Deportiva Creada exitosamente")
+                            val bundle = bundleOf(
+                                "sport_session_id" to sportSession.id,
+                                "training_name" to planName
+                            )
+                            val mainActivity = requireActivity() as? MainActivity
+                            mainActivity?.navigateToFragment(R.id.SportSessionStartFragment, "Sesion Deportiva", bundle)
                         }
 
                     } else {

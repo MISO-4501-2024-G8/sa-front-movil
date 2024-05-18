@@ -1,38 +1,37 @@
 package com.miso202402.SportApp.fragments
 
+import android.R
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.KeyEvent
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.SportObjectiveSession
 import com.miso202402.SportApp.src.models.models.SportSession
-import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetSportSessionResponse
 import com.miso202402.SportApp.src.utils.ClickListener_SportObjectiveSession
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.SportObjectSessionAdapter
-import com.miso202402.SportApp.src.utils.SportSessionAdapter
-import com.miso202402.front_miso_pf2_g8_sportapp.R
-import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
-import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentSportInfoSessionBinding
+import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentSportSessionStartBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
-class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession {
-    private var _binding: FragmentSportInfoSessionBinding ? = null
+class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSession {
+
+    private var _binding: FragmentSportSessionStartBinding? = null
     private val binding get() = _binding!!
     private lateinit var preferences: SharedPreferences
     private var domain: String = "https://g7o4mxf762.execute-api.us-east-1.amazonaws.com/prod/"
@@ -40,8 +39,11 @@ class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession
     private lateinit var training_name: String;
     private lateinit var user_id: String;
     lateinit var typePlan : String
-    private lateinit var sportSession:SportSession
+    private lateinit var sportSession: SportSession
     lateinit var listener:ClickListener_SportObjectiveSession
+    private var seconds = 0
+    private var running = false
+    private val wasRunning = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,7 +57,7 @@ class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSportInfoSessionBinding.inflate(inflater, container, false)
+        _binding = FragmentSportSessionStartBinding.inflate(inflater, container, false)
         sport_session_id = arguments?.getString("sport_session_id").toString()
         training_name = arguments?.getString("training_name").toString()
         user_id = preferences.getData<String>("id").toString()
@@ -65,12 +67,17 @@ class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession
         Log.i("typePlan", typePlan)
         Log.i("training_name", training_name)
         listener = this
-        //obtener el sportsesison por el id
         getSportSessionById(sport_session_id)
-        binding.buttonAtras.setOnClickListener(){
-            val mainActivity = requireActivity() as? MainActivity
-            mainActivity?.navigateToFragment(R.id.SportFragment, "Sesion Deportiva")
+        binding.buttonIniciar.setOnClickListener(){
+            onClickStart(container)
         }
+        binding.buttonPausar.setOnClickListener(){
+            onClickStop(container)
+        }
+        binding.buttonFinalizar.setOnClickListener(){
+            onClickReset(container)
+        }
+        runTimer()
         return binding.root
     }
 
@@ -98,6 +105,41 @@ class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession
         _binding = null
     }
 
+    fun onClickStart(view: View?) {
+        running = true
+    }
+    fun onClickStop(view: View?) {
+        running = false
+    }
+
+    fun onClickReset(view: View?) {
+        running = false
+        seconds = 0
+    }
+
+    private fun runTimer() {
+        val timeView =  binding.timeView
+        val handler = Handler()
+        handler.post(object : Runnable {
+            override fun run() {
+                val hours = seconds / 3600
+                val minutes = seconds % 3600 / 60
+                val secs = seconds % 60
+
+                val time = String.format(
+                    Locale.getDefault(),
+                    "%d:%02d:%02d", hours,
+                    minutes, secs
+                )
+                timeView.text = time
+                if (running) {
+                    seconds++
+                }
+                handler.postDelayed(this, 1000)
+            }
+        })
+    }
+
     private fun getSportSessionById(sport_session_id: String){
         val utils = Utils()
         CoroutineScope(Dispatchers.IO).launch {
@@ -112,12 +154,9 @@ class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession
                 lifecycleScope.launch {
                     if (getSportSession?.code == 200) {
                         sportSession = getSportSession.content!!
-                        binding.tvPlanDesc.text = training_name
-                        binding.titleSemana.text = "Semana: " + sportSession.week.toString()
-                        binding.tvDiaDesc.text = "Dia: " + sportSession.day
-                        binding.tvTiempoDesc.text = sportSession.total_time.toString() + "m"
-                        binding.tvUbicacionDesc.text = sportSession.location
-                        binding.tvFechaDesc.text = sportSession.session_event
+                        binding.nameSession.text = training_name
+                        binding.weekSession.text = "Semana: " + sportSession.week.toString()
+                        binding.daySession.text = "Dia: " + sportSession.day
                         binding.recyclerviewListObjectives.setHasFixedSize(true)
                         binding.recyclerviewListObjectives.layoutManager =
                             LinearLayoutManager(context)
@@ -128,8 +167,6 @@ class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession
                                     listener
                                 )
                             }
-
-
                     } else {
                         activity?.let {
                             utils.showMessageDialog(

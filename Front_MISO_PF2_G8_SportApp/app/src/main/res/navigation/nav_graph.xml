@@ -188,6 +188,13 @@
         tools:layout="@layout/fragment_sport_session_register"
         />
 
+    <fragment
+        android:id="@+id/SportSessionStartFragment"
+        android:name="com.miso202402.SportApp.fragments.SportSessionStartFragment"
+        android:label="SportSessionStartFragment"
+        tools:layout="@layout/fragment_sport_session_start"
+        />
+
 
     <fragment
         android:id="@+id/SportInfoSessionFragment"
