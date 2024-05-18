@@ -181,6 +181,14 @@
         tools:layout="@layout/fragment_sport"
         />
 
+
+    <fragment
+        android:id="@+id/SportInfoSessionFragment"
+        android:name="com.miso202402.SportApp.fragments.SportInfoSessionFragment"
+        android:label="SportInfoSessionFragment"
+        tools:layout="@layout/fragment_sport_info_session"
+        />
+
     <fragment
         android:id="@+id/GoalFragment"
         android:name="com.miso202402.SportApp.fragments.GoalFragment"
