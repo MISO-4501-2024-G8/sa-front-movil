@@ -10,22 +10,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.SportObjectiveSession
 import com.miso202402.SportApp.src.models.models.SportSession
+import com.miso202402.SportApp.src.models.request.RiskAlertsTrainingPlanRequest
 import com.miso202402.SportApp.src.models.response.GetSportSessionResponse
+import com.miso202402.SportApp.src.models.response.PutSportObjectiveSessionResponse
+import com.miso202402.SportApp.src.models.response.PutSportSessionResponse
+import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
 import com.miso202402.SportApp.src.utils.ClickListener_SportObjectiveSession
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.SportObjectSessionAdapter
+import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentSportSessionStartBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
 import com.miso202402.front_miso_pf2_g8_sportapp.src.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 
@@ -79,6 +86,9 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
         }
         binding.buttonFinalizar.setOnClickListener(){
             onClickReset(container)
+            if(sportSession.objective_instructions !== null) {
+                finalizarSession()
+            }
         }
         return binding.root
     }
@@ -167,32 +177,6 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
             }
         })
     }
-/*
-    private fun runTimer() {
-        val timeView =  binding.timeView
-        val handler = Handler()
-        handler.post(object : Runnable {
-            override fun run() {
-                val hours = seconds / 3600
-                val minutes = seconds % 3600 / 60
-                val secs = seconds % 60
-
-                val time = String.format(
-                    Locale.getDefault(),
-                    "%d:%02d:%02d", hours,
-                    minutes, secs
-                )
-                timeView.text = time
-                if (running) {
-                    seconds++
-                }
-                handler.postDelayed(this, 1000)
-            }
-        })
-    }*/
-
-
-
 
     private fun getSportSessionById(sport_session_id: String){
         val utils = Utils()
@@ -240,6 +224,69 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
 
     override fun onCListItemClick(view: View, sportObjectiveSession: SportObjectiveSession){
         Log.i("sportObjectiveSession Item: ", sportObjectiveSession.id.toString())
+    }
+
+    fun finalizarSession(){
+        val utils = Utils()
+        val filteredInstructions = sportSession.objective_instructions?.filter { it.target_achieved == 1}
+        CoroutineScope(Dispatchers.IO).launch {
+            try{
+                if (filteredInstructions != null) {
+                    filteredInstructions.forEach { instruction ->
+                        updateObjective(instruction,utils)
+                    }
+                }
+                updateSportSession(sport_session_id,utils)
+            }catch (e: Exception) {
+                Log.e("Updating objective error: ",e.message.toString())
+            }
+            activity?.let {
+                withContext(Dispatchers.Main) {
+                    mostrarSnackbar("Objetivos actualizados exitosamente")
+                    val mainActivity = requireActivity() as? MainActivity
+                    mainActivity?.navigateToFragment(com.miso202402.front_miso_pf2_g8_sportapp.R.id.SportFragment, "Sesion Deportiva")
+                }
+
+            }
+        }
+
+    }
+
+    private fun updateObjective(objective: SportObjectiveSession, utils: Utils){
+        val callUpdateSessionObjective = utils.getRetrofit(domain)
+            .create(ApiService::class.java)
+            .putSportSessionById(
+                objective.id.toString(),
+                objective
+            ).execute()
+        val callUpdateSportObjectiveSessionResponse = callUpdateSessionObjective.body() as PutSportObjectiveSessionResponse?
+        Log.i("updateObjective",callUpdateSportObjectiveSessionResponse?.code.toString())
+        if(callUpdateSportObjectiveSessionResponse?.code == 200){
+            Log.i("updateObjective","Objetivo actualizado")
+        }else{
+            var errorMessage = callUpdateSportObjectiveSessionResponse?.message.toString()
+            Log.e("updateObjective error",errorMessage)
+            throw Exception("Error al actualizar objetivo: $errorMessage")
+        }
+
+    }
+
+    private fun updateSportSession(idSportSession:String, utils: Utils){
+        val callUpdateSportSession = utils.getRetrofit(domain)
+            .create(ApiService::class.java)
+            .putSportSessionById(
+                idSportSession
+            ).execute()
+        val callUpdateSportSessionResponse = callUpdateSportSession.body() as PutSportSessionResponse?
+        Log.i("updateSportSession",callUpdateSportSessionResponse?.code.toString())
+        if(callUpdateSportSessionResponse?.code == 200){
+            Log.i("updateSportSession","Sesion actualizada")
+        }else{
+            var errorMessage = callUpdateSportSessionResponse?.message.toString()
+            Log.e("updateSportSession error",errorMessage)
+            throw Exception("Error al actualizar sesion: $errorMessage")
+        }
+
     }
 
 }
