@@ -42,8 +42,11 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
     private lateinit var sportSession: SportSession
     lateinit var listener:ClickListener_SportObjectiveSession
     private var seconds = 0
+    private var secondsTargets = 0
     private var running = false
     private val wasRunning = false
+    private var currentObjectiveIndex = 0
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -77,7 +80,6 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
         binding.buttonFinalizar.setOnClickListener(){
             onClickReset(container)
         }
-        runTimer()
         return binding.root
     }
 
@@ -115,8 +117,57 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
     fun onClickReset(view: View?) {
         running = false
         seconds = 0
+        secondsTargets = 0
     }
 
+    private fun runTimer() {
+        val timeView = binding.timeView
+        val handler = Handler()
+
+        handler.post(object : Runnable {
+            override fun run() {
+                val hours = seconds / 3600
+                val minutes = seconds % 3600 / 60
+                val secs = seconds % 60
+
+                val time = String.format(
+                    Locale.getDefault(),
+                    "%d:%02d:%02d", hours,
+                    minutes, secs
+                )
+                timeView.text = time
+
+                // Obtener el objetivo actual
+                val currentObjective = sportSession.objective_instructions?.getOrNull(currentObjectiveIndex)
+
+                // Verificar si hay un objetivo actual y si se ha cumplido el tiempo
+                currentObjective?.let { objective ->
+                    var instructionT = objective.instruction_time?.times(1)
+                    if (secondsTargets >= instructionT!! && objective.target_achieved == 0) {
+                        objective.target_achieved = 1 // Cambiar target_achieved a 1
+                        mostrarSnackbar("Objetivo cumplido: " + objective.instruction_description)
+                        // Notificar al adaptador que los datos han cambiado
+                        binding.recyclerviewListObjectives.adapter?.notifyItemChanged(currentObjectiveIndex)
+
+                        // Incrementar el índice para pasar al siguiente objetivo en la siguiente iteración
+                        currentObjectiveIndex++
+
+                        // Reiniciar el temporizador para el siguiente objetivo si hay más
+                        if (currentObjectiveIndex < sportSession.objective_instructions!!.size) {
+                            secondsTargets = 0 // Reiniciar el contador de segundos para el siguiente objetivo
+                        }
+                    }
+                }
+
+                if (running) {
+                    seconds++
+                    secondsTargets++
+                }
+                handler.postDelayed(this, 1000) // Ejecutar cada segundo (1000 milisegundos)
+            }
+        })
+    }
+/*
     private fun runTimer() {
         val timeView =  binding.timeView
         val handler = Handler()
@@ -138,7 +189,10 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
                 handler.postDelayed(this, 1000)
             }
         })
-    }
+    }*/
+
+
+
 
     private fun getSportSessionById(sport_session_id: String){
         val utils = Utils()
@@ -167,6 +221,7 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
                                     listener
                                 )
                             }
+                        runTimer()
                     } else {
                         activity?.let {
                             utils.showMessageDialog(
