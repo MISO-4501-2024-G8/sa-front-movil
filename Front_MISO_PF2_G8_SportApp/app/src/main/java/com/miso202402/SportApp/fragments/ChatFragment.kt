@@ -62,7 +62,6 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
             val mainActivity = requireActivity() as? MainActivity
             mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "Sesion y Chats")
         }
-
         return binding.root
     }
 

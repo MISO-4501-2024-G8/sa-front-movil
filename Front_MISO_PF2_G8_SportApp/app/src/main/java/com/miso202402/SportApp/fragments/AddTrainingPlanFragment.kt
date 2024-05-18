@@ -544,7 +544,7 @@ class AddTrainingPlanFragment : Fragment(), ClickListener_Objective {
             val idObjective = callCreateObjetiveTrainingPlanResponse?.objective?.id.toString()
             Log.i("createObjective",idObjective)
             for(instruction in objective.instructions!!){
-                createInstruction(idObjective, instruction,utils)
+                createInstruction(idObjective, instruction, utils)
             }
         }else{
             var errorMessage = callCreateObjetiveTrainingPlanResponse?.message.toString()

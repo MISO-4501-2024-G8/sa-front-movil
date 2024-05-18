@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
             R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos")
             R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva")
-            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo")
+            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo e indicadores")
             R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats")
             R.id.nav_logout -> closeApp()
         }
@@ -123,8 +123,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
    private fun closeApp(){
+       preferences.clearData("typePlan")
        val navController = findNavController(R.id.nav_host_fragment_content_main)
        navController.navigate(R.id.SecondFragment)
+
+       //finish()
    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

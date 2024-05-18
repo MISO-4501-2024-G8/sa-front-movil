@@ -7,6 +7,7 @@ import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RiskAlertsTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RoutsRequest
+import com.miso202402.SportApp.src.models.request.SportProfileRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
 import com.miso202402.SportApp.src.models.response.GetAllEatingRoutineResponse
@@ -22,10 +23,12 @@ import com.miso202402.SportApp.src.models.response.InstructionTrainingPlansRespo
 import com.miso202402.SportApp.src.models.response.ObjetiveTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetEventResponse
 import com.miso202402.SportApp.src.models.response.GetFoodRoutineResponse
+import com.miso202402.SportApp.src.models.response.GetInfoUserResponse
 import com.miso202402.SportApp.src.models.response.GetRestRoutineResponse
 import com.miso202402.SportApp.src.models.response.GetRoutsResponse
 import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
 import com.miso202402.SportApp.src.models.response.GetTrainersByIdResponse
+import com.miso202402.SportApp.src.models.response.SportProfileResponse
 import com.miso202402.SportApp.src.models.response.TraingSessionResponse
 import com.miso202402.SportApp.src.models.response.TrainingListPlansResponse
 import com.miso202402.SportApp.src.models.response.TrainingPlanResponse
@@ -36,6 +39,7 @@ import com.miso202402.front_miso_pf2_g8_sportapp.src.models.response.LoginRespon
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -108,6 +112,7 @@ interface ApiService {
 
     @GET("login/validate_token")
     fun validateSession():Call<ValidateTokenResponse>
+
     @GET("consultation/consultations")
     fun getAllConsultationsSessions():Call<GetAllConsultationSessionsResponse>
 
@@ -134,6 +139,18 @@ interface ApiService {
 
     @GET("sportsSpecialist/trainer/{id}")
     fun getTrainerssByID(@Path("id") id: String):Call<GetTrainersByIdResponse>
+
+    @GET("user/{id}")
+    fun getInfoUser(@Header("Authorization") authorization: String, @Path("id") id: String):Call<GetInfoUserResponse>
+
+    @POST("sport_profile")
+    fun createSportProfile(@Body request: SportProfileRequest):Call<SportProfileResponse>
+
+    @PUT("sport_profile/{id}")
+    fun updateSportProfile(@Path("id") id: String, @Body request: SportProfileRequest):Call<SportProfileResponse>
+
+    @GET("sport_profile/{id}")
+    fun getOneSportProfileById(@Path("id") id: String):Call<SportProfileResponse>
 
 
 
