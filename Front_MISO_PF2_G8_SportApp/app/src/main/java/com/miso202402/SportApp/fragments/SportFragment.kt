@@ -121,7 +121,7 @@ class SportFragment : Fragment(), ClickListener_SportSession {
                 }else{
                     var msg = getAllSportSessionResponse?.message.toString()
                     if(msg == "No se encontraron sesiones deportivas del usuario"){
-                        msg = "Debes iniciar una sesion deportiva para continuar"
+                        msg = "Debe iniciar una sesion deportiva para que pueda consultar un registro"
                     }
                     Log.e("getAllSportSessionResponse error: ",msg)
                     mostrarSnackbar(msg)
