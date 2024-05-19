@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 class UserDetail(@SerializedName("id") var id: String?,
                  @SerializedName("gender") var gender: String?,
-                 @SerializedName("age") var age: Float?,
-                 @SerializedName("weight") var weight: Float?,
-                 @SerializedName("height") var height: Float?,
+                 @SerializedName("age") var age: Int,
+                 @SerializedName("weight") var weight: Float,
+                 @SerializedName("height") var height: Float,
                  @SerializedName("birth_country") var birth_country: String?,
                  @SerializedName("birth_city") var birth_city: String?,
                  @SerializedName("residence_country") var residence_country: String,

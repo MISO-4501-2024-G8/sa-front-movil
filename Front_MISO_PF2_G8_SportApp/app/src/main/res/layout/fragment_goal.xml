@@ -19,24 +19,42 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_GoalFragment"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="175dp"
+        android:layout_marginTop="75dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:visibility="visible" />
 
     <Button
-        android:id="@+id/buttonAgregar_GoalFragment"
+        android:id="@+id/buttonVisualizar_GoalFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-
-        android:layout_marginTop="620dp"
+        android:layout_marginTop="600dp"
         android:backgroundTint="@color/main"
         android:text="Visualizar indicadores de salud"
         android:textFontWeight="14" />
 
+
+    <Button
+        android:id="@+id/buttonAgregar_GoalFragment"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="650dp"
+        android:backgroundTint="@color/main"
+        android:text="@string/textBtnAddTrainginPlan"
+        android:textFontWeight="14" />
+    <Button
+        android:id="@+id/buttonActualizar_GoalFragment"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="650dp"
+        android:backgroundTint="@color/main"
+        android:text="Actualizar"
+        android:textFontWeight="14" />
 
 </RelativeLayout>

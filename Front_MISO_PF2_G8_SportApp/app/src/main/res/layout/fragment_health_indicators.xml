@@ -3,12 +3,134 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HealthIndicatorsFragment">
+    tools:context="com.miso202402.SportApp.fragments.HealthIndicatorsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="70dp"
+        >
+
+        <EditText
+            android:id="@+id/editTexTP_HealthIndicatorsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:ems="12"
+            android:hint="Tiempo de práctica"
+            android:inputType="textLongMessage"
+            android:tooltipText="Tiempo de práctica (Horas/Semana)"
+            tools:ignore="MissingConstraints"
+            android:enabled="true"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <EditText
+            android:id="@+id/editTexOC_HealthIndicatorsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexTP_HealthIndicatorsFragment"
+            android:ems="12"
+            android:hint="Objetivos Cumplidos"
+            android:inputType="textLongMessage"
+            android:tooltipText="Objetivos Cumplidos"
+            tools:ignore="MissingConstraints"
+            android:enabled="true"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+
+        <EditText
+            android:id="@+id/editTexbmp_HealthIndicatorsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexOC_HealthIndicatorsFragment"
+            android:ems="12"
+            android:hint="BMP"
+            android:inputType="textLongMessage"
+            android:tooltipText="Frecuencia Cardiaca"
+            tools:ignore="MissingConstraints"
+            android:enabled="true"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="336dp" />
+        <EditText
+            android:id="@+id/editTexW_HealthIndicatorsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexbmp_HealthIndicatorsFragment"
+            android:textFontWeight="14"
+            android:ems="12"
+            android:hint="Vatios"
+            android:inputType="textLongMessage"
+            android:tooltipText="Potencia en Watios"
+            android:enabled="true"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp" />
+
+        <EditText
+            android:id="@+id/editV02Max_HealthIndicatorsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:textFontWeight="14"
+            android:ems="12"
+            android:hint="V02Max"
+            android:inputType="text"
+            android:tooltipText="Consumo maximo de Oxigeno (%)"
+            android:layout_below="@id/editTexW_HealthIndicatorsFragment"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp" />
+
+
+
+
+        <EditText
+            android:id="@+id/editTexFTP_HealthIndicatorsFragment"
+            android:layout_width="326dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editV02Max_HealthIndicatorsFragment"
+            android:textFontWeight="14"
+            android:ems="12"
+            android:hint="FTP"
+            android:inputType="textLongMessage"
+            android:tooltipText="Potencia en Watios"
+            android:enabled="false"
+            tools:layout_editor_absoluteX="71dp"
+            tools:layout_editor_absoluteY="270dp" />
+
+
+        <Button
+            android:id="@+id/buttonRecalcular_HealthIndicatorsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/editTexFTP_HealthIndicatorsFragment"
+            android:text="Recalcular Objetivos"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+        <Button
+            android:id="@+id/buttonAtras_HealthIndicatorsFragment"
+            android:layout_width="301dp"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/buttonRecalcular_HealthIndicatorsFragment"
+            android:text="Atras"
+            android:textFontWeight="14"
+            android:backgroundTint="@color/main"
+            />
+    </RelativeLayout>
 
 </FrameLayout>

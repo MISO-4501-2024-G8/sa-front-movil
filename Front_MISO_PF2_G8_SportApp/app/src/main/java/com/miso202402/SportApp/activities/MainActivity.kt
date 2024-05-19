@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -123,11 +122,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
    private fun closeApp(){
-       preferences.clearData("typePlan")
-       val navController = findNavController(R.id.nav_host_fragment_content_main)
-       navController.navigate(R.id.SecondFragment)
-
-       //finish()
+       //preferences.sharedPreferences.edit().remove("typePlan").commit()
+       //Log.i("typePlan3", typePlan.toString())
+       //val navController = findNavController(R.id.nav_host_fragment_content_main)
+       //navController.navigate(R.id.SecondFragment)
+       finish()
    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

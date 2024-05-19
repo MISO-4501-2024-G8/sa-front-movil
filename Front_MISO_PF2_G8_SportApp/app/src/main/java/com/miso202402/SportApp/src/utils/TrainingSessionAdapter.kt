@@ -104,12 +104,6 @@ TrainingSessionAdapter (
             esCiclismo = true
         }
 
-
-        // viewHolder.tvName.text = "ID Evento "+ position + 1 +": " + listTrainingSessions[position].id_event.toString()
-        // viewHolder.tvLocation.text = "Categoria: "+ listTrainingSessions[position].event_category.toString()
-        //viewHolder.tvDate.text = "Fecha: " + listTrainingSessions[position].session_date.toString()
-        //viewHolder.tvDescription.text = "Descripcion: desc test"
-
         if(esEvento){
             viewHolder.isEvento.visibility = View.VISIBLE
         }else{
