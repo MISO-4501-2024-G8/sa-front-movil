@@ -102,6 +102,10 @@ class SportSessionRegister : Fragment() {
             Log.i("CreateTrainingSession", "id_training_session: $trainingSessionSelected, week: $weekSelected, day: $daySelected")
             CreateSportSessionById(trainingSessionSelected,weekSelected,daySelected)
         }
+        binding.btnAtras.setOnClickListener(){
+            val mainActivity = requireActivity() as? MainActivity
+            mainActivity?.navigateToFragment(com.miso202402.front_miso_pf2_g8_sportapp.R.id.SportFragment, "Sesion Deportiva")
+        }
         return binding.root
     }
 

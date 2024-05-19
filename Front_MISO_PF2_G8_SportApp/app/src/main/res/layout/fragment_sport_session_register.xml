@@ -31,7 +31,16 @@
         android:id="@+id/btnIniciarSesion"
         android:layout_width="301dp"
         android:layout_height="38dp"
-        android:text="Iniciar"
+        android:text="Vamos a Comenzar"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:id="@+id/btnAtras"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:text="Atras"
         android:textFontWeight="14"
         android:backgroundTint="@color/main"
         android:layout_centerHorizontal="true"

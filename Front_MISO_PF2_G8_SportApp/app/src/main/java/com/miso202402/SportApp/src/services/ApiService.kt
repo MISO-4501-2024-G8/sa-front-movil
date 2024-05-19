@@ -8,6 +8,7 @@ import com.miso202402.SportApp.src.models.request.InstructionTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.ObjetiveTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RiskAlertsTrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.RoutsRequest
+import com.miso202402.SportApp.src.models.request.SportSessionPutRequest
 import com.miso202402.SportApp.src.models.request.SportSessionRequest
 import com.miso202402.SportApp.src.models.request.TrainingPlanRequest
 import com.miso202402.SportApp.src.models.request.TrainingSessionRequest
@@ -156,7 +157,7 @@ interface ApiService {
     fun getSportSessionById(@Path("id") id: String):Call<GetSportSessionResponse>
 
     @PUT("sport_session/{id}")
-    fun putSportSessionById(@Path("id") id: String):Call<PutSportSessionResponse>
+    fun putSportSessionById(@Path("id") id: String, @Body request: SportSessionPutRequest):Call<PutSportSessionResponse>
 
     @DELETE("sport_session/{id}")
     fun deleteSportSessionById(@Path("id") id: String):Call<DeleteSportSessionResponse>

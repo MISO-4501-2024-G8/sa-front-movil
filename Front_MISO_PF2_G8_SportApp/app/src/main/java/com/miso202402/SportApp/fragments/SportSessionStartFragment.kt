@@ -1,6 +1,7 @@
 package com.miso202402.SportApp.fragments
 
 import android.R
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +19,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.models.SportObjectiveSession
 import com.miso202402.SportApp.src.models.models.SportSession
 import com.miso202402.SportApp.src.models.request.RiskAlertsTrainingPlanRequest
+import com.miso202402.SportApp.src.models.request.SportSessionPutRequest
+import com.miso202402.SportApp.src.models.response.DeleteSportSessionResponse
+import com.miso202402.SportApp.src.models.response.GetAllSportSessionResponse
 import com.miso202402.SportApp.src.models.response.GetSportSessionResponse
 import com.miso202402.SportApp.src.models.response.PutSportObjectiveSessionResponse
 import com.miso202402.SportApp.src.models.response.PutSportSessionResponse
@@ -25,6 +29,7 @@ import com.miso202402.SportApp.src.models.response.RiskTrainingPlanResponse
 import com.miso202402.SportApp.src.utils.ClickListener_SportObjectiveSession
 import com.miso202402.SportApp.src.utils.SharedPreferences
 import com.miso202402.SportApp.src.utils.SportObjectSessionAdapter
+import com.miso202402.SportApp.src.utils.SportSessionAdapter
 import com.miso202402.front_miso_pf2_g8_sportapp.activities.MainActivity
 import com.miso202402.front_miso_pf2_g8_sportapp.databinding.FragmentSportSessionStartBinding
 import com.miso202402.front_miso_pf2_g8_sportapp.src.services.ApiService
@@ -85,10 +90,33 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
             onClickStop(container)
         }
         binding.buttonFinalizar.setOnClickListener(){
-            onClickReset(container)
+            onClickStop(container)
             if(sportSession.objective_instructions !== null) {
                 finalizarSession()
             }
+            //onClickReset(container)
+        }
+        binding.buttonAbandonar.setOnClickListener(){
+            // Crea un AlertDialog.Builder y configura el mensaje y los botones
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("¿Estás seguro de que deseas abandonar la sesión?")
+                .setCancelable(false)
+                .setPositiveButton("Sí") { dialog, id ->
+                    // Si el usuario confirma, ejecuta la función de abandono de sesión
+                    //abandonarSesion()
+                    onClickStop(container)
+                    if(sportSession.objective_instructions !== null) {
+                        finalizarSession()
+                    }
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    // Si el usuario cancela, simplemente cierra el diálogo
+                    dialog.dismiss()
+                }
+
+            // Muestra el diálogo
+            val alert = builder.create()
+            alert.show()
         }
         return binding.root
     }
@@ -152,7 +180,7 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
 
                 // Verificar si hay un objetivo actual y si se ha cumplido el tiempo
                 currentObjective?.let { objective ->
-                    var instructionT = objective.instruction_time?.times(1)
+                    var instructionT = objective.instruction_time?.times(60)
                     if (secondsTargets >= instructionT!! && objective.target_achieved == 0) {
                         objective.target_achieved = 1 // Cambiar target_achieved a 1
                         mostrarSnackbar("Objetivo cumplido: " + objective.instruction_description)
@@ -242,7 +270,7 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
             }
             activity?.let {
                 withContext(Dispatchers.Main) {
-                    mostrarSnackbar("Objetivos actualizados exitosamente")
+                    mostrarSnackbar("Sesion actualizada exitosamente")
                     val mainActivity = requireActivity() as? MainActivity
                     mainActivity?.navigateToFragment(com.miso202402.front_miso_pf2_g8_sportapp.R.id.SportFragment, "Sesion Deportiva")
                 }
@@ -275,7 +303,8 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
         val callUpdateSportSession = utils.getRetrofit(domain)
             .create(ApiService::class.java)
             .putSportSessionById(
-                idSportSession
+                idSportSession,
+                SportSessionPutRequest(seconds)
             ).execute()
         val callUpdateSportSessionResponse = callUpdateSportSession.body() as PutSportSessionResponse?
         Log.i("updateSportSession",callUpdateSportSessionResponse?.code.toString())
@@ -286,7 +315,33 @@ class SportSessionStartFragment : Fragment(), ClickListener_SportObjectiveSessio
             Log.e("updateSportSession error",errorMessage)
             throw Exception("Error al actualizar sesion: $errorMessage")
         }
-
     }
 
+    /*
+    fun abandonarSesion() {
+        val utils = Utils()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val callDeleteSportSessions = utils.getRetrofit(domain)
+                    .create(ApiService::class.java)
+                    .deleteSportSessionById(sport_session_id)
+                    .execute()
+                val deleteSportSessionResponse = callDeleteSportSessions.body() as DeleteSportSessionResponse?
+                if (deleteSportSessionResponse?.code == 200){
+                    Log.i("callDeleteSportSessions",deleteSportSessionResponse.message.toString())
+                }
+            } catch (e: Exception) {
+                Log.e("error",e.message.toString())
+            }
+            activity?.let {
+                withContext(Dispatchers.Main) {
+                    mostrarSnackbar("Sesion abandonada exitosamente")
+                    val mainActivity = requireActivity() as? MainActivity
+                    mainActivity?.navigateToFragment(com.miso202402.front_miso_pf2_g8_sportapp.R.id.SportFragment, "Sesion Deportiva")
+                }
+
+            }
+        }
+    }
+    */
 }

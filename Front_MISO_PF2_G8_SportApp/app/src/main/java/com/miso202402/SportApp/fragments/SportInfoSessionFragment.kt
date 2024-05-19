@@ -115,7 +115,7 @@ class SportInfoSessionFragment : Fragment(), ClickListener_SportObjectiveSession
                         binding.tvPlanDesc.text = training_name
                         binding.titleSemana.text = "Semana: " + sportSession.week.toString()
                         binding.tvDiaDesc.text = "Dia: " + sportSession.day
-                        binding.tvTiempoDesc.text = sportSession.total_time.toString() + "m"
+                        binding.tvTiempoDesc.text = sportSession.total_time.toString() + "s"
                         binding.tvUbicacionDesc.text = sportSession.location
                         binding.tvFechaDesc.text = sportSession.session_event
                         binding.recyclerviewListObjectives.setHasFixedSize(true)

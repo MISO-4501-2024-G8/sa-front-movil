@@ -77,5 +77,15 @@
         android:backgroundTint="@color/main"
         android:text="Finalizar"
         android:textFontWeight="14" />
+    <Button
+        android:id="@+id/buttonAbandonar"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/main"
+        android:text="Abandonar Sesion"
+        android:textFontWeight="14" />
 
 </LinearLayout>

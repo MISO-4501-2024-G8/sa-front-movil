@@ -39,7 +39,7 @@ class SportObjectSessionAdapter (
         val objective_item = listSportObjectiveSession[position]
         val realPosition = position + 1
         val backgroundColorA = ContextCompat.getColor(viewHolder.itemView.context, R.color.objA)
-        val backgroundColor = ContextCompat.getColor(viewHolder.itemView.context, R.color.white)
+        val backgroundColor = ContextCompat.getColor(viewHolder.itemView.context, R.color.main_bg)
 
         viewHolder.tvName.text = "Objetivo $realPosition"
         viewHolder.tvDescription.text = "Realizar " + objective_item.instruction_time + "' " + objective_item.instruction_description
