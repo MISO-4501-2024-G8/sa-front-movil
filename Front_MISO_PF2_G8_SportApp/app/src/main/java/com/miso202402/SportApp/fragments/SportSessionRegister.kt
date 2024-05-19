@@ -224,8 +224,8 @@ class SportSessionRegister : Fragment() {
                                     val isDayAvailable = userSportSessions?.none { session ->
                                         var planId = session.name.toString().split("-")[0]
                                         planId == plan.id && session.week == week && session.day == day
-                                    }
-                                    if (isDayAvailable == true) {
+                                    } ?: true
+                                    if (isDayAvailable) {
                                         availableWeeksAndDays.add(Pair(week, day))
                                     }
                                 }

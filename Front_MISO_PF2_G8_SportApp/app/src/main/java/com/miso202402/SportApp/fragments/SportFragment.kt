@@ -120,6 +120,7 @@ class SportFragment : Fragment(), ClickListener_SportSession {
                     }
                 }else{
                     Log.e("getAllSportSessionResponse error: ",getAllSportSessionResponse?.message.toString())
+                    mostrarSnackbar(getAllSportSessionResponse?.message.toString())
                 }
             } catch (e: Exception) {
                 Log.e("error",e.message.toString())
