@@ -51,7 +51,7 @@ class HealthIndicatorsFragment : Fragment() {
         _binding = FragmentHealthIndicatorsBinding.inflate(inflater, container, false)
         user_id = preferences.getData<String>("id").toString()
         token = preferences.getData<String>("token").toString()
-      userDetail = UserDetail(
+        userDetail = UserDetail(
           "",
           "",
           0, "0.0".toFloat(),
@@ -95,7 +95,7 @@ class HealthIndicatorsFragment : Fragment() {
             try {
                 val callGetOneSportProfileById = utils.getRetrofit(domainP)
                     .create(ApiService::class.java)
-                    .getOneSportProfileById("a2133bb5")
+                    .getOneSportProfileById(user_id)
                     .execute()
                 val getOneSportProfileByIdResponse =
                     callGetOneSportProfileById.body() as SportProfileResponse?
