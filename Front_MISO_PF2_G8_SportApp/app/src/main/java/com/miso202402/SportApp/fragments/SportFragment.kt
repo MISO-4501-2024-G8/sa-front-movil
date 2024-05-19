@@ -119,8 +119,12 @@ class SportFragment : Fragment(), ClickListener_SportSession {
                         }
                     }
                 }else{
-                    Log.e("getAllSportSessionResponse error: ",getAllSportSessionResponse?.message.toString())
-                    mostrarSnackbar(getAllSportSessionResponse?.message.toString())
+                    var msg = getAllSportSessionResponse?.message.toString()
+                    if(msg == "No se encontraron sesiones deportivas del usuario"){
+                        msg = "Debes iniciar una sesion deportiva para continuar"
+                    }
+                    Log.e("getAllSportSessionResponse error: ",msg)
+                    mostrarSnackbar(msg)
                 }
             } catch (e: Exception) {
                 Log.e("error",e.message.toString())
