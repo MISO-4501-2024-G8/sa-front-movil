@@ -216,7 +216,7 @@ class SportSessionRegister : Fragment() {
                             listOf(
                                 "Lunes" to plan.lunes_enabled,
                                 "Martes" to plan.martes_enabled,
-                                "Miércoles" to plan.miercoles_enabled,
+                                "Miercoles" to plan.miercoles_enabled,
                                 "Jueves" to plan.jueves_enabled,
                                 "Viernes" to plan.viernes_enabled
                             ).forEach { (day, enabled) ->
