@@ -51,6 +51,7 @@ class HealthIndicatorsFragment : Fragment() {
         _binding = FragmentHealthIndicatorsBinding.inflate(inflater, container, false)
         user_id = preferences.getData<String>("id").toString()
         token = preferences.getData<String>("token").toString()
+        binding.buttonRecalcularHealthIndicatorsFragment.isEnabled = true
         userDetail = UserDetail(
           "",
           "",
@@ -70,6 +71,7 @@ class HealthIndicatorsFragment : Fragment() {
         binding.buttonRecalcularHealthIndicatorsFragment.setOnClickListener {
                 getInfoUser(token, user_id)
         }
+
         binding.buttonAtrasHealthIndicatorsFragment.setOnClickListener {
             val mainActivity = requireActivity() as? MainActivity
             mainActivity?.navigateToFragment(R.id.GoalFragment, "Perfil Deportivo e indicadores")
@@ -160,11 +162,14 @@ class HealthIndicatorsFragment : Fragment() {
                             - (3.27 * tcm )
                             - (0.156 * bmp))
                     val calorias = 19 * 0.015 * peso
-                    binding.editV02MaxHealthIndicatorsFragment.setText(V02Max.toString())
+                    binding.editV02MaxHealthIndicatorsFragment.setText(V02Max.toString()).toString()
                     Log.i("bmp", bmp.toString())
                     Log.i("bmp split", bmp.toString().split(".")[0])
-                    binding.editTexbmpHealthIndicatorsFragment.setText(bmp.toString().split(".")[0])
-                    binding.editTexFTPHealthIndicatorsFragment.setText(ftp.toString())
+                    val bmpS: String = if (bmp.toString().contains(".")) bmp.toString().split(".")[0].toString() else
+                        bmp.toString()
+                    binding.editTexbmpHealthIndicatorsFragment.setText(bmpS).toString()
+                    val ftpS: String = ftp.toString()
+                    binding.editTexFTPHealthIndicatorsFragment.setText(ftpS).toString()
                     val sportProfileUpdate = SportProfileRequest(
                         sportProfile.user_id,
                         sportProfile.sh_caminar,
@@ -214,9 +219,10 @@ class HealthIndicatorsFragment : Fragment() {
                     sportProfile = sportProfileResponseResponse?.user_profile!!
                     if (_binding != null) {
                         withContext(Dispatchers.Main) {
-                            val message = "Se realizao de nuevo el calculo con la ultima sesion"
+                            val message = "Se realizo de nuevo el calculo con la ultima sesión"
                             Log.e("mensaje: ", message)
                             utils.showMessageDialog(context, message)
+                            binding.buttonRecalcularHealthIndicatorsFragment.isEnabled = false
                         }
                     }
                 } else {

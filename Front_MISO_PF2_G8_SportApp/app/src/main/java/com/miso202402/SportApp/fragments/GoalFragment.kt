@@ -162,7 +162,6 @@ class GoalFragment : Fragment(), ClicSportProfile {
     private fun getOneSportProfileById(user_id: String) {
         val utils = Utils()
         Log.i("user_id2", user_id)
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val callGetOneSportProfileById = utils.getRetrofit(domainP)
@@ -181,6 +180,7 @@ class GoalFragment : Fragment(), ClicSportProfile {
                     if (_binding != null) {
                         binding.buttonVisualizarGoalFragment.isEnabled = true
                         withContext(Dispatchers.Main) {
+                            progressbarVisible(true)
                             buttonAgregarVisible(false)
                             buttonActualizarVisible(true)
                             preparevector(sportProfile)
