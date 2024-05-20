@@ -182,10 +182,46 @@
         />
 
     <fragment
+        android:id="@+id/SportSessionRegister"
+        android:name="com.miso202402.SportApp.fragments.SportSessionRegister"
+        android:label="SportSessionRegister"
+        tools:layout="@layout/fragment_sport_session_register"
+        />
+
+    <fragment
+        android:id="@+id/SportSessionStartFragment"
+        android:name="com.miso202402.SportApp.fragments.SportSessionStartFragment"
+        android:label="SportSessionStartFragment"
+        tools:layout="@layout/fragment_sport_session_start"
+        />
+
+
+    <fragment
+        android:id="@+id/SportInfoSessionFragment"
+        android:name="com.miso202402.SportApp.fragments.SportInfoSessionFragment"
+        android:label="SportInfoSessionFragment"
+        tools:layout="@layout/fragment_sport_info_session"
+        />
+
+    <fragment
         android:id="@+id/GoalFragment"
         android:name="com.miso202402.SportApp.fragments.GoalFragment"
         android:label="Goal"
         tools:layout="@layout/fragment_goal"
+        />
+
+    <fragment
+        android:id="@+id/AddSportProfileFragment"
+        android:name="com.miso202402.SportApp.fragments.AddSportProfileFragment"
+        android:label="Agregar Perfil Deportivo"
+        tools:layout="@layout/fragment_add_sport_profile"
+        />
+
+    <fragment
+        android:id="@+id/HealthIndicators"
+        android:name="com.miso202402.SportApp.fragments.HealthIndicatorsFragment"
+        android:label="Indicadores de Salud"
+        tools:layout="@layout/fragment_health_indicators"
         />
 
     <fragment

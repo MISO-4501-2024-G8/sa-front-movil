@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="main">#D4AE24</color>
+    <color name="main_bg">#fffaeb</color>
     <color name="mainBG">#FFFDF7</color>
     <color name="correctBTN">#244AD4</color>
+    <color name="objA">#24D440</color>
 </resources>

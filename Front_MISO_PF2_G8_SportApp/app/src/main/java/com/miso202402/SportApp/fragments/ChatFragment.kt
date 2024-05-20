@@ -62,7 +62,6 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
             val mainActivity = requireActivity() as? MainActivity
             mainActivity?.navigateToFragment(R.id.ListProgramSessionsConsultationsFragment, "Sesion y Chats")
         }
-
         return binding.root
     }
 
@@ -159,7 +158,7 @@ class ChatFragment : Fragment(), ClicListener_DoctorsTrainers {
             binding.progressBarEntrenador.visibility = View.VISIBLE
         }else{
             binding.progressBarDeportologo.visibility = View.GONE
-            binding.progressBarEntrenador.visibility = View.VISIBLE
+            binding.progressBarEntrenador.visibility = View.GONE
         }
     }
 
