@@ -1,6 +1,5 @@
 package com.miso202402.front_miso_pf2_g8_sportapp.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +12,6 @@ import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -42,7 +40,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         toolbar.visibility = View.GONE
         fab.visibility = View.GONE
     }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,8 +72,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.plans -> navigateToFragment(R.id.trainingSessionFragment, "Plan de Entrenamiento")
             R.id.events -> navigateToFragment(R.id.ListEventsFragment, "Eventos")
             R.id.sport -> navigateToFragment(R.id.SportFragment, "Sesion Deportiva")
-            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo")
+            R.id.goals -> navigateToFragment(R.id.GoalFragment, "Perfil Deportivo e indicadores")
             R.id.chat -> navigateToFragment(R.id.ChatFragment, "Sesion y Chats")
+            R.id.nav_logout -> closeApp()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -93,6 +91,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             menu.getItem(i).isChecked = false
         }
         toolbar.setTitle(toolbarTitle)
+        Log.i("premium", typePlan.toString())
         if(typePlan != "premium" && (fragmentId == R.id.ChatFragment) ){
             mostrarMensaje("Esta opción solo está disponible para el  plan premium.")
         }
@@ -122,7 +121,13 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
     }
 
-
+   private fun closeApp(){
+       //preferences.sharedPreferences.edit().remove("typePlan").commit()
+       //Log.i("typePlan3", typePlan.toString())
+       //val navController = findNavController(R.id.nav_host_fragment_content_main)
+       //navController.navigate(R.id.SecondFragment)
+       finish()
+   }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -146,9 +151,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 || super.onSupportNavigateUp()
     }
 
-    override fun transferInfo(ms: String) {
-        typePlan = ms
-    }
 
 
 }

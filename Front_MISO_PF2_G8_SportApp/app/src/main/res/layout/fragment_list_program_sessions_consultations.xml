@@ -49,7 +49,7 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="600dp"
+        android:layout_marginTop="670dp"
         android:layout_marginLeft="130dp"
         android:src="@drawable/calendar_logo" />
 
@@ -59,7 +59,7 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="600dp"
+        android:layout_marginTop="670dp"
         android:layout_marginLeft="250dp"
         android:src="@drawable/world_vector" />
 </FrameLayout>

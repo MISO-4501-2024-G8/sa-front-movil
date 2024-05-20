@@ -211,6 +211,20 @@
         />
 
     <fragment
+        android:id="@+id/AddSportProfileFragment"
+        android:name="com.miso202402.SportApp.fragments.AddSportProfileFragment"
+        android:label="Agregar Perfil Deportivo"
+        tools:layout="@layout/fragment_add_sport_profile"
+        />
+
+    <fragment
+        android:id="@+id/HealthIndicators"
+        android:name="com.miso202402.SportApp.fragments.HealthIndicatorsFragment"
+        android:label="Indicadores de Salud"
+        tools:layout="@layout/fragment_health_indicators"
+        />
+
+    <fragment
         android:id="@+id/ChatFragment"
         android:name="com.miso202402.SportApp.fragments.ChatFragment"
         android:label="Chat"

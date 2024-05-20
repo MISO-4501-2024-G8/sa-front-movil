@@ -54,7 +54,6 @@ class EditEventsFragment : Fragment() {
     ): View {
         _binding = FragmentEditEventsBinding.inflate(inflater, container, false)
         event_id = arguments?.getString("event_id").toString()
-        //user_id = arguments?.getString("user_id").toString()
         Log.i("event_id", event_id)
         user_id = preferences.getData<String>("id").toString()
         Log.i("user_id", user_id)

@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.miso202402.SportApp.src.models.response.ValidateTokenResponse
 import com.miso202402.SportApp.src.utils.SharedPreferences
@@ -133,19 +134,15 @@ class LoginFragment : Fragment() {
                                    if(validateToken?.message == "Token is valid"){
                                        val userType = validateToken?.userType
                                        val typePlan = validateToken?.typePlan
+                                       Log.i("typePlan Login", typePlan.toString())
                                        if(userType == 1){
                                            withContext(Dispatchers.Main) {
                                                 activity?.let { utils.showMessageDialog(it, loginResponse?.message.toString())}
                                            }
                                            preferences.saveData("userType", userType)
                                            preferences.saveData("typePlan", typePlan)
-                                           trasferIfo = activity as TransferInfo
-                                           if (typePlan != null) {
-                                               trasferIfo.transferInfo(typePlan)
-                                           }
-
                                            val bundle = bundleOf("token" to  loginResponse?.token, "id" to loginResponse?.id)
-                                           //findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment, bundle)
+                                           //findNavController().navigate(R.id.CalendarFragment, bundle)
                                            val mainActivity = requireActivity() as? MainActivity
                                            mainActivity?.navigateToFragment(R.id.CalendarFragment, "Calendario", bundle)
                                        }else{
