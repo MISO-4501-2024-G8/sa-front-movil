@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="70dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.miso202402.SportApp.fragments.SportSessionRegister">
+
+    <Spinner
+        android:id="@+id/spinnerTrainingSessions"
+        android:layout_width="301dp"
+        android:layout_height="56dp"
+        android:layout_centerHorizontal="true"
+        />
+    <Spinner
+        android:id="@+id/spinnerWeeks"
+        android:layout_width="301dp"
+        android:layout_height="56dp"
+        android:layout_centerHorizontal="true"
+        />
+    <Spinner
+        android:id="@+id/spinnerDays"
+        android:layout_width="301dp"
+        android:layout_height="56dp"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:id="@+id/btnIniciarSesion"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:text="Vamos a Comenzar"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:id="@+id/btnAtras"
+        android:layout_width="301dp"
+        android:layout_height="38dp"
+        android:text="Atras"
+        android:textFontWeight="14"
+        android:backgroundTint="@color/main"
+        android:layout_centerHorizontal="true"
+        />
+
+</LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.miso202402.SportApp.fragments.CalendarFragment">
+    tools:context="com.miso202402.SportApp.fragments.ChatFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -70,7 +70,7 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="600dp"
+        android:layout_marginTop="670dp"
         android:layout_marginLeft="130dp"
         android:src="@drawable/calendar_logo" />
 
@@ -80,7 +80,7 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
         android:scaleType="fitXY"
-        android:layout_marginTop="600dp"
+        android:layout_marginTop="670dp"
         android:layout_marginLeft="250dp"
         android:src="@drawable/world_vector" />
 </RelativeLayout>

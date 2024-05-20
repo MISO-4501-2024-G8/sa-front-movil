@@ -19,8 +19,8 @@
     <!-- Primer toggle -->
     <Switch
         android:id="@+id/switchStopTraining"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:text="Detener Entrenamiento por emergencia"
         android:layout_below="@id/textViewTitulo"
         android:layout_marginTop="20dp"
@@ -31,8 +31,8 @@
     <!-- Segundo toggle -->
     <Switch
         android:id="@+id/switchNotificationMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:text="Enviar Mensajes de notificación"
         android:layout_below="@id/switchStopTraining"
         android:layout_marginTop="20dp"
@@ -43,8 +43,8 @@
     <!-- Tercer toggle -->
     <Switch
         android:id="@+id/switchEmergencyCall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:text="Disponibilizar telefono para llamar a contacto de emrgencia"
         android:layout_below="@id/switchNotificationMsg"
         android:layout_marginTop="20dp"
